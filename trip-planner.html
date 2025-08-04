@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trip Planner</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f3f4f6;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 1rem;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 2rem;
+      padding: 0.8rem;
+      font-size: 1rem;
+      font-weight: bold;
+      color: white;
+      background: #2563eb;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    #results {
+      margin-top: 2rem;
+    }
+
+    .event-card {
+      background: #e0f2fe;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .event-card h3 {
+      margin: 0;
+    }
+
+    .event-card a {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+
+<body>
+  <div class="container">
+    <h1>Trip Planner</h1>
+    <form id="tripPlannerForm">
+  <label for="from_date">From:</label>
+  <input type="date" id="from_date" name="from_date" required>
+
+  <label for="to_date">To:</label>
+  <input type="date" id="to_date" name="to_date" required>
+
+  <button type="submit">Go</button>
+  <br>
+  <br>
+  <a href="index.html" style="display: block; width: fit-content; margin: 20px auto; padding: 10px 15px; background-color: #ccc; color: black; text-decoration: none; border-radius: 8px;">← Back to Home</a>
+
+</form>
+
+
+    <div id="results">
+      <!-- Results from backend will go here -->
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("tripForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+
+      // Temporary placeholder for demo
+      const demoEvent = `
+        <div class="event-card">
+          <h3>Navratri Festival</h3>
+          <p><strong>When:</strong> October 3 - October 11</p>
+          <p><strong>Where:</strong> Gujarat</p>
+          <p><strong>About:</strong> A 9-night festival of music and dance dedicated to the goddess Durga.</p>
+          <a href="https://en.wikipedia.org/wiki/Navaratri" target="_blank">Wikipedia</a>
+        </div>
+      `;
+
+      document.getElementById("results").innerHTML = demoEvent;
+    });
+  </script>
+  <script>
+document.getElementById("tripPlannerForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const from = document.getElementById("from_date").value;
+  const to = document.getElementById("to_date").value;
+
+  fetch("php/get_trips.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: `from_date=${from}&to_date=${to}`
+  })
+  .then(res => res.json())
+  .then(data => {
+    const container = document.getElementById("eventResults");
+    container.innerHTML = "";
+
+    if (data.length === 0) {
+      container.innerHTML = "<p>No events found for selected dates.</p>";
+      return;
+    }
+
+    data.forEach(event => {
+      const card = document.createElement("div");
+      card.style.border = "1px solid #ccc";
+      card.style.padding = "15px";
+      card.style.marginBottom = "15px";
+      card.style.borderRadius = "10px";
+      card.style.boxShadow = "0 2px 5px rgba(0,0,0,0.1)";
+      card.innerHTML = `
+        <h3>${event.name}</h3>
+        <p><strong>Dates:</strong> ${event.start_date} to ${event.end_date}</p>
+        <p><strong>State:</strong> ${event.state}</p>
+        <p><strong>Info:</strong> ${event.description}</p>
+        <a href="${event.wikipedia_link}" target="_blank">🔗 Wikipedia</a>
+      `;
+      container.appendChild(card);
+    });
+  })
+  .catch(err => {
+    console.error(err);
+    document.getElementById("eventResults").innerHTML = "<p>⚠️ Something went wrong.</p>";
+  });
+});
+</script>
+</body>
+<div id="eventResults" style="margin-top: 20px;"></div>
+
+</html>
+
