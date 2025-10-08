@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Uttar Pradesh - Comprehensive Tourism Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styling/state.css">
+</head>
+<body>
+  <div class="header">
+    <a href="../index.html" class="back-btn">← Back</a>
+    <h1>Explore Uttar Pradesh</h1>
+    <p>Discover the Rich Heritage, Temples, and Cultural Treasures of Uttar Pradesh</p>
+    <button class="explore-btn" onclick="showDistricts()">Start Exploring UP</button>
+    <div class="scroll-down-indicator" id="scrollIndicator" style="display: none;">
+      Scroll down to see districts
+      <span>↓</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="districts-grid" id="districtsGrid">
+      <div class="district-card" onclick="showDistrictDetails('varanasi')">
+        <h3>Varanasi</h3>
+        <p>Temples & Ghats</p>
+        <div class="attractions-count">3 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('agra')">
+        <h3>Agra</h3>
+        <p>Heritage & Monuments</p>
+        <div class="attractions-count">2 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('ayodhya')">
+        <h3>Ayodhya</h3>
+        <p>Temples & Pilgrimage</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('mathura')">
+        <h3>Mathura-Vrindavan</h3>
+        <p>Krishna Temples</p>
+        <div class="attractions-count">2 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('prayagraj')">
+        <h3>Prayagraj</h3>
+        <p>River Confluence</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('lucknow')">
+        <h3>Lucknow</h3>
+        <p>Heritage & Culture</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('jhansi')">
+        <h3>Jhansi</h3>
+        <p>Historic Fort</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('meerut')">
+        <h3>Meerut</h3>
+        <p>Heritage & Nature</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('mirzapur')">
+        <h3>Mirzapur</h3>
+        <p>Temples & Nature</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('chitrakoot')">
+        <h3>Chitrakoot</h3>
+        <p>Pilgrimage & Nature</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+    </div>
+
+    <!-- Varanasi District Details -->
+    <div class="district-details" id="varanasi-details">
+      <div class="district-header">
+        <h2>Varanasi District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Kashi Vishwanath Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> One of the 12 Jyotirlingas of Lord Shiva, on the western bank of the holy Ganga River.</p>
+              <p><strong>Attractions:</strong> Main Jyotirlinga Temple, Ganga Aarti, Manikarnika Ghat, Sarnath</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Kashi+Vishwanath+Temple" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Brijrama Palace – Heritage Hotel (luxury)</p>
+              <p>Ramada Plaza JHV Varanasi (4-star)</p>
+              <p>Hotel Alka Varanasi (budget)</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Kashi Chat Bhandar (famous street food)</p>
+              <p>Varuna at The Gateway Hotel</p>
+              <p>Shree Cafe (vegetarian)</p>
+            </div>
+          </div>
+          
+          <div class="place-card">
+            <h4>Sankat Mochan Hanuman Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Dedicated to Lord Hanuman, founded by Saint Tulsidas.</p>
+              <p><strong>Attractions:</strong> Hanuman idol darshan, Evening aarti, Tulsi Manas Temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Sankat+Mochan+Temple" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Hotel Temple on Ganges</p>
+              <p>Radisson Hotel Varanasi</p>
+              <p>Budget Ashrams nearby</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Kashi Café</p>
+              <p>Baati Chokha (authentic UP food)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          River Ghats
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Varanasi Ghats</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> 84 ghats on the banks of Ganga River for rituals and aartis.</p>
+              <p><strong>Attractions:</strong> Dashashwamedh Ghat, Manikarnika Ghat, Assi Ghat, Boat rides</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Dashashwamedh+Ghat" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Brijrama Palace</p>
+              <p>Hotel Alka</p>
+              <p>Ganga View Guest House</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Brown Bread Bakery</p>
+              <p>Shree Cafe</p>
+              <p>Street food stalls at ghats</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Agra District Details -->
+    <div class="district-details" id="agra-details">
+      <div class="district-header">
+        <h2>Agra District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage Monuments
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Taj Mahal</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> World Wonder, built by Shah Jahan for Mumtaz Mahal.</p>
+              <p><strong>Attractions:</strong> Main Mausoleum, Mehtab Bagh, Agra Fort, Itmad-ud-Daula</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Taj+Mahal" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>The Oberoi Amarvilas (luxury with Taj view)</p>
+              <p>ITC Mughal Agra (premium)</p>
+              <p>Hotel Atulyaa Taj (budget)</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Peshawri – ITC Mughal</p>
+              <p>Pinch of Spice</p>
+              <p>Joney's Place (budget, Indian food)</p>
+            </div>
+          </div>
+          
+          <div class="place-card">
+            <h4>Fatehpur Sikri</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> UNESCO World Heritage Site, "City of Victory" built by Akbar.</p>
+              <p><strong>Attractions:</strong> Buland Darwaza, Panch Mahal, Diwan-i-Khas, Jama Masjid</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Fatehpur+Sikri" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>The Gateway Hotel Fatehabad</p>
+              <p>Hotel Goverdhan Tourist Complex</p>
+              <p>Budget Guesthouses nearby</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Sikri Zaika Restaurant</p>
+              <p>Highway Dhabas (local Mughlai food)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Ayodhya District Details -->
+    <div class="district-details" id="ayodhya-details">
+      <div class="district-header">
+        <h2>Ayodhya District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Ayodhya Ram Mandir</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Newly inaugurated Ram Janmabhoomi Mandir (2024).</p>
+              <p><strong>Attractions:</strong> Ram Mandir, Hanuman Garhi, Kanak Bhawan, Sarayu Ghat Aarti</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Ayodhya+Ram+Mandir" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Clarks Inn Express Ayodhya</p>
+              <p>Taj Nadesar Palace (luxury)</p>
+              <p>Rama Residency (budget)</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Shree Ram Bhojanalaya</p>
+              <p>Moti Mahal Restaurant</p>
+              <p>Local Sweets Shops (Laddoo, Peda)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Mathura District Details -->
+    <div class="district-details" id="mathura-details">
+      <div class="district-header">
+        <h2>Mathura-Vrindavan District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Krishna Janmabhoomi Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Birthplace of Lord Krishna, major pilgrimage during Janmashtami.</p>
+              <p><strong>Attractions:</strong> Main temple, Yamuna Aarti, Vishram Ghat</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Mathura+Krishna+Janmabhoomi" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>The Radha Ashok Mathura</p>
+              <p>Hotel Basera Mathura</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Brijwasi Mithaiwala (sweets)</p>
+              <p>MVT Restaurant Vrindavan</p>
+              <p>Govinda's Restaurant (ISKCON campus)</p>
+            </div>
+          </div>
+          
+          <div class="place-card">
+            <h4>Banke Bihari Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> One of the most famous temples of Lord Krishna.</p>
+              <p><strong>Attractions:</strong> Banke Bihari idol, Holi Festival, Prem Mandir nearby</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Banke+Bihari+Temple" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Nidhivan Sarovar Portico</p>
+              <p>Hotel Hare Krishna Orchid</p>
+              <p>Radha Ashok</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Govinda's ISKCON Restaurant</p>
+              <p>11 Flowers Rooftop Café</p>
+              <p>Brijwasi Sweets</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Prayagraj District Details -->
+    <div class="district-details" id="prayagraj-details">
+      <div class="district-header">
+        <h2>Prayagraj District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          River Confluence
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Triveni Sangam</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Sacred confluence of Ganga, Yamuna & Saraswati rivers.</p>
+              <p><strong>Attractions:</strong> Triveni Sangam, Allahabad Fort, Anand Bhawan, Hanuman Temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Triveni+Sangam" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Hotel Kanha Shyam (premium)</p>
+              <p>Hotel Polo Max</p>
+              <p>Hotel Yatrik (mid-range)</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>El Chico Restaurant</p>
+              <p>Aroma Restaurant</p>
+              <p>Eat On – Street Food</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Lucknow District Details -->
+    <div class="district-details" id="lucknow-details">
+      <div class="district-header">
+        <h2>Lucknow District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Bara Imambara & Rumi Darwaza</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Built in 1784 by Nawab Asaf-ud-Daula, iconic landmarks.</p>
+              <p><strong>Attractions:</strong> Bhool Bhulaiya, Asfi Mosque, Rumi Darwaza, Chhota Imambara</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Bara+Imambara" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Taj Mahal Lucknow (luxury)</p>
+              <p>Clarks Avadh</p>
+              <p>Hotel Levana</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Tunday Kababi (famous kebabs)</p>
+              <p>Royal Café (basket chaat)</p>
+              <p>Mughal Zaika</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Jhansi District Details -->
+    <div class="district-details" id="jhansi-details">
+      <div class="district-header">
+        <h2>Jhansi District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Jhansi Fort</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Associated with Rani Lakshmibai in 1857 revolt.</p>
+              <p><strong>Attractions:</strong> Rani Mahal, Cannon points, Sound & Light Show</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Jhansi+Fort" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Nataraj Sarovar Portico Jhansi</p>
+              <p>Hotel Yatrik</p>
+              <p>Budget Dharamshalas</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Jhansi Rasoi</p>
+              <p>Royal Spice Restaurant</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Meerut District Details -->
+    <div class="district-details" id="meerut-details">
+      <div class="district-header">
+        <h2>Meerut District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Nature & Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Hastinapur Wildlife Sanctuary</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Ancient capital of Pandavas, now wildlife sanctuary.</p>
+              <p><strong>Attractions:</strong> Elephants, Deer, Jain Temples, Pandeshwar Temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Hastinapur+Sanctuary" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Godwin Hotel Meerut</p>
+              <p>Hotel Harmony Inn</p>
+              <p>Budget Guesthouses</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Royal Kitchen</p>
+              <p>Famous chaat stalls in Meerut</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Mirzapur District Details -->
+    <div class="district-details" id="mirzapur-details">
+      <div class="district-header">
+        <h2>Mirzapur District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Vindhyavasini Devi Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Shaktipeeth dedicated to Maa Vindhyavasini (Durga).</p>
+              <p><strong>Attractions:</strong> Main temple, Ashtabhuja Temple, Kali Khoh cave temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Vindhyavasini+Devi+Temple" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Hotel Vindhya Residency</p>
+              <p>Hotel Galaxy Mirzapur</p>
+              <p>Budget Dharamshalas available</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Shri Annapurna Bhojanalaya</p>
+              <p>Vindhya Sweets & Snacks</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Chitrakoot District Details -->
+    <div class="district-details" id="chitrakoot-details">
+      <div class="district-header">
+        <h2>Chitrakoot District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Pilgrimage & Nature
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Chitrakoot</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Associated with Lord Ram's exile period, beautiful mix of spirituality & nature.</p>
+              <p><strong>Attractions:</strong> Kamadgiri Hill, Ramghat, Gupt Godavari caves, Bharat Milap Temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Chitrakoot" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Hotel Ram Darshan</p>
+              <p>UP Tourism Guest House</p>
+              <p>Budget Dharamshalas</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Local Bhojanalayas (simple veg food)</p>
+              <p>Annapurna Restaurant</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+    <!-- Travel Tips Section -->
+<div class="travel-tips" id="travelTips">
+    <h2>Travel & Stay Tips</h2>
+    <div class="tips-grid">
+        <div class="tip-card">
+            <h3>Best Time to Visit</h3>
+            <p>October – March (cool weather, ideal for sightseeing). Avoid summer (April-June, very hot). Special festivals like Diwali in Ayodhya, Dev Deepawali in Varanasi.</p>
+        </div>
+        <div class="tip-card">
+            <h3>Booking Tips</h3>
+            <p>Book hotels in Agra, Varanasi, and Lucknow in advance during peak tourist season. Taj Mahal tickets can be booked online to save time.</p>
+        </div>
+        <div class="tip-card">
+            <h3>Local Food</h3>
+            <p>Lucknowi Biryani, Kebabs (Tunday, Galawati), Chaat, Petha (Agra sweet), Banarasi Paan, Kachori-Sabzi. Street food culture is vibrant.</p>
+        </div>
+        <div class="tip-card">
+            <h3>Transport</h3>
+            <p>Major airports in Lucknow, Varanasi, and Agra. Excellent train connectivity across the state. Metro in Lucknow and Noida. Taxis and app-cabs widely available.</p>
+        </div>
+    </div>
+</div>
+  </div>
+
+  <button class="back-to-top" onclick="scrollToTop()" style="display: none;">↑</button>
+
+  <script>
+    function showDistricts() {
+      document.querySelector('.explore-btn').style.display = 'none';
+      document.getElementById('travelTips').classList.add('show');
+      document.getElementById('scrollIndicator').style.display = 'block';
+      
+      setTimeout(() => {
+        document.getElementById('districtsGrid').classList.add('show');
+        document.getElementById('scrollIndicator').style.display = 'none';
+      }, 500);
+    }
+
+    function showDistrictDetails(districtId) {
+      document.getElementById('districtsGrid').style.display = 'none';
+      document.getElementById(districtId + '-details').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideDistrictDetails() {
+      document.querySelectorAll('.district-details').forEach(detail => {
+        detail.classList.remove('active');
+      });
+      document.getElementById('districtsGrid').style.display = 'grid';
+      window.scrollTo({ top: document.querySelector('.header').offsetHeight, behavior: 'smooth' });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Show back to top button when scrolling
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.querySelector('.back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTopButton.style.display = 'flex';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+
+    // Smooth scrolling for all links
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

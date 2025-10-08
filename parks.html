@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>National Parks & Zoos - Your Gateway to Wildlife Tourism</title>
+    <link rel="stylesheet" href="./styling/parks-zoos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <a href="wildlife.html" class="back-btn">← Back</a>
+
+    <header>
+        <h1>National Parks & Wildlife Sanctuaries</h1>
+        <p class="subtitle">Your Gateway to India's Wildlife Tourism - Connect with Guides & Book Packages</p>
+    </header>
+
+    <div class="container">
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label class="filter-label">Filter by State:</label>
+                    <select class="filter-select" id="stateFilter" onchange="filterParks()">
+                        <option value="all">All States</option>
+                        <option value="gujarat">Gujarat</option>
+                        <option value="rajasthan">Rajasthan</option>
+                        <option value="uttarakhand">Uttarakhand</option>
+                        <option value="uttar-pradesh">Uttar Pradesh</option>
+                        <option value="assam">Assam</option>
+                        <option value="jammu-kashmir">Jammu & Kashmir</option>
+                        <option value="kerala">Kerala</option>
+                        <option value="karnataka">Karnataka</option>
+                        <option value="west-bengal">West Bengal</option>
+                        <option value="tamil-nadu">Tamil Nadu</option>
+                        <option value="telangana">Telangana</option>
+                        <option value="delhi">Delhi</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Category:</label>
+                    <select class="filter-select" id="categoryFilter" onchange="filterParks()">
+                        <option value="all">All Categories</option>
+                        <option value="national-park">National Parks</option>
+                        <option value="zoo">Zoos</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parks & Zoos Container -->
+        <div id="parksContainer">
+            
+            <!-- Gujarat Parks -->
+            <div class="park-card" data-state="gujarat" data-category="national-park">
+                <div class="park-header">
+                    <h2 class="park-name">Gir National Park</h2>
+                    <span class="park-badge">Gujarat</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> Asiatic Lions</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Area:</strong> 1,412 km²</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Best Time:</strong> December to March</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-tree"></i>
+                            <span><strong>Wildlife:</strong> Asiatic Lions, Leopards, Sambar Deer, Chital, Nilgai</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Authorized Guides & Tour Operators</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Gujarat Forest Department</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-2877-285541
+                                </div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-envelope"></i> giroffice@gmail.com
+                                </div>
+                                <div class="guide-specialty">Official booking for jeep safaris</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Gir Safari Tours</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-98765-43210
+                                </div>
+                                <div class="guide-specialty">Complete packages with accommodation</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Booking Tip:</strong> Book safari slots 3 months in advance for peak season
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rajasthan Parks -->
+            <div class="park-card" data-state="rajasthan" data-category="national-park">
+                <div class="park-header">
+                    <h2 class="park-name">Ranthambore National Park</h2>
+                    <span class="park-badge">Rajasthan</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> Royal Bengal Tigers</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Area:</strong> 392 km²</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Best Time:</strong> October to April</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-tree"></i>
+                            <span><strong>Wildlife:</strong> Tigers, Leopards, Sloth Bears, Wild Boar, Sambar</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Authorized Guides & Tour Operators</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Ranthambore Tiger Reserve</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-7462-221086
+                                </div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-globe"></i> www.rajasthanwildlife.in
+                                </div>
+                                <div class="guide-specialty">Official government bookings</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Tiger Safari Ranthambore</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-98290-12345
+                                </div>
+                                <div class="guide-specialty">Premium safari experiences & photography tours</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Booking Tip:</strong> Online booking opens 90 days in advance
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Uttarakhand Park -->
+            <div class="park-card" data-state="uttarakhand" data-category="national-park">
+                <div class="park-header">
+                    <h2 class="park-name">Jim Corbett National Park</h2>
+                    <span class="park-badge">Uttarakhand</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> Tigers, India's First National Park</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Area:</strong> 520 km²</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Best Time:</strong> November to February</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-tree"></i>
+                            <span><strong>Wildlife:</strong> Tigers, Elephants, Leopards, Various Deer Species</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Authorized Guides & Tour Operators</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Corbett Tiger Reserve</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-5947-251489
+                                </div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-globe"></i> corbettonline.uk.gov.in
+                                </div>
+                                <div class="guide-specialty">Official zone bookings</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Corbett Safari Services</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-94120-56789
+                                </div>
+                                <div class="guide-specialty">Multi-day packages with resort stays</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Booking Tip:</strong> Different zones open at different times - check before booking
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assam Park -->
+            <div class="park-card" data-state="assam" data-category="national-park">
+                <div class="park-header">
+                    <h2 class="park-name">Kaziranga National Park</h2>
+                    <span class="park-badge badge-unesco">Assam - UNESCO Site</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> One-Horned Rhinoceros</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Area:</strong> 859 km²</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Best Time:</strong> November to April</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-tree"></i>
+                            <span><strong>Wildlife:</strong> Rhinos, Tigers, Elephants, Wild Water Buffalo</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Authorized Guides & Tour Operators</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Kaziranga Forest Office</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-3776-262429
+                                </div>
+                                <div class="guide-specialty">Elephant & jeep safari bookings</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Assam Wildlife Tours</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-94350-11223
+                                </div>
+                                <div class="guide-specialty">Complete Northeast wildlife circuits</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Booking Tip:</strong> Elephant safaris fill up quickly - book early morning slots
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kerala Park -->
+            <div class="park-card" data-state="kerala" data-category="national-park">
+                <div class="park-header">
+                    <h2 class="park-name">Periyar National Park</h2>
+                    <span class="park-badge">Kerala</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> Elephant Reserve, Spice Plantations</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Area:</strong> 925 km²</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Best Time:</strong> September to March</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-tree"></i>
+                            <span><strong>Wildlife:</strong> Elephants, Tigers, Gaur, Sambar, Nilgiri Tahr</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Authorized Guides & Tour Operators</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Periyar Tiger Reserve</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-4869-222027
+                                </div>
+                                <div class="guide-specialty">Boat safaris & trekking permits</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Kerala Eco Tourism</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-94470-12345
+                                </div>
+                                <div class="guide-specialty">Spice trails & wildlife packages</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Booking Tip:</strong> Combine with spice plantation tours for complete experience
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delhi Zoo -->
+            <div class="park-card" data-state="delhi" data-category="zoo">
+                <div class="park-header">
+                    <h2 class="park-name">National Zoological Park</h2>
+                    <span class="park-badge badge-zoo">Delhi - Zoo</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> One of Asia's Best Zoos</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Area:</strong> 176 acres</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Open:</strong> Tuesday to Sunday (Closed Monday)</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span><strong>Entry Fee:</strong> ₹50 (Indian), ₹200 (Foreign)</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Contact & Tour Information</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Delhi Zoo Administration</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-11-2436-1858
+                                </div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-map-marker-alt"></i> Near Pragati Maidan, New Delhi
+                                </div>
+                                <div class="guide-specialty">School tours & group bookings available</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Delhi Tourism Guides</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-98100-12345
+                                </div>
+                                <div class="guide-specialty">Combined city & zoo tour packages</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Visitor Tip:</strong> Visit early morning to avoid crowds and heat
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Karnataka Zoo -->
+            <div class="park-card" data-state="karnataka" data-category="zoo">
+                <div class="park-header">
+                    <h2 class="park-name">Mysore Zoo</h2>
+                    <span class="park-badge badge-zoo">Karnataka - Zoo</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> Conservation Breeding Programs</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Established:</strong> 1892 - One of India's Oldest</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Open:</strong> Tuesday to Sunday</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span><strong>Entry Fee:</strong> ₹80 (Adult), ₹40 (Child)</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Contact & Tour Information</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Mysore Zoo Office</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-821-244-2074
+                                </div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-map-marker-alt"></i> Mysore, Karnataka
+                                </div>
+                                <div class="guide-specialty">Educational tours & photography permits</div>
+                            </div>
+                            <div class="guide-card">
+                                <div class="guide-name">Mysore Tour Operators</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-94480-56789
+                                </div>
+                                <div class="guide-specialty">Palace + Zoo combo packages</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Visitor Tip:</strong> Combine with Mysore Palace visit - both nearby
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- West Bengal Zoo -->
+            <div class="park-card" data-state="west-bengal" data-category="zoo">
+                <div class="park-header">
+                    <h2 class="park-name">Alipore Zoo</h2>
+                    <span class="park-badge badge-zoo">West Bengal - Zoo</span>
+                </div>
+                <div class="park-content">
+                    <div class="park-info">
+                        <div class="info-item">
+                            <i class="fas fa-paw"></i>
+                            <span><strong>Famous For:</strong> India's Oldest Formal Zoo (1876)</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marked-alt"></i>
+                            <span><strong>Location:</strong> Kolkata</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span><strong>Open:</strong> Daily except Thursday</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-ticket-alt"></i>
+                            <span><strong>Entry Fee:</strong> ₹50 (Adult), ₹20 (Child)</span>
+                        </div>
+                    </div>
+
+                    <div class="guide-section">
+                        <h3 class="guide-title"><i class="fas fa-user-tie"></i> Contact & Tour Information</h3>
+                        <div class="guide-cards">
+                            <div class="guide-card">
+                                <div class="guide-name">Alipore Zoo Administration</div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-phone"></i> +91-33-2479-3802
+                                </div>
+                                <div class="guide-contact">
+                                    <i class="fas fa-map-marker-alt"></i> Alipore, Kolkata
+                                </div>
+                                <div class="guide-specialty">Heritage tours & special exhibitions</div>
+                            </div>
+                        </div>
+                        <div class="booking-info">
+                            <i class="fas fa-info-circle"></i> <strong>Visitor Tip:</strong> Historic zoo with Victorian-era architecture
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- General Information Section -->
+        <div class="section info-box">
+            <h2 class="section-title">Important Information for Visitors</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Before You Visit</h3>
+                    <ul>
+                        <li>Check park opening dates (many close during monsoon)</li>
+                        <li>Book safaris well in advance for popular parks</li>
+                        <li>Verify permit requirements for certain zones</li>
+                        <li>Check weather conditions before traveling</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <h3>Safety Guidelines</h3>
+                    <ul>
+                        <li>Follow guide instructions strictly</li>
+                        <li>Never exit vehicle during safari</li>
+                        <li>Maintain silence to avoid disturbing wildlife</li>
+                        <li>Keep safe distance from all animals</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-camera"></i>
+                    <h3>What to Bring</h3>
+                    <ul>
+                        <li>Binoculars for better wildlife viewing</li>
+                        <li>Camera with telephoto lens</li>
+                        <li>Neutral-colored clothing</li>
+                        <li>Sun protection & insect repellent</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <i class="fas fa-ban"></i>
+                    <h3>Prohibited Items</h3>
+                    <ul>
+                        <li>Plastic items & single-use plastics</li>
+                        <li>Alcoholic beverages</li>
+                        <li>Tobacco products</li>
+                        <li>Loud music systems</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function filterParks() {
+            const stateFilter = document.getElementById('stateFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const allCards = document.querySelectorAll('.park-card');
+            
+            allCards.forEach(card => {
+                const cardState = card.getAttribute('data-state');
+                const cardCategory = card.getAttribute('data-category');
+                
+                const stateMatch = stateFilter === 'all' || cardState === stateFilter;
+                const categoryMatch = categoryFilter === 'all' || cardCategory === categoryFilter;
+                
+                if (stateMatch && categoryMatch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Smooth scroll for back button
+        window.addEventListener('scroll', function() {
+            const backBtn = document.querySelector('.back-btn');
+            if (window.pageYOffset > 300) {
+                backBtn.style.opacity = '1';
+            }
+        });
+    </script>
+</body>
+</html>

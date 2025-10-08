@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Gujarat - Comprehensive Tourism Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styling/state.css">
+</head>
+<body>
+  <div class="header">
+    <a href="../index.html" class="back-btn">← Back</a>
+    <h1>Explore Gujarat</h1>
+    <p>Discover the Rich Heritage, Temples, Beaches, and Natural Beauty of Gujarat</p>
+    <button class="explore-btn" onclick="showDistricts()">Start Exploring Gujarat</button>
+    <div class="scroll-down-indicator" id="scrollIndicator" style="display: none;">
+      Scroll down to see districts
+      <span>↓</span>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="districts-grid" id="districtsGrid">
+      <div class="district-card" onclick="showDistrictDetails('somnath')">
+        <h3>Somnath</h3>
+        <p>Temples & Coastal Beauty</p>
+        <div class="attractions-count">3 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('dwarka')">
+        <h3>Dwarka</h3>
+        <p>Pilgrimage & Heritage</p>
+        <div class="attractions-count">3 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('junagadh')">
+        <h3>Junagadh</h3>
+        <p>Wildlife & Forts</p>
+        <div class="attractions-count">2 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('kutch')">
+        <h3>Kutch</h3>
+        <p>Desert & Culture</p>
+        <div class="attractions-count">3 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('ahmedabad')">
+        <h3>Ahmedabad</h3>
+        <p>Heritage & Culture</p>
+        <div class="attractions-count">2 Attractions</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('mehsana')">
+        <h3>Mehsana</h3>
+        <p>Temples & Heritage</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('panchmahal')">
+        <h3>Panchmahal</h3>
+        <p>Historic Sites</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('vadodara')">
+        <h3>Vadodara</h3>
+        <p>Palaces & Culture</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('navsari')">
+        <h3>Navsari</h3>
+        <p>Hill Stations</p>
+        <div class="attractions-count">1 Attraction</div>
+      </div>
+      
+      <div class="district-card" onclick="showDistrictDetails('diu')">
+        <h3>Diu</h3>
+        <p>Beaches & Forts</p>
+        <div class="attractions-count">2 Attractions</div>
+      </div>
+    </div>
+
+    <!-- Somnath District Details -->
+    <div class="district-details" id="somnath-details">
+      <div class="district-header">
+        <h2>Somnath District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Somnath Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> One of the 12 Jyotirlingas of Lord Shiva, facing the Arabian Sea.</p>
+              <p><strong>Attractions:</strong> Main sanctum, evening aarti, Somnath Beach, Triveni Sangam</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Somnath+Temple" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Lords Inn Somnath (₹2,500-5,000/night)</p>
+              <p>Sarovar Portico Somnath (₹3,000-6,000/night)</p>
+            </div>
+            
+            <div class="restaurant-section">
+              <h5>Restaurants</h5>
+              <p>Dakshin Darbar (South Indian & Gujarati)</p>
+              <p>The Grand Astoria (Multi-cuisine)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Beaches
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Somnath Beach</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Scenic beach with stunning sunset views on the Arabian Sea coast.</p>
+              <p><strong>Attractions:</strong> Sunset viewing, peaceful environment, nearby temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Somnath+Beach" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Dwarka District Details -->
+    <div class="district-details" id="dwarka-details">
+      <div class="district-header">
+        <h2>Dwarka District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Dwarkadhish Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Ancient temple dedicated to Lord Krishna, part of Char Dham Yatra.</p>
+              <p><strong>Attractions:</strong> Main sanctum, Gomti Ghat, Rukmini Devi Temple</p>
+              <p><strong>Best Time:</strong> October - February</p>
+            </div>
+            <a href="https://maps.google.com/?q=Dwarkadhish+Temple" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Ginger Dwarka (₹2,000-4,000/night)</p>
+              <p>Regenta Inn Dwarka (₹2,500-5,000/night)</p>
+            </div>
+          </div>
+          
+          <div class="place-card">
+            <h4>Nageshwar Jyotirlinga</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> One of the 12 Jyotirlingas of Shiva, removes fear of poison.</p>
+              <p><strong>Attractions:</strong> Main temple, 25m Shiva statue, peaceful gardens</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Nageshwar+Jyotirlinga" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Junagadh District Details -->
+    <div class="district-details" id="junagadh-details">
+      <div class="district-header">
+        <h2>Junagadh District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Wildlife
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Gir National Park</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Home to Asiatic Lions, established in 1965.</p>
+              <p><strong>Attractions:</strong> Lion Safari, Crocodile breeding center, Bird watching</p>
+              <p><strong>Best Time:</strong> December - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Gir+National+Park" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>The Fern Gir Forest Resort (Luxury)</p>
+              <p>Gir Jungle Lodge (Adventure)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Uparkot Fort</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Ancient fort with Buddhist caves, stepwells, and defensive walls.</p>
+              <p><strong>Attractions:</strong> Rock-cut caves, Adi Kadi Vav, Jain temples</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Uparkot+Fort+Junagadh" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Kutch District Details -->
+    <div class="district-details" id="kutch-details">
+      <div class="district-header">
+        <h2>Kutch District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Natural
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Rann of Kutch</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> World's largest salt desert, famous for Rann Utsav.</p>
+              <p><strong>Attractions:</strong> White Desert, Kala Dungar, handicraft villages</p>
+              <p><strong>Best Time:</strong> November - February</p>
+            </div>
+            <a href="https://maps.google.com/?q=Rann+of+Kutch" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Shaam-e-Sarhad Village Resort</p>
+              <p>Gateway to Rann Resort</p>
+            </div>
+          </div>
+          
+          <div class="place-card">
+            <h4>Dholavira</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Harappan city with preserved ruins and water management systems.</p>
+              <p><strong>Attractions:</strong> Citadel ruins, step reservoirs, museum</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Dholavira+Harappan+site" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Ahmedabad District Details -->
+    <div class="district-details" id="ahmedabad-details">
+      <div class="district-header">
+        <h2>Ahmedabad District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Temples
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Akshardham Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Modern Swaminarayan temple complex with exhibitions.</p>
+              <p><strong>Attractions:</strong> Main Mandir, cultural museum, musical fountain</p>
+              <p><strong>Best Time:</strong> November - February</p>
+            </div>
+            <a href="https://maps.google.com/?q=Akshardham+Gandhinagar" class="map-link" target="_blank">View on Map</a>
+            
+            <div class="hotel-section">
+              <h5>Nearby Hotels</h5>
+              <p>Cambay Sapphire (₹2,000-5,000/night)</p>
+              <p>Fortune Inn Haveli</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Ahmedabad Old City</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> UNESCO World Heritage City with historic mosques and pols.</p>
+              <p><strong>Attractions:</strong> Sidi Saiyyed Mosque, Jama Masjid, Bhadra Fort</p>
+              <p><strong>Best Time:</strong> November - February</p>
+            </div>
+            <a href="https://maps.google.com/?q=Ahmedabad+Old+City" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Mehsana District Details -->
+    <div class="district-details" id="mehsana-details">
+      <div class="district-header">
+        <h2>Mehsana District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Modhera Sun Temple</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> 11th-century temple dedicated to the Sun God.</p>
+              <p><strong>Attractions:</strong> Surya Kund, Sabha Mandap, intricate sculptures</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Modhera+Sun+Temple" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Panchmahal District Details -->
+    <div class="district-details" id="panchmahal-details">
+      <div class="district-header">
+        <h2>Panchmahal District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Champaner-Pavagadh</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> UNESCO site with fortified city and hilltop temple.</p>
+              <p><strong>Attractions:</strong> Jama Masjid, Palace of Mahmud Begada, Kalika Mata Temple</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Champaner+Pavagadh+Archaeological+Park" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Vadodara District Details -->
+    <div class="district-details" id="vadodara-details">
+      <div class="district-header">
+        <h2>Vadodara District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Laxmi Vilas Palace</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Indo-Saracenic palace larger than Buckingham Palace.</p>
+              <p><strong>Attractions:</strong> Durbar Hall, royal museum, palace grounds</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Laxmi+Vilas+Palace+Vadodara" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Navsari District Details -->
+    <div class="district-details" id="navsari-details">
+      <div class="district-header">
+        <h2>Navsari District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Natural
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Saputara Hill Station</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Gujarat's only hill station with scenic beauty.</p>
+              <p><strong>Attractions:</strong> Saputara Lake, Step Garden, Sunrise Point</p>
+              <p><strong>Best Time:</strong> October - June</p>
+            </div>
+            <a href="https://maps.google.com/?q=Saputara+Hill+Station" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+
+    <!-- Diu District Details -->
+    <div class="district-details" id="diu-details">
+      <div class="district-header">
+        <h2>Diu District</h2>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Heritage
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Diu Fort</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Portuguese-era fort with sea-facing ramparts.</p>
+              <p><strong>Attractions:</strong> Ramparts, lighthouses, churches, panoramic views</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Diu+Fort" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="category-section">
+        <div class="category-header">
+          <div class="category-icon"></div>
+          Beaches
+        </div>
+        <div class="places-grid">
+          <div class="place-card">
+            <h4>Nagoa Beach</h4>
+            <div class="place-details">
+              <p><strong>About:</strong> Popular beach with water sports and seafood.</p>
+              <p><strong>Attractions:</strong> Water sports, seafood restaurants, sunset views</p>
+              <p><strong>Best Time:</strong> October - March</p>
+            </div>
+            <a href="https://maps.google.com/?q=Nagoa+Beach+Diu" class="map-link" target="_blank">View on Map</a>
+          </div>
+        </div>
+      </div>
+      
+      <button class="map-link" onclick="hideDistrictDetails()" style="margin-top: 2rem;">← Back to Districts</button>
+    </div>
+    <div class="travel-tips" id="travelTips">
+      <h2>Travel & Stay Tips</h2>
+      <div class="tips-grid">
+          <div class="tip-card">
+              <h3>Best Time to Visit</h3>
+              <p>October – March (pleasant weather, festivals like Navratri, Rann Utsav). Avoid summer (very hot).</p>
+          </div>
+          <div class="tip-card">
+              <h3>Booking Tips</h3>
+              <p>For Rann of Kutch and Gir National Park, book safaris/hotels in advance, especially during peak season.</p>
+          </div>
+          <div class="tip-card">
+              <h3>Local Food</h3>
+              <p>Gujarati thali, Dhokla, Khandvi, Fafda, Undhiyu, and sweets like Mohanthal. Cities have great restaurants; local dhabas offer authentic taste.</p>
+          </div>
+          <div class="tip-card">
+              <h3>Transport</h3>
+              <p>Ahmedabad is the main entry (airport, rail hub). Well-connected roads to Dwarka, Somnath, Gir, and Kutch. Rental cars recommended for flexibility.</p>
+          </div>
+      </div>
+  </div>
+  </div>
+
+  <!-- Travel Tips Section -->
+  
+
+  <button class="back-to-top" onclick="scrollToTop()" style="display: none;">↑</button>
+
+  <script>
+    function showDistricts() {
+      document.querySelector('.explore-btn').style.display = 'none';
+      document.getElementById('travelTips').classList.add('show'); 
+      document.getElementById('scrollIndicator').style.display = 'block';
+      
+      setTimeout(() => {
+        document.getElementById('districtsGrid').classList.add('show');
+        document.getElementById('scrollIndicator').style.display = 'none';
+      }, 500);
+    }
+
+    function showDistrictDetails(districtId) {
+      document.getElementById('districtsGrid').style.display = 'none';
+      
+      document.getElementById(districtId + '-details').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideDistrictDetails() {
+      document.querySelectorAll('.district-details').forEach(detail => {
+        detail.classList.remove('active');
+      });
+      document.getElementById('districtsGrid').style.display = 'grid';
+      window.scrollTo({ top: document.querySelector('.header').offsetHeight, behavior: 'smooth' });
+    }
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Show back to top button when scrolling
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.querySelector('.back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTopButton.style.display = 'flex';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+
+    // Smooth scrolling for all links
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

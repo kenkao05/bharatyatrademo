@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BharatYatra Admin Dashboard</title>
+    <style>
+        :root{
+            --bg:#1a273c; /* dark navy */
+            --card:#0b1220;
+            --accent:#06b6d4;
+            --muted:#94a3b8;
+            --glass: rgba(255,255,255,0.04);
+            --radius:14px;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html,body{height:100%;}
+        body {
+            background: linear-gradient(180deg, var(--bg) 0%, #071021 100%);
+            color: #e6eef6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 32px;
+        }
+        
+        .dashboard-container {
+            width: 100%;
+            max-width: 800px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+            border: 1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(6px);
+            text-align: center;
+        }
+        
+        .header {
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #e6eef6;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            color: var(--muted);
+            font-size: 1.1rem;
+        }
+        
+        .buttons-container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-btn {
+            background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(6,182,212,0.05));
+            color: #e6eef6;
+            border: 1px solid rgba(6,182,212,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(2,6,23,0.3);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .dashboard-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(6,182,212,0.2);
+            background: linear-gradient(135deg, rgba(6,182,212,0.15), rgba(6,182,212,0.08));
+            border-color: rgba(6,182,212,0.3);
+        }
+        
+        .dashboard-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .icon {
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+
+        /* Fixed back button positioning */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(74, 144, 226, 0.2);
+            color: white;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            cursor: pointer;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            background: linear-gradient(135deg, #4A90E2, var(--accent));
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+        
+        .footer {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 30px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+            
+            .dashboard-container {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard-btn {
+                padding: 15px;
+                font-size: 1rem;
+            }
+            
+            .back-btn {
+                top: 15px;
+                right: 15px;
+                padding: 0.4rem 0.8rem;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-btn" id="backBtn">
+        ← Back
+    </a>
+
+    <div class="dashboard-container">
+        <div class="header">
+            <h1>BharatYatra Admin Dashboard</h1>
+            <p>Manage Your Travel Platform Content</p>
+        </div>
+        
+        <div class="buttons-container">
+            <button class="dashboard-btn" onclick="window.location.href='admin-submissions.html'">
+                <span class="icon">📋</span>
+                View/Edit Suggestion Form Entries
+            </button>
+            
+            <button class="dashboard-btn" onclick="window.location.href='admin-manage.html'">
+                <span class="icon">📍</span>
+                View/Edit State Spots
+            </button>
+
+            <button class="dashboard-btn" onclick="window.location.href='admin-events.html'">
+                <span class="icon">🎉</span>
+                View/Edit Events
+            </button>
+            
+        </div>
+        
+        <div class="footer">
+            <p>Secure admin panel for content management</p>
+        </div>
+    </div>
+
+    
+</body>
+</html>

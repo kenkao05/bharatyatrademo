@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - BharatYatra</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+
+        :root {
+            --primary: #B8A992;
+            --secondary: #D4C7B2;
+            --accent: #E8DFD0;
+            --light: #F8F4EC;
+            --dark: #5A4F41;
+            --gray: #8A7D6C;
+            --glass: rgba(212, 199, 178, 0.3);
+        }
+
+        body {
+            background: linear-gradient(135deg, #F8F4EC 0%, #F5EFEB 100%);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, rgba(184, 169, 146, 0.8) 0%, rgba(212, 199, 178, 0.8) 50%, rgba(232, 223, 208, 0.8) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 199, 178, 0.4);
+            color: var(--dark);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(90, 79, 65, 0.1);
+        }
+
+        .header-content {
+            position: relative;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #7A6A57;
+            text-shadow: 0 2px 4px rgba(90, 79, 65, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            color: var(--gray);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #7A6A57;
+            margin-bottom: 1rem;
+        }
+
+        .section-title .divider {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .section-description {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 1.5rem auto 0;
+        }
+
+        /* Project Overview */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(248, 244, 236, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 199, 178, 0.4);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(90, 79, 65, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(90, 79, 65, 0.15);
+            background: rgba(248, 244, 236, 0.9);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: #5A4F41;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #7A6A57;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-grid-center {
+            grid-template-columns: repeat(2, 1fr);
+            justify-content: center;
+        }
+        
+        .team-member {
+            background: rgba(248, 244, 236, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(212, 199, 178, 0.4);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(90, 79, 65, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(90, 79, 65, 0.15);
+            background: rgba(248, 244, 236, 0.8);
+        }
+
+        .member-header {
+            display: flex;
+            align-items: center;
+            padding: 1.5rem;
+            background: rgba(232, 223, 208, 0.5);
+            backdrop-filter: blur(6px);
+            flex: 1;
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(212, 199, 178, 0.6);
+            box-shadow: 0 5px 15px rgba(90, 79, 65, 0.1);
+            flex-shrink: 0;
+        }
+
+        .member-info {
+            margin-left: 1.5rem;
+            flex: 1;
+        }
+
+        .member-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+            color: #7A6A57;
+        }
+
+        .member-role {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+
+        .member-roll {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* College Section */
+        .college-section {
+            background: rgba(232, 223, 208, 0.5);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(212, 199, 178, 0.4);
+            border-bottom: 1px solid rgba(212, 199, 178, 0.4);
+        }
+
+        .college-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .college-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .college-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-right: 1rem;
+        }
+
+        .college-header h2 {
+            color: #7A6A57;
+        }
+
+        .college-text {
+            font-size: 1.2rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 2rem auto;
+        }
+
+        .college-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray);
+        }
+
+        .stat-item i {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(245, 239, 235, 0.8);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(212, 199, 178, 0.4);
+            color: var(--gray);
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #7A6A57;
+        }
+
+        .footer-text {
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+
+        /*back button*/
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(184, 169, 146, 0.6);
+            backdrop-filter: blur(8px);
+            color: #5A4F41;
+            font-weight: 600;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(90, 79, 65, 0.15);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212, 199, 178, 0.4);
+        }
+
+        .back-btn i {
+            font-size: 1rem;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            background: rgba(212, 199, 178, 0.8);
+            box-shadow: 0 6px 18px rgba(90, 79, 65, 0.2);
+        }
+
+        .back-btn-header {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .college-stats {
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .college-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <a href="index.html" class="back-btn back-btn-header">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <div class="header-content">
+                <h1>About Our Journey</h1>
+                <p class="subtitle">Exploring the Incredible India through technology and innovation</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Overview Section -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Tourism Project</h2>
+                <div class="divider"></div>
+                <p class="section-description">
+                    We're a team of passionate Computer Engineering students dedicated to showcasing 
+                    the beauty and diversity of Indian tourism through innovative digital solutions. 
+                    Our project aims to create immersive experiences that inspire travelers to explore 
+                    the incredible landscapes, cultures, and heritage of our beautiful country.
+                </p>
+            </div>
+
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Destination Discovery</h3>
+                    <p>Highlighting hidden gems and popular destinations across India with detailed guides and recommendations.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Visual Storytelling</h3>
+                    <p>Creating stunning visual content that captures the essence of India's diverse cultural landscape.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Community Connection</h3>
+                    <p>Building bridges between travelers and local communities to foster authentic experiences.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section>
+        <div class="container">
+            <div class="section-title">
+                <h2>Meet Our Team</h2>
+                <div class="divider"></div>
+                <p class="section-description">
+                    Third-year Computer Engineering students from SAL College of Engineering, 
+                    united by our passion for technology and tourism.
+                </p>
+            </div>
+
+            <div class="team-grid">
+                <!-- Member 1 -->
+                <div class="team-member">
+                    <div class="member-header">
+                        <img src="https://placehold.co/300x300/B8A992/5A4F41?text=BV" alt="Bhanushali Vaibhav" class="member-avatar">
+                        <div class="member-info">
+                            <h3>Bhanushali Vaibhav</h3>
+                            <p class="member-roll">Roll: 231130107004</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="team-member">
+                    <div class="member-header">
+                        <img src="https://placehold.co/300x300/B8A992/5A4F41?text=GH" alt="Gajjar Harshal" class="member-avatar">
+                        <div class="member-info">
+                            <h3>Gajjar Harshal</h3>
+                            <p class="member-roll">Roll: 231130107011</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="team-member">
+                    <div class="member-header">
+                        <img src="https://placehold.co/300x300/B8A992/5A4F41?text=ZH" alt="Zala Harshvardhan" class="member-avatar">
+                        <div class="member-info">
+                            <h3>Zala Harshvardhan</h3>
+                            <p class="member-roll">Roll: 231130107015</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="team-grid team-grid-center">
+                <!-- Member 4 -->
+                <div class="team-member">
+                    <div class="member-header">
+                        <img src="https://placehold.co/300x300/B8A992/5A4F41?text=JN" alt="Jangid Nitin" class="member-avatar">
+                        <div class="member-info">
+                            <h3>Jangid Nitin</h3>
+                            <p class="member-roll">Roll: 231130107019</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Member 5 -->
+                <div class="team-member">
+                    <div class="member-header">
+                        <img src="https://placehold.co/300x300/B8A992/5A4F41?text=PS" alt="Patel Shrey" class="member-avatar">
+                        <div class="member-info">
+                            <h3>Patel Shrey</h3>
+                            <p class="member-roll">Roll: 231130107062</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- College Section -->
+    <section class="college-section">
+        <div class="container">
+            <div class="college-content">
+                <div class="college-header">
+                    <i class="fas fa-graduation-cap college-icon"></i>
+                    <h2>SAL College of Engineering</h2>
+                </div>
+                <div class="divider"></div>
+                <p class="college-text">
+                    Proud third-year Computer Engineering students creating digital solutions that 
+                    celebrate the rich heritage and natural beauty of India. Our academic journey 
+                    has equipped us with the skills to blend technology with storytelling, bringing 
+                    the wonders of Indian tourism to the digital world.
+                </p>
+                <div class="college-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <span>Team of 5</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>3rd Year Comp Eng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 class="footer-title">BharatYatra</h3>
+            <p class="footer-text">Created with passion by Team 905757 | SAL College of Engineering</p>
+        </div>
+    </footer>
+</body>
+</html>
