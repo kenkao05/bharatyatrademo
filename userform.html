@@ -96,9 +96,14 @@
       box-shadow: 0 2px 8px rgba(184, 169, 146, 0.3);
     }
 
-    .btn-primary:hover {
+    .btn-primary:hover:not(:disabled) {
       background: linear-gradient(90deg, #D4C7B2, #E8DFD0);
       transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .btn-danger {
@@ -106,8 +111,13 @@
       color: white;
     }
 
-    .btn-danger:hover {
+    .btn-danger:hover:not(:disabled) {
       background: #A05850;
+    }
+
+    .btn-danger:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
     .btn-ghost {
@@ -234,6 +244,18 @@
       font-size: 14px;
     }
 
+    .debug-info {
+      background: rgba(184, 169, 146, 0.1);
+      border: 1px solid rgba(184, 169, 146, 0.3);
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 20px;
+      font-family: monospace;
+      font-size: 12px;
+      color: #5A4F41;
+      display: none;
+    }
+
     @media (max-width: 768px) {
       .submissions-grid {
         grid-template-columns: 1fr;
@@ -252,6 +274,9 @@
 <body>
   <div class="container">
     <h1>Admin Dashboard</h1>
+
+    <!-- Debug Info -->
+    <div class="debug-info" id="debugInfo"></div>
 
     <!-- Authentication Section -->
     <div class="auth-section" id="authSection">
@@ -305,7 +330,13 @@
   </div>
 
   <script type="module">
-    import { supabaseClient } from "/js/supabase.js";
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    // Initialize Supabase client directly here for testing
+    const SUPABASE_URL = 'https://hmobboiupblojankdaah.supabase.co'; // Replace with your URL
+    const SUPABASE_ANON_KEY = 'sb_publishable_1ohSSqvp2O374buCm3XNBA_aRd8U9H6'; // Replace with your anon key
+    
+    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const loginForm = document.getElementById("loginForm");
     const loggedInSection = document.getElementById("loggedInSection");
@@ -322,16 +353,36 @@
     const refreshBtn = document.getElementById("refreshBtn");
     const totalCountEl = document.getElementById("totalCount");
     const stateCountEl = document.getElementById("stateCount");
+    const debugInfo = document.getElementById("debugInfo");
 
     let currentUser = null;
 
+    // Show debug info
+    function showDebug(info) {
+      debugInfo.style.display = "block";
+      debugInfo.innerHTML = `<strong>Debug:</strong><br>${JSON.stringify(info, null, 2)}`;
+      console.log("Debug:", info);
+    }
+
     // Check if user is already logged in
     async function checkAuth() {
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      if (user) {
-        currentUser = user;
-        showLoggedIn();
-        loadSubmissions();
+      try {
+        const { data: { user }, error } = await supabaseClient.auth.getUser();
+        
+        showDebug({ 
+          action: "checkAuth",
+          user: user ? { id: user.id, email: user.email } : null,
+          error: error?.message
+        });
+
+        if (user) {
+          currentUser = user;
+          showLoggedIn();
+          loadSubmissions();
+        }
+      } catch (err) {
+        showDebug({ action: "checkAuth", error: err.message });
+        showMessage("Auth check failed: " + err.message, "error");
       }
     }
 
@@ -348,25 +399,39 @@
       loginBtn.disabled = true;
       loginBtn.textContent = "Logging in...";
 
-      const { data, error } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-      });
+      try {
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
 
-      if (error) {
-        showMessage("Login failed: " + error.message, "error");
+        showDebug({ 
+          action: "login",
+          success: !!data.user,
+          user: data.user ? { id: data.user.id, email: data.user.email } : null,
+          error: error?.message
+        });
+
+        if (error) {
+          showMessage("Login failed: " + error.message, "error");
+          loginBtn.disabled = false;
+          loginBtn.textContent = "Login";
+          return;
+        }
+
+        currentUser = data.user;
+        showLoggedIn();
+        loadSubmissions();
+        emailInput.value = "";
+        passwordInput.value = "";
+        showMessage("Login successful!", "success");
+      } catch (err) {
+        showDebug({ action: "login", error: err.message });
+        showMessage("Login error: " + err.message, "error");
+      } finally {
         loginBtn.disabled = false;
         loginBtn.textContent = "Login";
-        return;
       }
-
-      currentUser = data.user;
-      showLoggedIn();
-      loadSubmissions();
-      emailInput.value = "";
-      passwordInput.value = "";
-      loginBtn.disabled = false;
-      loginBtn.textContent = "Login";
     });
 
     // Logout
@@ -394,33 +459,47 @@
       loading.style.display = "block";
       submissionsGrid.innerHTML = "";
 
-      const { data, error } = await supabaseClient
-        .from("submissions")
-        .select("*")
-        .order("created_at", { ascending: false });
+      try {
+        const { data, error } = await supabaseClient
+          .from("submissions")
+          .select("*")
+          .order("created_at", { ascending: false });
 
-      loading.style.display = "none";
+        showDebug({ 
+          action: "loadSubmissions",
+          count: data?.length || 0,
+          error: error?.message
+        });
 
-      if (error) {
-        showMessage("Failed to load submissions: " + error.message, "error");
-        return;
+        loading.style.display = "none";
+
+        if (error) {
+          showMessage("Failed to load submissions: " + error.message, "error");
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          submissionsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No submissions yet</p>';
+          totalCountEl.textContent = "0";
+          stateCountEl.textContent = "0";
+          return;
+        }
+
+        // Update stats
+        totalCountEl.textContent = data.length;
+        const uniqueStates = new Set(data.map(s => s.state));
+        stateCountEl.textContent = uniqueStates.size;
+
+        // Render submissions
+        data.forEach(submission => {
+          const card = createSubmissionCard(submission);
+          submissionsGrid.appendChild(card);
+        });
+      } catch (err) {
+        loading.style.display = "none";
+        showDebug({ action: "loadSubmissions", error: err.message });
+        showMessage("Error loading submissions: " + err.message, "error");
       }
-
-      if (!data || data.length === 0) {
-        submissionsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--muted);">No submissions yet</p>';
-        return;
-      }
-
-      // Update stats
-      totalCountEl.textContent = data.length;
-      const uniqueStates = new Set(data.map(s => s.state));
-      stateCountEl.textContent = uniqueStates.size;
-
-      // Render submissions
-      data.forEach(submission => {
-        const card = createSubmissionCard(submission);
-        submissionsGrid.appendChild(card);
-      });
     }
 
     // Create submission card
@@ -431,12 +510,14 @@
       const date = new Date(submission.created_at).toLocaleDateString("en-IN", {
         year: "numeric",
         month: "short",
-        day: "numeric"
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
       });
 
       card.innerHTML = `
         ${submission.image_url 
-          ? `<img src="${submission.image_url}" alt="${submission.spot_name}" />`
+          ? `<img src="${submission.image_url}" alt="${submission.spot_name}" onerror="this.parentElement.querySelector('.no-image').style.display='flex'; this.style.display='none';" /><div class="no-image" style="display:none;">Image failed to load</div>`
           : `<div class="no-image">No image</div>`
         }
         <h3>${submission.spot_name}</h3>
@@ -460,33 +541,39 @@
         deleteBtn.disabled = true;
         deleteBtn.textContent = "Deleting...";
 
-        // Delete image from storage if exists
-        if (submission.image_url) {
-          const urlParts = submission.image_url.split("/");
-          const filePath = urlParts.slice(-2).join("/"); // Get "suggestions/filename"
-          
-          await supabaseClient
-            .storage
-            .from("bharatyatra-images")
-            .remove([filePath]);
-        }
+        try {
+          // Delete image from storage if exists
+          if (submission.image_url) {
+            const urlParts = submission.image_url.split("/");
+            const filePath = urlParts.slice(-2).join("/"); // Get "suggestions/filename"
+            
+            await supabaseClient
+              .storage
+              .from("bharatyatra-images")
+              .remove([filePath]);
+          }
 
-        // Delete submission from database
-        const { error } = await supabaseClient
-          .from("submissions")
-          .delete()
-          .eq("id", submission.id);
+          // Delete submission from database
+          const { error } = await supabaseClient
+            .from("submissions")
+            .delete()
+            .eq("id", submission.id);
 
-        if (error) {
-          showMessage("Failed to delete: " + error.message, "error");
+          if (error) {
+            showMessage("Failed to delete: " + error.message, "error");
+            deleteBtn.disabled = false;
+            deleteBtn.textContent = "Delete";
+            return;
+          }
+
+          card.remove();
+          showMessage("Submission deleted successfully", "success");
+          loadSubmissions(); // Reload to update stats
+        } catch (err) {
+          showMessage("Delete error: " + err.message, "error");
           deleteBtn.disabled = false;
           deleteBtn.textContent = "Delete";
-          return;
         }
-
-        card.remove();
-        showMessage("Submission deleted successfully", "success");
-        loadSubmissions(); // Reload to update stats
       });
 
       return card;
@@ -505,29 +592,13 @@
     // Refresh button
     refreshBtn.addEventListener("click", loadSubmissions);
 
+    // Allow Enter key to login
+    passwordInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") loginBtn.click();
+    });
+
     // Initialize
     checkAuth();
-
-    // Add this debugging section after checkAuth function
-    async function debugAuth() {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      console.log("Session:", session);
-      console.log("User:", session?.user);
-      console.log("Access token:", session?.access_token ? "Present" : "Missing");
-    }
-
-    // Call it when checking auth
-    async function checkAuth() {
-      const { data: { user } } = await supabaseClient.auth.getUser();
-      console.log("Current user:", user); // Debug log
-      if (user) {
-        currentUser = user;
-        showLoggedIn();
-        await debugAuth(); // Debug auth
-        loadSubmissions();
-      }
-    }
-
   </script>
 </body>
 </html>
