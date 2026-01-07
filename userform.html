@@ -507,6 +507,27 @@
 
     // Initialize
     checkAuth();
+
+    // Add this debugging section after checkAuth function
+    async function debugAuth() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      console.log("Session:", session);
+      console.log("User:", session?.user);
+      console.log("Access token:", session?.access_token ? "Present" : "Missing");
+    }
+
+    // Call it when checking auth
+    async function checkAuth() {
+      const { data: { user } } = await supabaseClient.auth.getUser();
+      console.log("Current user:", user); // Debug log
+      if (user) {
+        currentUser = user;
+        showLoggedIn();
+        await debugAuth(); // Debug auth
+        loadSubmissions();
+      }
+    }
+
   </script>
 </body>
 </html>
