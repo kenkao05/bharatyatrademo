@@ -1,757 +1,934 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin - Manage Tourist Spots</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Manage Attractions</title>
   <style>
-    :root{
-      --bg:#0f1724;
-      --card:#0b1220;
-      --accent:#06b6d4;
-      --muted:#94a3b8;
-      --glass: rgba(255,255,255,0.04);
-      --radius:14px;
-      --header-height: 80px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
-    }
-
-    html,body{
-      height:100%;
-      margin:0;
-      padding:0;
-      background:#071021;
-      color:#e6eef6;
-    }
-
-    body{
-      display:flex;
-      flex-direction:column;
-    }
-
-    .admin-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      backdrop-filter: blur(8px);
-      background: rgba(11, 18, 32, 0.6);
-      border-bottom: 1px solid rgba(255,255,255,0.03);
-      z-index: 1000;
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      height: var(--header-height);
+    * {
+      margin: 0;
+      padding: 0;
       box-sizing: border-box;
     }
 
-    .admin-header .header-content {
-      max-width: 1200px;
-      width: 100%;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1400px;
       margin: 0 auto;
+    }
+
+    /* Login Section */
+    .login-card {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      max-width: 450px;
+      margin: 100px auto;
+    }
+
+    .login-card h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    /* Admin Panel */
+    .admin-panel {
+      display: none;
+    }
+
+    .header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .header h1 {
+      color: #333;
+      font-size: 26px;
+    }
+
+    .header-actions {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 15px;
     }
 
-    .admin-header h1 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 700;
-      color: #e6eef6;
+    .user-email {
+      color: #666;
+      font-size: 14px;
     }
 
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      background: rgba(74, 144, 226, 0.2);
-      color: white;
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
       font-weight: 600;
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
     }
 
-    .back-btn:hover {
-      transform: translateX(-5px);
-      background: linear-gradient(135deg, #4A90E2, var(--accent));
-    }
-
-    .main-content {
-      margin-top: var(--header-height);
-      padding: 40px 32px;
-      max-width: 1200px;
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    select,
+    textarea {
       width: 100%;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #218838;
+    }
+
+    .btn-warning {
+      background: #ffc107;
+      color: #333;
+    }
+
+    .btn-warning:hover {
+      background: #e0a800;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #c82333;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 2px solid #ddd;
+      color: #666;
+    }
+
+    .btn-ghost:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    /* Messages */
+    .message {
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    /* State Selector & Add Button */
+    .control-bar {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
     .state-selector {
-      margin-bottom: 30px;
-    }
-
-    .state-selector select {
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: #0f1724;
-      color: #e6eef6;
-      font-size: 14px;
-      width: 300px;
-      cursor: pointer;
-    }
-
-    .district-item {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius: var(--radius);
-      margin-bottom: 20px;
-      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-      border: 1px solid rgba(255,255,255,0.03);
-      backdrop-filter: blur(6px);
-      overflow: hidden;
-    }
-
-    .district-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
-
-    .district-header:hover {
-      background: rgba(255,255,255,0.02);
-    }
-
-    .district-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
       flex: 1;
+      min-width: 250px;
     }
 
-    .district-name {
-      font-size: 18px;
-      font-weight: 700;
-      color: #e6eef6;
+    /* Add Form Section */
+    .add-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: none;
     }
 
-    .district-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      margin-left: 8px;
+    .add-section.active {
+      display: block;
     }
 
-    .attractions-badge {
-      background: linear-gradient(90deg, var(--accent), #0ea5a7);
-      color: #042028;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
+    .add-section h2 {
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 22px;
     }
 
-    .expand-icon {
-      font-size: 20px;
-      transition: transform 0.3s ease;
-      color: var(--accent);
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
     }
 
-    .district-item.expanded .expand-icon {
-      transform: rotate(180deg);
+    .file-input-wrapper {
+      position: relative;
     }
 
-    .delete-district-btn {
-      padding: 8px 16px;
+    .file-preview {
+      margin-top: 10px;
+      max-width: 200px;
       border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-weight: 600;
-      background: linear-gradient(90deg, #ef4444, #dc2626);
-      color: #fff;
-      font-size: 13px;
-      transition: all 0.2s ease;
-      margin-left: 12px;
+      display: none;
     }
 
-    .delete-district-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    .file-preview.active {
+      display: block;
     }
 
-    .district-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s ease;
+    .file-preview img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .district-item.expanded .district-content {
-      max-height: 3000px;
+    /* Attractions Grid */
+    .attractions-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     }
 
-    .category-section {
-      padding: 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
+    .attractions-section h2 {
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 22px;
     }
 
-    .category-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--accent);
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+    .attractions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
     }
 
     .attraction-item {
-      background: rgba(255,255,255,0.03);
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 12px;
-      border: 1px solid rgba(255,255,255,0.05);
+      background: #f8f9fa;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s;
     }
 
-    .attraction-header {
+    .attraction-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .attraction-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .attraction-item-body {
+      padding: 20px;
+    }
+
+    .attraction-item h3 {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .attraction-item-meta {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .meta-tag {
+      padding: 4px 12px;
+      background: #e9ecef;
+      border-radius: 15px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .attraction-item-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .attraction-item-actions .btn {
+      flex: 1;
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+
+    /* Edit Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 15px;
+      max-width: 800px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .modal-header {
+      padding: 25px 30px;
+      border-bottom: 1px solid #e9ecef;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
+      align-items: center;
     }
 
-    .attraction-name {
-      font-size: 16px;
-      font-weight: 600;
-      color: #e6eef6;
+    .modal-header h2 {
+      color: #333;
+      font-size: 22px;
     }
 
-    .delete-attraction-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
+    .modal-close {
+      background: #f8f9fa;
       border: none;
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
       cursor: pointer;
-      font-weight: 600;
-      background: rgba(239, 68, 68, 0.2);
-      color: #ef4444;
-      font-size: 12px;
-      transition: all 0.2s ease;
+      font-size: 20px;
+      transition: all 0.3s;
     }
 
-    .delete-attraction-btn:hover {
-      background: rgba(239, 68, 68, 0.3);
+    .modal-close:hover {
+      background: #dc3545;
+      color: white;
     }
 
-    .attraction-details {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+    .modal-body {
+      padding: 30px;
     }
 
-    .attraction-details p {
-      margin: 6px 0;
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
     }
 
-    .attraction-details strong {
-      color: #e6eef6;
+    .no-attractions {
+      text-align: center;
+      padding: 60px;
+      color: #999;
     }
 
-    .hotels-restaurants {
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .hotels-restaurants h5 {
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 6px;
-    }
-
-    .hotels-restaurants p {
-      font-size: 13px;
-      color: var(--muted);
-      margin: 4px 0;
-    }
-
-    .section-title {
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #e6eef6;
-    }
-
-    @media(max-width:768px){
-      .district-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 12px;
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
       }
-      
-      .district-title {
-        flex-direction: column;
-        align-items: flex-start;
+
+      .attractions-grid {
+        grid-template-columns: 1fr;
       }
-      
-      .delete-district-btn {
-        margin-left: 0;
+
+      .control-bar {
+        flex-direction: column;
+      }
+
+      .state-selector {
         width: 100%;
       }
     }
   </style>
 </head>
-
 <body>
-  <header class="admin-header">
-    <div class="header-content">
-      <h1>Admin - Manage Tourist Spots</h1>
-      <a href="admin-dashboard.html" class="back-btn">← Back</a>
-    </div>
-  </header>
-
-  <main class="main-content">
-    <h2 class="section-title">Manage State Content</h2>
-    
-    <div class="state-selector">
-      <select id="stateSelect">
-        <option value="gujarat">Gujarat</option>
-        <option value="rajasthan">Rajasthan</option>
-        <option value="up">Uttar Pradesh</option>
-        <option value="assam">Assam</option>
-        <option value="jk">Jammu & Kashmir</option>
-        <option value="kerala">Kerala</option>
-      </select>
-    </div>
-
-    <div id="districtsContainer">
-      <!-- Districts will be populated here -->
-    </div>
-
-    <!-- Add New District Section -->
-    <div style="margin-top: 60px;">
-      <h2 class="section-title">Add New District</h2>
+  <div class="container">
+    <!-- Login Section -->
+    <div class="login-card" id="loginSection">
+      <h1>Admin Login</h1>
       
-      <div style="background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius: var(--radius); padding: 30px; box-shadow: 0 10px 30px rgba(2,6,23,0.6); border: 1px solid rgba(255,255,255,0.03); backdrop-filter: blur(6px); max-width: 800px;">
-        
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">Select State</label>
-          <select id="addDistrictState" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: #0f1724; color: #e6eef6; font-size: 14px; width: 100%;">
-            <option value="">Choose State</option>
-            <option value="gujarat">Gujarat</option>
-            <option value="rajasthan">Rajasthan</option>
-            <option value="up">Uttar Pradesh</option>
-            <option value="assam">Assam</option>
-            <option value="jk">Jammu & Kashmir</option>
-            <option value="kerala">Kerala</option>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            placeholder="admin@example.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="loginBtn">
+          Login
+        </button>
+      </form>
+
+      <div id="loginMessage" class="message"></div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+      <!-- Header -->
+      <div class="header">
+        <h1>Manage Attractions</h1>
+        <div class="header-actions">
+          <span class="user-email" id="userEmail"></span>
+          <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+        </div>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <!-- Control Bar -->
+      <div class="control-bar">
+        <div class="state-selector">
+          <label for="stateSelect">Select State</label>
+          <select id="stateSelect">
+            <option value="Gujarat">Gujarat</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Assam">Assam</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Kerala">Kerala</option>
           </select>
         </div>
+        <button class="btn btn-success" id="toggleAddBtn">+ Add New Attraction</button>
+      </div>
 
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">District Name</label>
-          <input type="text" id="addDistrictName" placeholder="e.g., Somnath" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; outline: none;">
+      <!-- Add/Edit Form Section -->
+      <div class="add-section" id="addSection">
+        <h2 id="formTitle">Add New Attraction</h2>
+        <form id="attractionForm">
+          <input type="hidden" id="editId" value="">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="attractionName">Attraction Name *</label>
+              <input type="text" id="attractionName" required placeholder="e.g., Statue of Unity">
+            </div>
+
+            <div class="form-group">
+              <label for="attractionCategory">Category *</label>
+              <select id="attractionCategory" required>
+                <option value="">Select category</option>
+                <option value="Monument">Monument</option>
+                <option value="Temple">Temple</option>
+                <option value="Beach">Beach</option>
+                <option value="Wildlife">Wildlife</option>
+                <option value="Historical">Historical</option>
+                <option value="Natural Wonder">Natural Wonder</option>
+                <option value="Museum">Museum</option>
+                <option value="Fort">Fort</option>
+                <option value="Palace">Palace</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="attractionLocation">Location *</label>
+            <input type="text" id="attractionLocation" required placeholder="e.g., Kevadia, Narmada District">
+          </div>
+
+          <div class="form-group">
+            <label for="attractionDescription">Description *</label>
+            <textarea id="attractionDescription" required placeholder="Describe the attraction, its history, and what makes it special..." rows="5"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="attractionContacts">Contact Information</label>
+            <textarea id="attractionContacts" placeholder="Guide: Name - Phone: +91-XXXXX&#10;Travel Agency: Name - Phone: +91-XXXXX&#10;Hotel: Name - Phone: +91-XXXXX" rows="4"></textarea>
+            <small style="color: #666; font-size: 12px;">Enter each contact on a new line</small>
+          </div>
+
+          <div class="form-group">
+            <label for="attractionImage">Upload Image</label>
+            <input type="file" id="attractionImage" accept="image/*">
+            <div class="file-preview" id="imagePreview">
+              <img id="previewImg" src="" alt="Preview">
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 15px;">
+            <button type="submit" class="btn btn-primary" id="submitBtn" style="flex: 1;">
+              Save Attraction
+            </button>
+            <button type="button" class="btn btn-ghost" id="cancelBtn" style="width: auto;">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Attractions List -->
+      <div class="attractions-section">
+        <h2>Attractions for <span id="currentState">Gujarat</span></h2>
+        <div id="loadingState" class="loading">Loading attractions...</div>
+        <div id="noAttractionsState" class="no-attractions" style="display: none;">
+          No attractions found. Click "Add New Attraction" to create one.
         </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">District Subtitle</label>
-          <input type="text" id="addDistrictSubtitle" placeholder="e.g., Temples & Coastal Beauty" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; outline: none;">
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">Category Name</label>
-          <input type="text" id="addCategoryName" placeholder="e.g., Temples, Beaches, Heritage" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; outline: none;">
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">Attraction Name</label>
-          <input type="text" id="addAttractionName" placeholder="e.g., Somnath Temple" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; outline: none;">
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">About</label>
-          <textarea id="addAttractionAbout" placeholder="Brief description about the place" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; min-height: 80px; resize: vertical; outline: none;"></textarea>
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">Attractions/Highlights</label>
-          <input type="text" id="addAttractionHighlights" placeholder="e.g., Main sanctum, evening aarti, beach" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; outline: none;">
-        </div>
-
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 8px; color: var(--muted); font-size: 14px;">Best Time to Visit</label>
-          <input type="text" id="addBestTime" placeholder="e.g., October - March" style="padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: var(--glass); color: #e6eef6; font-size: 14px; width: 100%; outline: none;">
-        </div>
-
-        <button onclick="addNewDistrict()" style="width: 100%; padding: 14px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; font-size: 16px; background: linear-gradient(90deg, var(--accent), #0ea5a7); color: #042028; transition: all 0.2s ease;">
-          ADD DISTRICT
-        </button>
+        <div class="attractions-grid" id="attractionsGrid"></div>
       </div>
     </div>
-  </main>
+  </div>
 
-  <script>
-    const stateData = {
-      gujarat: {
-        districts: [
-          {
-            name: "Somnath",
-            subtitle: "Temples & Coastal Beauty",
-            attractionsCount: 3,
-            categories: [
-              {
-                title: "Temples",
-                attractions: [
-                  {
-                    name: "Somnath Temple",
-                    about: "One of the 12 Jyotirlingas of Lord Shiva, facing the Arabian Sea.",
-                    attractions: "Main sanctum, evening aarti, Somnath Beach, Triveni Sangam",
-                    bestTime: "October - March",
-                    hotels: ["Lords Inn Somnath (₹2,500-5,000/night)", "Sarovar Portico Somnath (₹3,000-6,000/night)"],
-                    restaurants: ["Dakshin Darbar (South Indian & Gujarati)", "The Grand Astoria (Multi-cuisine)"]
-                  }
-                ]
-              },
-              {
-                title: "Beaches",
-                attractions: [
-                  {
-                    name: "Somnath Beach",
-                    about: "Scenic beach with stunning sunset views on the Arabian Sea coast.",
-                    attractions: "Sunset viewing, peaceful environment, nearby temple",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Dwarka",
-            subtitle: "Pilgrimage & Heritage",
-            attractionsCount: 3,
-            categories: [
-              {
-                title: "Temples",
-                attractions: [
-                  {
-                    name: "Dwarkadhish Temple",
-                    about: "Ancient temple dedicated to Lord Krishna, part of Char Dham Yatra.",
-                    attractions: "Main sanctum, Gomti Ghat, Rukmini Devi Temple",
-                    bestTime: "October - February",
-                    hotels: ["Ginger Dwarka (₹2,000-4,000/night)", "Regenta Inn Dwarka (₹2,500-5,000/night)"]
-                  },
-                  {
-                    name: "Nageshwar Jyotirlinga",
-                    about: "One of the 12 Jyotirlingas of Shiva, removes fear of poison.",
-                    attractions: "Main temple, 25m Shiva statue, peaceful gardens",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Junagadh",
-            subtitle: "Wildlife & Forts",
-            attractionsCount: 2,
-            categories: [
-              {
-                title: "Wildlife",
-                attractions: [
-                  {
-                    name: "Gir National Park",
-                    about: "Home to Asiatic Lions, established in 1965.",
-                    attractions: "Lion Safari, Crocodile breeding center, Bird watching",
-                    bestTime: "December - March",
-                    hotels: ["The Fern Gir Forest Resort (Luxury)", "Gir Jungle Lodge (Adventure)"]
-                  }
-                ]
-              },
-              {
-                title: "Heritage",
-                attractions: [
-                  {
-                    name: "Uparkot Fort",
-                    about: "Ancient fort with Buddhist caves, stepwells, and defensive walls.",
-                    attractions: "Rock-cut caves, Adi Kadi Vav, Jain temples",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Kutch",
-            subtitle: "Desert & Culture",
-            attractionsCount: 3,
-            categories: [
-              {
-                title: "Natural",
-                attractions: [
-                  {
-                    name: "Rann of Kutch",
-                    about: "World's largest salt desert, famous for Rann Utsav.",
-                    attractions: "White Desert, Kala Dungar, handicraft villages",
-                    bestTime: "November - February",
-                    hotels: ["Shaam-e-Sarhad Village Resort", "Gateway to Rann Resort"]
-                  },
-                  {
-                    name: "Dholavira",
-                    about: "Harappan city with preserved ruins and water management systems.",
-                    attractions: "Citadel ruins, step reservoirs, museum",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Ahmedabad",
-            subtitle: "Heritage & Culture",
-            attractionsCount: 2,
-            categories: [
-              {
-                title: "Temples",
-                attractions: [
-                  {
-                    name: "Akshardham Temple",
-                    about: "Modern Swaminarayan temple complex with exhibitions.",
-                    attractions: "Main Mandir, cultural museum, musical fountain",
-                    bestTime: "November - February",
-                    hotels: ["Cambay Sapphire (₹2,000-5,000/night)", "Fortune Inn Haveli"]
-                  }
-                ]
-              },
-              {
-                title: "Heritage",
-                attractions: [
-                  {
-                    name: "Ahmedabad Old City",
-                    about: "UNESCO World Heritage City with historic mosques and pols.",
-                    attractions: "Sidi Saiyyed Mosque, Jama Masjid, Bhadra Fort",
-                    bestTime: "November - February"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Mehsana",
-            subtitle: "Temples & Heritage",
-            attractionsCount: 1,
-            categories: [
-              {
-                title: "Heritage",
-                attractions: [
-                  {
-                    name: "Modhera Sun Temple",
-                    about: "11th-century temple dedicated to the Sun God.",
-                    attractions: "Surya Kund, Sabha Mandap, intricate sculptures",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Panchmahal",
-            subtitle: "Historic Sites",
-            attractionsCount: 1,
-            categories: [
-              {
-                title: "Heritage",
-                attractions: [
-                  {
-                    name: "Champaner-Pavagadh",
-                    about: "UNESCO site with fortified city and hilltop temple.",
-                    attractions: "Jama Masjid, Palace of Mahmud Begada, Kalika Mata Temple",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Vadodara",
-            subtitle: "Palaces & Culture",
-            attractionsCount: 1,
-            categories: [
-              {
-                title: "Heritage",
-                attractions: [
-                  {
-                    name: "Laxmi Vilas Palace",
-                    about: "Indo-Saracenic palace larger than Buckingham Palace.",
-                    attractions: "Durbar Hall, royal museum, palace grounds",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Navsari",
-            subtitle: "Hill Stations",
-            attractionsCount: 1,
-            categories: [
-              {
-                title: "Natural",
-                attractions: [
-                  {
-                    name: "Saputara Hill Station",
-                    about: "Gujarat's only hill station with scenic beauty.",
-                    attractions: "Saputara Lake, Step Garden, Sunrise Point",
-                    bestTime: "October - June"
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            name: "Diu",
-            subtitle: "Beaches & Forts",
-            attractionsCount: 2,
-            categories: [
-              {
-                title: "Heritage",
-                attractions: [
-                  {
-                    name: "Diu Fort",
-                    about: "Portuguese-era fort with sea-facing ramparts.",
-                    attractions: "Ramparts, lighthouses, churches, panoramic views",
-                    bestTime: "October - March"
-                  }
-                ]
-              },
-              {
-                title: "Beaches",
-                attractions: [
-                  {
-                    name: "Nagoa Beach",
-                    about: "Popular beach with water sports and seafood.",
-                    attractions: "Water sports, seafood restaurants, sunset views",
-                    bestTime: "October - March"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      rajasthan: { districts: [] },
-      up: { districts: [] },
-      assam: { districts: [] },
-      jk: { districts: [] },
-      kerala: { districts: [] }
-    };
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-    function renderDistricts(state) {
-      const container = document.getElementById('districtsContainer');
-      const data = stateData[state];
+    // ⚠️ REPLACE WITH YOUR SUPABASE CREDENTIALS
+    const SUPABASE_URL = 'https://hmobboiupblojankdaah.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Elements
+    const loginSection = document.getElementById('loginSection');
+    const adminPanel = document.getElementById('adminPanel');
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const loginMessage = document.getElementById('loginMessage');
+    const message = document.getElementById('message');
+    const userEmailEl = document.getElementById('userEmail');
+
+    const stateSelect = document.getElementById('stateSelect');
+    const currentStateEl = document.getElementById('currentState');
+    const toggleAddBtn = document.getElementById('toggleAddBtn');
+    const addSection = document.getElementById('addSection');
+    const attractionForm = document.getElementById('attractionForm');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const formTitle = document.getElementById('formTitle');
+
+    const loadingState = document.getElementById('loadingState');
+    const noAttractionsState = document.getElementById('noAttractionsState');
+    const attractionsGrid = document.getElementById('attractionsGrid');
+
+    const attractionImage = document.getElementById('attractionImage');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+
+    let currentUser = null;
+    let currentState = 'Gujarat';
+    let isEditing = false;
+    let editingId = null;
+
+    // Show message
+    function showMessage(element, text, type) {
+      element.textContent = text;
+      element.className = `message ${type}`;
+      element.style.display = 'block';
       
-      if (!data || data.districts.length === 0) {
-        container.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 40px;">No content available for this state yet.</p>';
+      setTimeout(() => {
+        element.style.display = 'none';
+      }, 5000);
+    }
+
+    // Check auth
+    async function checkAuth() {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        currentUser = user;
+        showAdminPanel(user);
+        loadAttractions();
+      }
+    }
+
+    // Login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Logging in...';
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        showMessage(loginMessage, 'Login failed: ' + error.message, 'error');
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Login';
         return;
       }
 
-      container.innerHTML = data.districts.map((district, districtIndex) => `
-        <div class="district-item" id="district-${districtIndex}">
-          <div class="district-header" onclick="toggleDistrict(${districtIndex})">
-            <div class="district-title">
-              <div>
-                <span class="district-name">${district.name}</span>
-                <span class="district-subtitle">${district.subtitle}</span>
-              </div>
-              <span class="attractions-badge">${district.attractionsCount} Attractions</span>
-            </div>
-            <div style="display: flex; align-items: center;">
-              <button class="delete-district-btn" onclick="event.stopPropagation(); deleteDistrict(${districtIndex}, '${district.name}')">Delete District</button>
-              <span class="expand-icon">▼</span>
-            </div>
-          </div>
-          <div class="district-content">
-            ${district.categories.map((category, catIndex) => `
-              <div class="category-section">
-                <div class="category-title">${category.title}</div>
-                ${category.attractions.map((attraction, attIndex) => `
-                  <div class="attraction-item">
-                    <div class="attraction-header">
-                      <div class="attraction-name">${attraction.name}</div>
-                      <button class="delete-attraction-btn" onclick="deleteAttraction(${districtIndex}, ${catIndex}, ${attIndex}, '${attraction.name}')">Delete</button>
-                    </div>
-                    <div class="attraction-details">
-                      <p><strong>About:</strong> ${attraction.about}</p>
-                      <p><strong>Attractions:</strong> ${attraction.attractions}</p>
-                      <p><strong>Best Time:</strong> ${attraction.bestTime}</p>
-                    </div>
-                    ${attraction.hotels || attraction.restaurants ? `
-                      <div class="hotels-restaurants">
-                        ${attraction.hotels ? `
-                          <div>
-                            <h5>Nearby Hotels</h5>
-                            ${attraction.hotels.map(hotel => `<p>${hotel}</p>`).join('')}
-                          </div>
-                        ` : ''}
-                        ${attraction.restaurants ? `
-                          <div style="margin-top: 8px;">
-                            <h5>Restaurants</h5>
-                            ${attraction.restaurants.map(rest => `<p>${rest}</p>`).join('')}
-                          </div>
-                        ` : ''}
-                      </div>
-                    ` : ''}
-                  </div>
-                `).join('')}
-              </div>
-            `).join('')}
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function toggleDistrict(index) {
-      const districtItem = document.getElementById(`district-${index}`);
-      districtItem.classList.toggle('expanded');
-    }
-
-    function deleteDistrict(index, name) {
-      if (confirm(`Are you sure you want to delete the entire ${name} district and all its attractions?`)) {
-        const state = document.getElementById('stateSelect').value;
-        stateData[state].districts.splice(index, 1);
-        renderDistricts(state);
-        alert(`${name} district deleted successfully!`);
-      }
-    }
-
-    function deleteAttraction(districtIndex, categoryIndex, attractionIndex, name) {
-      if (confirm(`Are you sure you want to delete "${name}"?`)) {
-        const state = document.getElementById('stateSelect').value;
-        stateData[state].districts[districtIndex].categories[categoryIndex].attractions.splice(attractionIndex, 1);
-        
-        // If category is empty, remove it
-        if (stateData[state].districts[districtIndex].categories[categoryIndex].attractions.length === 0) {
-          stateData[state].districts[districtIndex].categories.splice(categoryIndex, 1);
-        }
-        
-        // Update attractions count
-        let totalAttractions = 0;
-        stateData[state].districts[districtIndex].categories.forEach(cat => {
-          totalAttractions += cat.attractions.length;
-        });
-        stateData[state].districts[districtIndex].attractionsCount = totalAttractions;
-        
-        renderDistricts(state);
-        alert(`"${name}" deleted successfully!`);
-      }
-    }
-
-    document.getElementById('stateSelect').addEventListener('change', (e) => {
-      renderDistricts(e.target.value);
+      currentUser = data.user;
+      showAdminPanel(data.user);
+      loadAttractions();
+      
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Login';
     });
 
-    // Initialize with Gujarat
-    renderDistricts('gujarat');
+    // Logout
+    logoutBtn.addEventListener('click', async () => {
+      await supabase.auth.signOut();
+      currentUser = null;
+      loginSection.style.display = 'block';
+      adminPanel.style.display = 'none';
+      loginForm.reset();
+    });
+
+    // Show admin panel
+    function showAdminPanel(user) {
+      loginSection.style.display = 'none';
+      adminPanel.style.display = 'block';
+      userEmailEl.textContent = user.email;
+    }
+
+    // State selector
+    stateSelect.addEventListener('change', () => {
+      currentState = stateSelect.value;
+      currentStateEl.textContent = currentState;
+      loadAttractions();
+      addSection.classList.remove('active');
+    });
+
+    // Toggle add form
+    toggleAddBtn.addEventListener('click', () => {
+      isEditing = false;
+      editingId = null;
+      formTitle.textContent = 'Add New Attraction';
+      attractionForm.reset();
+      document.getElementById('editId').value = '';
+      imagePreview.classList.remove('active');
+      addSection.classList.toggle('active');
+    });
+
+    // Cancel form
+    cancelBtn.addEventListener('click', () => {
+      addSection.classList.remove('active');
+      attractionForm.reset();
+      isEditing = false;
+      editingId = null;
+    });
+
+    // Image preview
+    attractionImage.addEventListener('change', () => {
+      const file = attractionImage.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImg.src = e.target.result;
+          imagePreview.classList.add('active');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        imagePreview.classList.remove('active');
+      }
+    });
+
+    // Submit form
+    attractionForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = isEditing ? 'Updating...' : 'Saving...';
+
+      const name = document.getElementById('attractionName').value.trim();
+      const category = document.getElementById('attractionCategory').value;
+      const location = document.getElementById('attractionLocation').value.trim();
+      const description = document.getElementById('attractionDescription').value.trim();
+      const contacts = document.getElementById('attractionContacts').value.trim();
+
+      let imageUrl = null;
+
+      // Upload image if selected
+      if (attractionImage.files.length > 0) {
+        const file = attractionImage.files[0];
+        const filePath = `attractions/${Date.now()}-${file.name}`;
+
+        const { error: uploadError } = await supabase
+          .storage
+          .from('bharatyatra-images')
+          .upload(filePath, file);
+
+        if (uploadError) {
+          showMessage(message, 'Image upload failed: ' + uploadError.message, 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = isEditing ? 'Update Attraction' : 'Save Attraction';
+          return;
+        }
+
+        imageUrl = supabase
+          .storage
+          .from('bharatyatra-images')
+          .getPublicUrl(filePath).data.publicUrl;
+      }
+
+      const attractionData = {
+        state: currentState,
+        name,
+        category,
+        location,
+        description,
+        contacts,
+      };
+
+      if (imageUrl) {
+        attractionData.image_url = imageUrl;
+      }
+
+      let result;
+      if (isEditing && editingId) {
+        // Update existing
+        result = await supabase
+          .from('attractions')
+          .update(attractionData)
+          .eq('id', editingId);
+      } else {
+        // Insert new
+        result = await supabase
+          .from('attractions')
+          .insert([attractionData]);
+      }
+
+      if (result.error) {
+        showMessage(message, 'Error: ' + result.error.message, 'error');
+      } else {
+        showMessage(message, isEditing ? 'Attraction updated!' : 'Attraction added!', 'success');
+        attractionForm.reset();
+        imagePreview.classList.remove('active');
+        addSection.classList.remove('active');
+        loadAttractions();
+        isEditing = false;
+        editingId = null;
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save Attraction';
+    });
+
+    // Load attractions
+    async function loadAttractions() {
+      loadingState.style.display = 'block';
+      attractionsGrid.innerHTML = '';
+      noAttractionsState.style.display = 'none';
+
+      const { data, error } = await supabase
+        .from('attractions')
+        .select('*')
+        .eq('state', currentState)
+        .order('created_at', { ascending: false });
+
+      loadingState.style.display = 'none';
+
+      if (error) {
+        showMessage(message, 'Error loading: ' + error.message, 'error');
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        noAttractionsState.style.display = 'block';
+        return;
+      }
+
+      data.forEach(attraction => {
+        const card = createAttractionCard(attraction);
+        attractionsGrid.appendChild(card);
+      });
+    }
+
+    // Create attraction card
+    function createAttractionCard(attraction) {
+      const card = document.createElement('div');
+      card.className = 'attraction-item';
+
+      const imageUrl = attraction.image_url || 'https://via.placeholder.com/300x200?text=' + encodeURIComponent(attraction.name);
+
+      card.innerHTML = `
+        <img src="${imageUrl}" alt="${attraction.name}">
+        <div class="attraction-item-body">
+          <h3>${attraction.name}</h3>
+          <div class="attraction-item-meta">
+            <span class="meta-tag">📍 ${attraction.location}</span>
+            <span class="meta-tag">🏷️ ${attraction.category}</span>
+          </div>
+          <div class="attraction-item-actions">
+            <button class="btn btn-warning btn-edit" data-id="${attraction.id}">Edit</button>
+            <button class="btn btn-danger btn-delete" data-id="${attraction.id}">Delete</button>
+          </div>
+        </div>
+      `;
+
+      // Edit button
+      card.querySelector('.btn-edit').addEventListener('click', () => {
+        editAttraction(attraction);
+      });
+
+      // Delete button
+      card.querySelector('.btn-delete').addEventListener('click', () => {
+        deleteAttraction(attraction);
+      });
+
+      return card;
+    }
+
+    // Edit attraction
+    function editAttraction(attraction) {
+      isEditing = true;
+      editingId = attraction.id;
+      formTitle.textContent = 'Edit Attraction';
+
+      document.getElementById('attractionName').value = attraction.name;
+      document.getElementById('attractionCategory').value = attraction.category;
+      document.getElementById('attractionLocation').value = attraction.location;
+      document.getElementById('attractionDescription').value = attraction.description;
+      document.getElementById('attractionContacts').value = attraction.contacts || '';
+
+      if (attraction.image_url) {
+        previewImg.src = attraction.image_url;
+        imagePreview.classList.add('active');
+      }
+
+      addSection.classList.add('active');
+      addSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Delete attraction
+    async function deleteAttraction(attraction) {
+      if (!confirm(`Delete "${attraction.name}"? This cannot be undone.`)) {
+        return;
+      }
+
+      // Delete image from storage if exists
+      if (attraction.image_url) {
+        const urlParts = attraction.image_url.split('/');
+        const filePath = urlParts.slice(-2).join('/');
+        
+        await supabase
+          .storage
+          .from('bharatyatra-images')
+          .remove([filePath]);
+      }
+
+      const { error } = await supabase
+        .from('attractions')
+        .delete()
+        .eq('id', attraction.id);
+
+      if (error) {
+        showMessage(message, 'Delete failed: ' + error.message, 'error');
+        return;
+      }
+
+      showMessage(message, 'Attraction deleted successfully', 'success');
+      loadAttractions();
+    }
+
+    // Initialize
+    checkAuth();
   </script>
 </body>
 </html>
