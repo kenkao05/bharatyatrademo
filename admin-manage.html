@@ -743,11 +743,23 @@
       const contacts = document.getElementById('attractionContacts').value.trim();
 
       let imageUrl = null;
+      let oldImageUrl = null;
+
+      // Get old image URL if editing
+      if (isEditing && editingId) {
+        const { data: existingData } = await supabase
+          .from('attractions')
+          .select('image_url')
+          .eq('id', editingId)
+          .single();
+        
+        oldImageUrl = existingData?.image_url;
+      }
 
       // Upload image if selected
       if (attractionImage.files.length > 0) {
         const file = attractionImage.files[0];
-        const filePath = `attractions/${Date.now()}-${file.name}`;
+        const filePath = `attractions/${Date.now()}-${file.name.replace(/\s+/g, '')}`;
 
         const { error: uploadError } = await supabase
           .storage
@@ -755,6 +767,7 @@
           .upload(filePath, file);
 
         if (uploadError) {
+          console.error('Upload error:', uploadError);
           showMessage(message, 'Image upload failed: ' + uploadError.message, 'error');
           submitBtn.disabled = false;
           submitBtn.textContent = isEditing ? 'Update Attraction' : 'Save Attraction';
@@ -765,6 +778,15 @@
           .storage
           .from('bharatyatra-images')
           .getPublicUrl(filePath).data.publicUrl;
+
+        console.log('New image URL:', imageUrl);
+
+        // Delete old image if exists and we're editing
+        if (oldImageUrl && isEditing) {
+          const urlParts = oldImageUrl.split('/');
+          const oldFilePath = urlParts.slice(-2).join('/');
+          await supabase.storage.from('bharatyatra-images').remove([oldFilePath]);
+        }
       }
 
       const attractionData = {
@@ -776,9 +798,15 @@
         contacts,
       };
 
+      // Always include image_url if we have one (new or old)
       if (imageUrl) {
         attractionData.image_url = imageUrl;
+      } else if (oldImageUrl && isEditing) {
+        // Keep the old image if no new one was uploaded
+        attractionData.image_url = oldImageUrl;
       }
+
+      console.log('Saving data:', attractionData);
 
       let result;
       if (isEditing && editingId) {
@@ -795,6 +823,7 @@
       }
 
       if (result.error) {
+        console.error('Save error:', result.error);
         showMessage(message, 'Error: ' + result.error.message, 'error');
       } else {
         showMessage(message, isEditing ? 'Attraction updated!' : 'Attraction added!', 'success');
