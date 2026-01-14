@@ -1,247 +1,343 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Admin Login</title>
-    <style>
-        :root{
-            --bg:#0f1724; /* dark navy */
-            --card:#0b1220;
-            --accent:#06b6d4;
-            --muted:#94a3b8;
-            --glass: rgba(255,255,255,0.04);
-            --radius:14px;
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
-        }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* --- Global Reset --- */
-        * {
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
 
-        /* --- Dark Background --- */
-        html, body {
-            height: 100%;
-        }
-        
-        body {
-            background: linear-gradient(180deg, var(--bg) 0%, #071021 100%);
-            color: #e6eef6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 32px;
-        }
+    .login-container {
+      background: white;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 450px;
+      width: 100%;
+      animation: slideUp 0.5s ease;
+    }
 
-        /* --- Glass Login Container --- */
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            border-radius: var(--radius);
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-            border: 1px solid rgba(255,255,255,0.03);
-            backdrop-filter: blur(6px);
-            text-align: center;
-            animation: fadeIn 1.5s ease;
-        }
-        
-        @keyframes fadeIn { 
-            from { opacity: 0; transform: translateY(20px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-        /* --- Title --- */
-        .login-container h2 {
-            margin-bottom: 30px;
-            letter-spacing: 1px;
-            color: #e6eef6;
-            font-size: 1.8rem;
-            font-weight: 600;
-        }
+    .logo {
+      text-align: center;
+      margin-bottom: 35px;
+    }
 
-        /* --- Form Inputs --- */
-        .login-container input {
-            width: 100%;
-            padding: 14px 16px;
-            margin: 16px 0;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            outline: none;
-            background: var(--glass);
-            color: #e6eef6;
-            font-size: 14px;
-            transition: box-shadow 0.2s, border-color 0.2s;
-            box-sizing: border-box;
-        }
-        
-        .login-container input::placeholder {
-            color: var(--muted);
-        }
-        
-        .login-container input:focus {
-            box-shadow: 0 6px 18px rgba(6,182,212,0.08);
-            border-color: rgba(6,182,212,0.22);
-        }
+    .logo h1 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 8px;
+    }
 
-        /* --- Submit Button --- */
-        .login-container button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 20px;
-            border: none;
-            border-radius: 10px;
-            background: linear-gradient(90deg, #1062b9, #410596);
-            color: #042028;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .login-container button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
-        }
+    .logo p {
+      color: #666;
+      font-size: 14px;
+    }
 
-        /* Fixed back button */
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            background: rgba(74, 144, 226, 0.2);
-            color: white;
-            font-weight: 600;
-            border-radius: 30px;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(4px);
-            cursor: pointer;
-            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, 'Helvetica Neue', Arial;
-        }
+    .form-group {
+      margin-bottom: 25px;
+    }
 
-        .back-btn:hover {
-            transform: translateX(-5px);
-            background: linear-gradient(135deg, #4A90E2, var(--accent));
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-        }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-        /* Verification modal */
-        #verifyBox {
-            display: none;
-            margin-top: 24px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        #verifyBox p {
-            color: var(--muted);
-            margin-bottom: 16px;
-            font-size: 14px;
-        }
-        
-        #verifyBox input {
-            text-align: center;
-            font-weight: 600;
-            letter-spacing: 2px;
-            background: rgba(255,255,255,0.08);
-        }
-        
-        #verifyBox button {
-            background: linear-gradient(90deg, #1062b9, #410596);
-            margin-top: 16px;
-        }
-        
-        #verifyBox button:hover {
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-        }
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
 
-        /* Responsive */
-        @media (max-width: 480px) {
-            body {
-                padding: 20px;
-            }
-            
-            .login-container {
-                padding: 30px 25px;
-            }
-            
-            .back-btn {
-                top: 15px;
-                right: 15px;
-                padding: 0.4rem 0.8rem;
-                font-size: 14px;
-            }
-        }
-        </style>
-    </head>
-    <body>
-        <a href="index.html" class="back-btn" id="backBtn">
-            ← Back
-        </a>
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
 
-        <div class="login-container">
-            <h2>Admin Login</h2>
-            <form id="loginForm">
-                <input type="text" id="username" placeholder="Admin Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
+    input::placeholder {
+      color: #aaa;
+    }
 
-            <!-- Second factor section -->
-            <div id="verifyBox">
-                <p>Enter Verification Code</p>
-                <input type="text" id="verifyCode" maxlength="6" placeholder="6-digit code">
-                <button onclick="verifyCode()">Verify</button>
-            </div>
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .message.error {
+      background: #fee;
+      color: #c33;
+      border: 1px solid #fcc;
+    }
+
+    .message.success {
+      background: #efe;
+      color: #3c3;
+      border: 1px solid #cfc;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      background: #e0e0e0;
+    }
+
+    .divider span {
+      background: white;
+      padding: 0 15px;
+      color: #999;
+      font-size: 13px;
+      position: relative;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.3s;
+    }
+
+    .footer a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .btn-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 40px 30px;
+      }
+
+      .logo h1 {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <h1>🏛️ BharatYatra</h1>
+      <p>Admin Portal</p>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email"
+          placeholder="admin@example.com"
+          required
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password"
+          placeholder="Enter your password"
+          required
+          autocomplete="current-password"
+        />
+      </div>
+
+      <button type="submit" class="btn" id="loginBtn">
+        <div class="btn-content">
+          <span id="btnText">Sign In</span>
+          <div class="loading-spinner" id="spinner"></div>
         </div>
+      </button>
+    </form>
 
-        <script>
-        /* --- Simple admin credentials --- */
-        const ADMIN_USER = "admin";
-        const ADMIN_PASS = "admin123";
-        let generatedCode = "";
+    <div class="footer">
+      <a href="/">← Back to Website</a>
+    </div>
+  </div>
 
-        /* --- Login form submit --- */
-        document.getElementById("loginForm").addEventListener("submit", function(e){
-        e.preventDefault();
-        const user = document.getElementById("username").value.trim();
-        const pass = document.getElementById("password").value.trim();
+  <script type="module">
+    import { login, redirectIfAuthenticated } from './js/auth-helper.js';
 
-        if(user === ADMIN_USER && pass === ADMIN_PASS){
-            generatedCode = Math.floor(100000 + Math.random()*900000).toString();
-            alert("Your verification code is: " + generatedCode + "\n(For demo purposes)");
-            document.getElementById("verifyBox").style.display = "block";
-        } else {
-            alert("Invalid username or password!");
-        }
-        });
+    // Elements
+    const loginForm = document.getElementById('loginForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    const spinner = document.getElementById('spinner');
+    const message = document.getElementById('message');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
 
-        /* --- Verify code --- */
-        function verifyCode(){
-        const code = document.getElementById("verifyCode").value.trim();
-        if(code === generatedCode){
-            alert("✅ Login successful! Welcome Admin.");
-            window.location.href = "admin-dashboard.html";
-        } else {
-            alert("❌ Incorrect code. Try again.");
-        }
-        }
+    // Show message
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type}`;
+      message.style.display = 'block';
 
-        
-        
-        
-        </script>
-    </body>
+      if (type === 'success') {
+        setTimeout(() => {
+          message.style.display = 'none';
+        }, 2000);
+      }
+    }
+
+    // Handle login
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const password = passwordInput.value.trim();
+
+      if (!email || !password) {
+        showMessage('Please enter both email and password', 'error');
+        return;
+      }
+
+      // Disable button and show loading
+      loginBtn.disabled = true;
+      btnText.style.display = 'none';
+      spinner.style.display = 'block';
+      message.style.display = 'none';
+
+      // Attempt login
+      const { user, error } = await login(email, password);
+
+      if (error) {
+        // Login failed
+        showMessage(error, 'error');
+        loginBtn.disabled = false;
+        btnText.style.display = 'inline';
+        spinner.style.display = 'none';
+        return;
+      }
+
+      // Login successful
+      showMessage('Login successful! Redirecting...', 'success');
+      
+      // Redirect to dashboard
+      setTimeout(() => {
+        window.location.href = '/admin-dashboard.html';
+      }, 500);
+    });
+
+    // Allow Enter key to submit
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        loginForm.dispatchEvent(new Event('submit'));
+      }
+    });
+
+    // Check if already logged in
+    redirectIfAuthenticated();
+  </script>
+</body>
 </html>
