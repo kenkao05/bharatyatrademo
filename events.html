@@ -121,6 +121,35 @@
       padding-right: 40px;
     }
 
+    .back-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 30px;
+        text-decoration: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        transition: all 0.3s ease;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(10px);
+        }
+
+    .back-btn:hover {
+        transform: translateX(-5px);
+        background: rgba(255, 107, 53, 0.95);
+        color: white;
+        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        border-color: rgba(255, 107, 53, 0.5);
+    }
+
     /* Events Section */
     .events-section {
       padding: 60px 20px;
@@ -499,6 +528,9 @@
   <section class="hero">
     <h1>🎉 Events in India</h1>
     <p>Discover festivals, concerts, cultural events, and celebrations across incredible India</p>
+    <a href="javascript:history.back()" class="back-btn">
+      ← Back
+    </a>
   </section>
 
   <!-- Filters Section -->
