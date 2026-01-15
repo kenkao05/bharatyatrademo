@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Manage Attractions</title>
+  <title>Manage Attractions - Admin</title>
   <style>
     * {
       margin: 0;
@@ -23,31 +23,10 @@
       margin: 0 auto;
     }
 
-    /* Login Section */
-    .login-card {
+    /* Navigation Bar */
+    .navbar {
       background: white;
-      padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-      max-width: 450px;
-      margin: 100px auto;
-    }
-
-    .login-card h1 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 30px;
-      font-size: 28px;
-    }
-
-    /* Admin Panel */
-    .admin-panel {
-      display: none;
-    }
-
-    .header {
-      background: white;
-      padding: 20px 30px;
+      padding: 15px 25px;
       border-radius: 15px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       margin-bottom: 30px;
@@ -58,68 +37,57 @@
       gap: 15px;
     }
 
-    .header h1 {
-      color: #333;
-      font-size: 26px;
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
     }
 
-    .header-actions {
+    .nav-title {
+      font-size: 20px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
+
+    .nav-link {
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .nav-link:hover {
+      background: #f5f5f5;
+      color: #667eea;
+    }
+
+    .nav-link.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .nav-right {
       display: flex;
       align-items: center;
       gap: 15px;
     }
 
-    .user-email {
+    .user-info {
+      font-size: 14px;
       color: #666;
-      font-size: 14px;
     }
 
-    /* Form Elements */
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #555;
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    input[type="email"],
-    input[type="password"],
-    input[type="text"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      transition: border-color 0.3s;
-      font-family: inherit;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      outline: none;
-      border-color: #667eea;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    select {
-      cursor: pointer;
-    }
-
-    /* Buttons */
     .btn {
-      padding: 12px 24px;
+      padding: 10px 20px;
       border-radius: 8px;
       border: none;
       font-size: 14px;
@@ -127,6 +95,21 @@
       cursor: pointer;
       transition: all 0.3s;
       font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-logout {
+      background: #fee;
+      color: #c33;
+      border: 2px solid #fcc;
+    }
+
+    .btn-logout:hover {
+      background: #fcc;
+      transform: translateY(-2px);
     }
 
     .btn-primary {
@@ -184,28 +167,7 @@
       color: #667eea;
     }
 
-    /* Messages */
-    .message {
-      padding: 12px 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      display: none;
-      font-size: 14px;
-    }
-
-    .message.success {
-      background: #d4edda;
-      color: #155724;
-      border: 1px solid #c3e6cb;
-    }
-
-    .message.error {
-      background: #f8d7da;
-      color: #721c24;
-      border: 1px solid #f5c6cb;
-    }
-
-    /* State Selector & Add Button */
+    /* Control Bar */
     .control-bar {
       background: white;
       padding: 25px;
@@ -222,6 +184,47 @@
     .state-selector {
       flex: 1;
       min-width: 250px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    select {
+      cursor: pointer;
     }
 
     /* Add Form Section */
@@ -248,10 +251,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-    }
-
-    .file-input-wrapper {
-      position: relative;
     }
 
     .file-preview {
@@ -346,67 +345,24 @@
       font-size: 13px;
     }
 
-    /* Edit Modal */
-    .modal-overlay {
+    .message {
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      overflow-y: auto;
+      font-size: 14px;
     }
 
-    .modal-overlay.active {
-      display: flex;
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
     }
 
-    .modal-content {
-      background: white;
-      border-radius: 15px;
-      max-width: 800px;
-      width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .modal-header {
-      padding: 25px 30px;
-      border-bottom: 1px solid #e9ecef;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .modal-header h2 {
-      color: #333;
-      font-size: 22px;
-    }
-
-    .modal-close {
-      background: #f8f9fa;
-      border: none;
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 20px;
-      transition: all 0.3s;
-    }
-
-    .modal-close:hover {
-      background: #dc3545;
-      color: white;
-    }
-
-    .modal-body {
-      padding: 30px;
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
     }
 
     .loading {
@@ -421,7 +377,6 @@
       color: #999;
     }
 
-    /* Responsive */
     @media (max-width: 768px) {
       .form-row {
         grid-template-columns: 1fr;
@@ -438,167 +393,134 @@
       .state-selector {
         width: 100%;
       }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .navbar {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Login Section -->
-    <div class="login-card" id="loginSection">
-      <h1>Admin Login</h1>
-      
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input 
-            type="email" 
-            id="email" 
-            placeholder="admin@example.com"
-            required
-          />
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <div class="nav-title">🏛️ Manage Attractions</div>
+        <div class="nav-links">
+          <a href="/admin-dashboard.html" class="nav-link">🏠 Dashboard</a>
+          <a href="/admin-submissions.html" class="nav-link">📝 Submissions</a>
+          <a href="/admin-manage.html" class="nav-link active">🏛️ Attractions</a>
         </div>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <span id="userEmail">Loading...</span></span>
+        <button class="btn btn-logout" id="logoutBtn">Logout</button>
+      </div>
+    </nav>
 
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input 
-            type="password" 
-            id="password" 
-            placeholder="Enter your password"
-            required
-          />
-        </div>
+    <div id="message" class="message"></div>
 
-        <button type="submit" class="btn btn-primary" id="loginBtn">
-          Login
-        </button>
-      </form>
-
-      <div id="loginMessage" class="message"></div>
+    <!-- Control Bar -->
+    <div class="control-bar">
+      <div class="state-selector">
+        <label for="stateSelect">Select State</label>
+        <select id="stateSelect">
+          <option value="Gujarat">Gujarat</option>
+          <option value="Rajasthan">Rajasthan</option>
+          <option value="Assam">Assam</option>
+          <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+          <option value="Kerala">Kerala</option>
+        </select>
+      </div>
+      <button class="btn btn-success" id="toggleAddBtn">+ Add New Attraction</button>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="admin-panel" id="adminPanel">
-      <!-- Header -->
-      <div class="header">
-        <h1>Manage Attractions</h1>
-        <div class="header-actions">
-          <span class="user-email" id="userEmail"></span>
-          <button class="btn btn-ghost" id="logoutBtn">Logout</button>
+    <!-- Add/Edit Form Section -->
+    <div class="add-section" id="addSection">
+      <h2 id="formTitle">Add New Attraction</h2>
+      <form id="attractionForm">
+        <input type="hidden" id="editId" value="">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="attractionName">Attraction Name *</label>
+            <input type="text" id="attractionName" required placeholder="e.g., Statue of Unity">
+          </div>
+
+          <div class="form-group">
+            <label for="attractionCategory">Category *</label>
+            <select id="attractionCategory" required>
+              <option value="">Select category</option>
+              <option value="Monument">Monument</option>
+              <option value="Temple">Temple</option>
+              <option value="Beach">Beach</option>
+              <option value="Wildlife">Wildlife</option>
+              <option value="Historical">Historical</option>
+              <option value="Natural Wonder">Natural Wonder</option>
+              <option value="Museum">Museum</option>
+              <option value="Fort">Fort</option>
+              <option value="Palace">Palace</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
         </div>
-      </div>
 
-      <div id="message" class="message"></div>
-
-      <!-- Control Bar -->
-      <div class="control-bar">
-        <div class="state-selector">
-          <label for="stateSelect">Select State</label>
-          <select id="stateSelect">
-            <option value="Gujarat">Gujarat</option>
-            <option value="Rajasthan">Rajasthan</option>
-            <option value="Assam">Assam</option>
-            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
-            <option value="Kerala">Kerala</option>
-          </select>
+        <div class="form-group">
+          <label for="attractionLocation">Location *</label>
+          <input type="text" id="attractionLocation" required placeholder="e.g., Kevadia, Narmada District">
         </div>
-        <button class="btn btn-success" id="toggleAddBtn">+ Add New Attraction</button>
-      </div>
 
-      <!-- Add/Edit Form Section -->
-      <div class="add-section" id="addSection">
-        <h2 id="formTitle">Add New Attraction</h2>
-        <form id="attractionForm">
-          <input type="hidden" id="editId" value="">
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="attractionName">Attraction Name *</label>
-              <input type="text" id="attractionName" required placeholder="e.g., Statue of Unity">
-            </div>
-
-            <div class="form-group">
-              <label for="attractionCategory">Category *</label>
-              <select id="attractionCategory" required>
-                <option value="">Select category</option>
-                <option value="Monument">Monument</option>
-                <option value="Temple">Temple</option>
-                <option value="Beach">Beach</option>
-                <option value="Wildlife">Wildlife</option>
-                <option value="Historical">Historical</option>
-                <option value="Natural Wonder">Natural Wonder</option>
-                <option value="Museum">Museum</option>
-                <option value="Fort">Fort</option>
-                <option value="Palace">Palace</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="attractionLocation">Location *</label>
-            <input type="text" id="attractionLocation" required placeholder="e.g., Kevadia, Narmada District">
-          </div>
-
-          <div class="form-group">
-            <label for="attractionDescription">Description *</label>
-            <textarea id="attractionDescription" required placeholder="Describe the attraction, its history, and what makes it special..." rows="5"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label for="attractionContacts">Contact Information</label>
-            <textarea id="attractionContacts" placeholder="Guide: Name - Phone: +91-XXXXX&#10;Travel Agency: Name - Phone: +91-XXXXX&#10;Hotel: Name - Phone: +91-XXXXX" rows="4"></textarea>
-            <small style="color: #666; font-size: 12px;">Enter each contact on a new line</small>
-          </div>
-
-          <div class="form-group">
-            <label for="attractionImage">Upload Image</label>
-            <input type="file" id="attractionImage" accept="image/*">
-            <div class="file-preview" id="imagePreview">
-              <img id="previewImg" src="" alt="Preview">
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 15px;">
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="flex: 1;">
-              Save Attraction
-            </button>
-            <button type="button" class="btn btn-ghost" id="cancelBtn" style="width: auto;">
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <!-- Attractions List -->
-      <div class="attractions-section">
-        <h2>Attractions for <span id="currentState">Gujarat</span></h2>
-        <div id="loadingState" class="loading">Loading attractions...</div>
-        <div id="noAttractionsState" class="no-attractions" style="display: none;">
-          No attractions found. Click "Add New Attraction" to create one.
+        <div class="form-group">
+          <label for="attractionDescription">Description *</label>
+          <textarea id="attractionDescription" required placeholder="Describe the attraction..." rows="5"></textarea>
         </div>
-        <div class="attractions-grid" id="attractionsGrid"></div>
+
+        <div class="form-group">
+          <label for="attractionContacts">Contact Information</label>
+          <textarea id="attractionContacts" placeholder="Guide: Name - Phone: +91-XXXXX&#10;Travel Agency: Name - Phone: +91-XXXXX" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="attractionImage">Upload Image</label>
+          <input type="file" id="attractionImage" accept="image/*">
+          <div class="file-preview" id="imagePreview">
+            <img id="previewImg" src="" alt="Preview">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="flex: 1;">
+            Save Attraction
+          </button>
+          <button type="button" class="btn btn-ghost" id="cancelBtn" style="width: auto;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Attractions List -->
+    <div class="attractions-section">
+      <h2>Attractions for <span id="currentState">Gujarat</span></h2>
+      <div id="loadingState" class="loading">Loading attractions...</div>
+      <div id="noAttractionsState" class="no-attractions" style="display: none;">
+        No attractions found. Click "Add New Attraction" to create one.
       </div>
+      <div class="attractions-grid" id="attractionsGrid"></div>
     </div>
   </div>
 
   <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+    import { requireAuth, logout, supabase } from './js/auth-helper.js';
 
-    // ⚠️ REPLACE WITH YOUR SUPABASE CREDENTIALS
-    const SUPABASE_URL = 'https://hmobboiupblojankdaah.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE';
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // Elements
-    const loginSection = document.getElementById('loginSection');
-    const adminPanel = document.getElementById('adminPanel');
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const loginMessage = document.getElementById('loginMessage');
     const message = document.getElementById('message');
     const userEmailEl = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
 
     const stateSelect = document.getElementById('stateSelect');
     const currentStateEl = document.getElementById('currentState');
@@ -617,74 +539,31 @@
     const imagePreview = document.getElementById('imagePreview');
     const previewImg = document.getElementById('previewImg');
 
-    let currentUser = null;
     let currentState = 'Gujarat';
     let isEditing = false;
     let editingId = null;
 
     // Show message
-    function showMessage(element, text, type) {
-      element.textContent = text;
-      element.className = `message ${type}`;
-      element.style.display = 'block';
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type}`;
+      message.style.display = 'block';
       
       setTimeout(() => {
-        element.style.display = 'none';
+        message.style.display = 'none';
       }, 5000);
     }
 
-    // Check auth
-    async function checkAuth() {
-      const { data: { user } } = await supabase.auth.getUser();
+    // Initialize
+    async function init() {
+      const user = await requireAuth();
       
-      if (user) {
-        currentUser = user;
-        showAdminPanel(user);
-        loadAttractions();
-      }
-    }
-
-    // Login
-    loginForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      loginBtn.disabled = true;
-      loginBtn.textContent = 'Logging in...';
-
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        showMessage(loginMessage, 'Login failed: ' + error.message, 'error');
-        loginBtn.disabled = false;
-        loginBtn.textContent = 'Login';
+      if (!user) {
         return;
       }
 
-      currentUser = data.user;
-      showAdminPanel(data.user);
-      loadAttractions();
-      
-      loginBtn.disabled = false;
-      loginBtn.textContent = 'Login';
-    });
-
-    // Logout
-    logoutBtn.addEventListener('click', async () => {
-      await supabase.auth.signOut();
-      currentUser = null;
-      loginSection.style.display = 'block';
-      adminPanel.style.display = 'none';
-      loginForm.reset();
-    });
-
-    // Show admin panel
-    function showAdminPanel(user) {
-      loginSection.style.display = 'none';
-      adminPanel.style.display = 'block';
       userEmailEl.textContent = user.email;
+      loadAttractions();
     }
 
     // State selector
@@ -745,7 +624,6 @@
       let imageUrl = null;
       let oldImageUrl = null;
 
-      // Get old image URL if editing
       if (isEditing && editingId) {
         const { data: existingData } = await supabase
           .from('attractions')
@@ -756,7 +634,6 @@
         oldImageUrl = existingData?.image_url;
       }
 
-      // Upload image if selected
       if (attractionImage.files.length > 0) {
         const file = attractionImage.files[0];
         const filePath = `attractions/${Date.now()}-${file.name.replace(/\s+/g, '')}`;
@@ -767,8 +644,7 @@
           .upload(filePath, file);
 
         if (uploadError) {
-          console.error('Upload error:', uploadError);
-          showMessage(message, 'Image upload failed: ' + uploadError.message, 'error');
+          showMessage('Image upload failed: ' + uploadError.message, 'error');
           submitBtn.disabled = false;
           submitBtn.textContent = isEditing ? 'Update Attraction' : 'Save Attraction';
           return;
@@ -779,9 +655,6 @@
           .from('bharatyatra-images')
           .getPublicUrl(filePath).data.publicUrl;
 
-        console.log('New image URL:', imageUrl);
-
-        // Delete old image if exists and we're editing
         if (oldImageUrl && isEditing) {
           const urlParts = oldImageUrl.split('/');
           const oldFilePath = urlParts.slice(-2).join('/');
@@ -798,35 +671,28 @@
         contacts,
       };
 
-      // Always include image_url if we have one (new or old)
       if (imageUrl) {
         attractionData.image_url = imageUrl;
       } else if (oldImageUrl && isEditing) {
-        // Keep the old image if no new one was uploaded
         attractionData.image_url = oldImageUrl;
       }
 
-      console.log('Saving data:', attractionData);
-
       let result;
       if (isEditing && editingId) {
-        // Update existing
         result = await supabase
           .from('attractions')
           .update(attractionData)
           .eq('id', editingId);
       } else {
-        // Insert new
         result = await supabase
           .from('attractions')
           .insert([attractionData]);
       }
 
       if (result.error) {
-        console.error('Save error:', result.error);
-        showMessage(message, 'Error: ' + result.error.message, 'error');
+        showMessage('Error: ' + result.error.message, 'error');
       } else {
-        showMessage(message, isEditing ? 'Attraction updated!' : 'Attraction added!', 'success');
+        showMessage(isEditing ? 'Attraction updated!' : 'Attraction added!', 'success');
         attractionForm.reset();
         imagePreview.classList.remove('active');
         addSection.classList.remove('active');
@@ -854,7 +720,7 @@
       loadingState.style.display = 'none';
 
       if (error) {
-        showMessage(message, 'Error loading: ' + error.message, 'error');
+        showMessage('Error loading: ' + error.message, 'error');
         return;
       }
 
@@ -891,12 +757,10 @@
         </div>
       `;
 
-      // Edit button
       card.querySelector('.btn-edit').addEventListener('click', () => {
         editAttraction(attraction);
       });
 
-      // Delete button
       card.querySelector('.btn-delete').addEventListener('click', () => {
         deleteAttraction(attraction);
       });
@@ -931,7 +795,6 @@
         return;
       }
 
-      // Delete image from storage if exists
       if (attraction.image_url) {
         const urlParts = attraction.image_url.split('/');
         const filePath = urlParts.slice(-2).join('/');
@@ -948,16 +811,23 @@
         .eq('id', attraction.id);
 
       if (error) {
-        showMessage(message, 'Delete failed: ' + error.message, 'error');
+        showMessage('Delete failed: ' + error.message, 'error');
         return;
       }
 
-      showMessage(message, 'Attraction deleted successfully', 'success');
+      showMessage('Attraction deleted successfully', 'success');
       loadAttractions();
     }
 
+    // Logout
+    logoutBtn.addEventListener('click', async () => {
+      if (confirm('Are you sure you want to logout?')) {
+        await logout();
+      }
+    });
+
     // Initialize
-    checkAuth();
+    init();
   </script>
 </body>
 </html>
