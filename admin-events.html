@@ -1,364 +1,954 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Management - Admin</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage Events - Admin</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: linear-gradient(180deg, #0f1724 0%, #071021 100%);
-            color: #e6eef6;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-top: 60px;
-        }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-        .back-btn {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            background: rgba(74, 144, 226, 0.2);
-            color: white;
-            font-weight: 600;
-            border-radius: 30px;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(4px);
-            cursor: pointer;
-        }
+    /* Navigation Bar */
+    .navbar {
+      background: white;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
 
-        .back-btn:hover {
-            transform: translateX(-5px);
-            background: linear-gradient(135deg, #4A90E2, #06b6d4);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
-        }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
 
-        .form-section {
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            border-radius: 14px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-            border: 1px solid rgba(255,255,255,0.03);
-            backdrop-filter: blur(6px);
-            margin-bottom: 40px;
-        }
+    .nav-title {
+      font-size: 20px;
+      color: #333;
+      font-weight: 600;
+    }
 
-        .form-title {
-            font-size: 2rem;
-            color: #e6eef6;
-            margin-bottom: 30px;
-            text-align: center;
-            font-weight: 600;
-        }
+    .nav-links {
+      display: flex;
+      gap: 15px;
+    }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+    .nav-link {
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
 
-        .date-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
+    .nav-link:hover {
+      background: #f5f5f5;
+      color: #667eea;
+    }
 
-        label {
-            display: block;
-            color: #94a3b8;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
+    .nav-link.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
 
-        input[type="date"],
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 12px 14px;
-            border-radius: 10px;
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.03);
-            color: #e6eef6;
-            font-size: 0.95rem;
-            outline: none;
-            transition: all 0.3s ease;
-        }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-        input[type="date"]:focus,
-        input[type="text"]:focus,
-        textarea:focus {
-            box-shadow: 0 6px 18px rgba(6,182,212,0.08);
-            border-color: rgba(6,182,212,0.22);
-            background: rgba(255,255,255,0.06);
-        }
+    .user-info {
+      font-size: 14px;
+      color: #666;
+    }
 
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .submit-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(90deg, #06b6d4, #0ea5a7);
-            color: #042028;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
+    .btn-logout {
+      background: #fee;
+      color: #c33;
+      border: 2px solid #fcc;
+    }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.3);
-        }
+    .btn-logout:hover {
+      background: #fcc;
+      transform: translateY(-2px);
+    }
 
-        .success-message {
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #4ade80;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: none;
-            text-align: center;
-        }
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      width: 100%;
+    }
 
-        .events-list-section {
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            border-radius: 14px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-            border: 1px solid rgba(255,255,255,0.03);
-            backdrop-filter: blur(6px);
-        }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
 
-        .list-title {
-            font-size: 1.8rem;
-            color: #e6eef6;
-            margin-bottom: 25px;
-            text-align: center;
-            font-weight: 600;
-        }
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
 
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
 
-        .event-item {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-        }
+    .btn-success:hover {
+      background: #218838;
+    }
 
-        .event-item:hover {
-            background: rgba(255,255,255,0.08);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(2,6,23,0.4);
-        }
+    .btn-warning {
+      background: #ffc107;
+      color: #333;
+    }
 
-        .event-name {
-            font-size: 1.3rem;
-            color: #06b6d4;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
+    .btn-warning:hover {
+      background: #e0a800;
+    }
 
-        .event-date {
-            color: #94a3b8;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-        }
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
 
-        .event-state {
-            color: #94a3b8;
-            font-style: italic;
-            margin-bottom: 12px;
-            font-size: 0.9rem;
-        }
+    .btn-danger:hover {
+      background: #c82333;
+    }
 
-        .event-description {
-            color: #cbd5e1;
-            line-height: 1.5;
-            font-size: 0.9rem;
-        }
+    .btn-ghost {
+      background: transparent;
+      border: 2px solid #ddd;
+      color: #666;
+    }
 
-        @media (max-width: 768px) {
-            .date-row {
-                grid-template-columns: 1fr;
-            }
+    .btn-ghost:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
 
-            .events-grid {
-                grid-template-columns: 1fr;
-            }
+    /* Stats Cards */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
 
-            .back-btn {
-                top: 15px;
-                right: 15px;
-                padding: 0.4rem 0.8rem;
-                font-size: 14px;
-            }
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
 
-            .form-section,
-            .events-list-section {
-                padding: 25px;
-            }
-        }
-    </style>
+    .stat-value {
+      font-size: 36px;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 14px;
+    }
+
+    /* Control Bar */
+    .control-bar {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #555;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s;
+      font-family: inherit;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    select {
+      cursor: pointer;
+    }
+
+    /* Add Form Section */
+    .add-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+      display: none;
+    }
+
+    .add-section.active {
+      display: block;
+    }
+
+    .add-section h2 {
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 22px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .file-preview {
+      margin-top: 10px;
+      max-width: 200px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .file-preview.active {
+      display: block;
+    }
+
+    .file-preview img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    /* Events Grid */
+    .events-section {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .events-section h2 {
+      color: #333;
+      margin-bottom: 25px;
+      font-size: 22px;
+    }
+
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+    }
+
+    .event-item {
+      background: #f8f9fa;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #e9ecef;
+      transition: all 0.3s;
+    }
+
+    .event-item:hover {
+      border-color: #667eea;
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.2);
+    }
+
+    .event-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .event-item-body {
+      padding: 20px;
+    }
+
+    .event-item h3 {
+      color: #333;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .event-item-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      color: #666;
+    }
+
+    .meta-tag {
+      padding: 4px 12px;
+      background: #e9ecef;
+      border-radius: 15px;
+      font-size: 12px;
+      color: #666;
+      display: inline-block;
+    }
+
+    .event-item-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .event-item-actions .btn {
+      flex: 1;
+      padding: 8px 16px;
+      font-size: 13px;
+    }
+
+    .message {
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .message.success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .message.error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .no-events {
+      text-align: center;
+      padding: 60px;
+      color: #999;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .control-bar {
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .navbar {
+        flex-direction: column;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-    <a href="admin-dashboard.html" class="back-btn">← Back</a>
-
-    <div class="container">
-        <div class="form-section">
-            <h1 class="form-title">Event Management</h1>
-            
-            <div class="success-message" id="successMessage">
-                Event added successfully!
-            </div>
-
-            <form id="eventForm">
-                <div class="date-row">
-                    <div class="form-group">
-                        <label for="fromDate">From Date *</label>
-                        <input type="date" id="fromDate" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="toDate">To Date *</label>
-                        <input type="date" id="toDate" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="eventName">Event Name *</label>
-                    <input type="text" id="eventName" placeholder="Enter event name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="eventState">State Where Celebrated *</label>
-                    <input type="text" id="eventState" placeholder="Enter state name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="eventDescription">Event Description *</label>
-                    <textarea id="eventDescription" placeholder="Enter event description" required></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Add Event</button>
-            </form>
+  <div class="container">
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-left">
+        <div class="nav-title">🎉 Manage Events</div>
+        <div class="nav-links">
+          <a href="/admin-dashboard.html" class="nav-link">🏠 Dashboard</a>
+          <a href="/admin-submissions.html" class="nav-link">📝 Submissions</a>
+          <a href="/admin-manage.html" class="nav-link">🏛️ Attractions</a>
+          <a href="/admin-events.html" class="nav-link active">🎉 Events</a>
         </div>
+      </div>
+      <div class="nav-right">
+        <span class="user-info">👤 <span id="userEmail">Loading...</span></span>
+        <button class="btn btn-logout" id="logoutBtn">Logout</button>
+      </div>
+    </nav>
 
-        <div class="events-list-section">
-            <h2 class="list-title">Existing Events</h2>
-            <div class="events-grid">
-                <div class="event-item">
-                    <div class="event-name">Holi Festival</div>
-                    <div class="event-date">March 13, 2024 - March 14, 2024</div>
-                    <div class="event-state">Uttar Pradesh</div>
-                    <div class="event-description">The vibrant festival of colors celebrating the victory of good over evil and the arrival of spring.</div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-name">Diwali</div>
-                    <div class="event-date">November 1, 2024</div>
-                    <div class="event-state">Maharashtra</div>
-                    <div class="event-description">Festival of lights celebrating the return of Lord Rama and the triumph of light over darkness.</div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-name">Durga Puja</div>
-                    <div class="event-date">October 10, 2024 - October 14, 2024</div>
-                    <div class="event-state">West Bengal</div>
-                    <div class="event-description">Major Hindu festival honoring goddess Durga, featuring elaborate pandals and cultural programs.</div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-name">Onam</div>
-                    <div class="event-date">September 15, 2024 - September 25, 2024</div>
-                    <div class="event-state">Kerala</div>
-                    <div class="event-description">Harvest festival celebrating the homecoming of King Mahabali with traditional feasts and boat races.</div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-name">Pushkar Camel Fair</div>
-                    <div class="event-date">November 20, 2024 - November 28, 2024</div>
-                    <div class="event-state">Rajasthan</div>
-                    <div class="event-description">World's largest camel fair featuring livestock trading, cultural performances, and competitions.</div>
-                </div>
-
-                <div class="event-item">
-                    <div class="event-name">Goa Carnival</div>
-                    <div class="event-date">February 10, 2024 - February 13, 2024</div>
-                    <div class="event-state">Goa</div>
-                    <div class="event-description">Colorful street carnival with parades, music, dancing, and vibrant floats celebrating local culture.</div>
-                </div>
-            </div>
-        </div>
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalCount">0</div>
+        <div class="stat-label">Total Events</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="upcomingCount">0</div>
+        <div class="stat-label">Upcoming</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="happeningCount">0</div>
+        <div class="stat-label">Happening Now</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="pastCount">0</div>
+        <div class="stat-label">Past Events</div>
+      </div>
     </div>
 
-    <script>
-        document.getElementById('eventForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const fromDate = document.getElementById('fromDate').value;
-            const toDate = document.getElementById('toDate').value;
-            const eventName = document.getElementById('eventName').value;
-            const eventState = document.getElementById('eventState').value;
-            const eventDescription = document.getElementById('eventDescription').value;
-            
-            // Validate dates
-            if (fromDate && toDate && fromDate > toDate) {
-                alert('From date cannot be later than To date');
-                return;
-            }
-            
-            // Show success message
-            const successMessage = document.getElementById('successMessage');
-            successMessage.style.display = 'block';
-            
-            // Hide success message after 3 seconds
-            setTimeout(() => {
-                successMessage.style.display = 'none';
-            }, 3000);
-            
-            // Clear form (static implementation - data not actually saved)
-            this.reset();
-            
-            // In a real implementation, you would send this data to a backend
-            console.log('Event data (not saved - static page):', {
-                fromDate,
-                toDate,
-                eventName,
-                eventState,
-                eventDescription
-            });
-        });
-    </script>
+    <div id="message" class="message"></div>
+
+    <!-- Control Bar -->
+    <div class="control-bar">
+      <h2 style="color: #333; margin: 0;">All Events</h2>
+      <button class="btn btn-success" id="toggleAddBtn">+ Add New Event</button>
+    </div>
+
+    <!-- Add/Edit Form Section -->
+    <div class="add-section" id="addSection">
+      <h2 id="formTitle">Add New Event</h2>
+      <form id="eventForm">
+        <input type="hidden" id="editId" value="">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventName">Event Name *</label>
+            <input type="text" id="eventName" required placeholder="e.g., Navratri Festival 2025">
+          </div>
+
+          <div class="form-group">
+            <label for="eventCategory">Category *</label>
+            <select id="eventCategory" required>
+              <option value="">Select category</option>
+              <option value="Festival">Festival</option>
+              <option value="Cultural">Cultural</option>
+              <option value="Concert">Concert</option>
+              <option value="Religious">Religious</option>
+              <option value="Sports">Sports</option>
+              <option value="Exhibition">Exhibition</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventState">State *</label>
+            <select id="eventState" required>
+              <option value="">Select state</option>
+              <option value="Gujarat">Gujarat</option>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Assam">Assam</option>
+              <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+              <option value="Kerala">Kerala</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="eventLocation">Location (City/Venue) *</label>
+            <input type="text" id="eventLocation" required placeholder="e.g., Ahmedabad">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventStartDate">Start Date *</label>
+            <input type="date" id="eventStartDate" required>
+          </div>
+
+          <div class="form-group">
+            <label for="eventEndDate">End Date *</label>
+            <input type="date" id="eventEndDate" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDescription">Description *</label>
+          <textarea id="eventDescription" required placeholder="Describe the event in detail..." rows="5"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="eventFee">Entry Fee</label>
+            <input type="text" id="eventFee" placeholder="e.g., Free or ₹500">
+          </div>
+
+          <div class="form-group">
+            <label for="eventImage">Upload Event Poster/Image</label>
+            <input type="file" id="eventImage" accept="image/*">
+            <div class="file-preview" id="imagePreview">
+              <img id="previewImg" src="" alt="Preview">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="eventContacts">Contact Information</label>
+          <textarea id="eventContacts" placeholder="Organizer: Name - Phone: +91-XXXXX&#10;Booking: website.com" rows="3"></textarea>
+        </div>
+
+        <div style="display: flex; gap: 15px;">
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="flex: 1;">
+            Save Event
+          </button>
+          <button type="button" class="btn btn-ghost" id="cancelBtn" style="width: auto;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Events List -->
+    <div class="events-section">
+      <h2>All Events</h2>
+      <div id="loadingState" class="loading">Loading events...</div>
+      <div id="noEventsState" class="no-events" style="display: none;">
+        No events found. Click "Add New Event" to create one.
+      </div>
+      <div class="events-grid" id="eventsGrid"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { requireAuth, logout, supabase } from './js/auth-helper.js';
+
+    const message = document.getElementById('message');
+    const userEmailEl = document.getElementById('userEmail');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    const toggleAddBtn = document.getElementById('toggleAddBtn');
+    const addSection = document.getElementById('addSection');
+    const eventForm = document.getElementById('eventForm');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const formTitle = document.getElementById('formTitle');
+
+    const loadingState = document.getElementById('loadingState');
+    const noEventsState = document.getElementById('noEventsState');
+    const eventsGrid = document.getElementById('eventsGrid');
+
+    const eventImage = document.getElementById('eventImage');
+    const imagePreview = document.getElementById('imagePreview');
+    const previewImg = document.getElementById('previewImg');
+
+    const totalCountEl = document.getElementById('totalCount');
+    const upcomingCountEl = document.getElementById('upcomingCount');
+    const happeningCountEl = document.getElementById('happeningCount');
+    const pastCountEl = document.getElementById('pastCount');
+
+    let isEditing = false;
+    let editingId = null;
+
+    // Show message
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = `message ${type}`;
+      message.style.display = 'block';
+      
+      setTimeout(() => {
+        message.style.display = 'none';
+      }, 5000);
+    }
+
+    // Initialize
+    async function init() {
+      const user = await requireAuth();
+      
+      if (!user) {
+        return;
+      }
+
+      userEmailEl.textContent = user.email;
+      loadEvents();
+    }
+
+    // Toggle add form
+    toggleAddBtn.addEventListener('click', () => {
+      isEditing = false;
+      editingId = null;
+      formTitle.textContent = 'Add New Event';
+      eventForm.reset();
+      document.getElementById('editId').value = '';
+      imagePreview.classList.remove('active');
+      addSection.classList.toggle('active');
+    });
+
+    // Cancel form
+    cancelBtn.addEventListener('click', () => {
+      addSection.classList.remove('active');
+      eventForm.reset();
+      isEditing = false;
+      editingId = null;
+    });
+
+    // Image preview
+    eventImage.addEventListener('change', () => {
+      const file = eventImage.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          previewImg.src = e.target.result;
+          imagePreview.classList.add('active');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        imagePreview.classList.remove('active');
+      }
+    });
+
+    // Submit form
+    eventForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = isEditing ? 'Updating...' : 'Saving...';
+
+      const name = document.getElementById('eventName').value.trim();
+      const category = document.getElementById('eventCategory').value;
+      const state = document.getElementById('eventState').value;
+      const location = document.getElementById('eventLocation').value.trim();
+      const startDate = document.getElementById('eventStartDate').value;
+      const endDate = document.getElementById('eventEndDate').value;
+      const description = document.getElementById('eventDescription').value.trim();
+      const entryFee = document.getElementById('eventFee').value.trim();
+      const contacts = document.getElementById('eventContacts').value.trim();
+
+      // Validate dates
+      if (new Date(endDate) < new Date(startDate)) {
+        showMessage('End date cannot be before start date', 'error');
+        submitBtn.disabled = false;
+        submitBtn.textContent = isEditing ? 'Update Event' : 'Save Event';
+        return;
+      }
+
+      let imageUrl = null;
+      let oldImageUrl = null;
+
+      if (isEditing && editingId) {
+        const { data: existingData } = await supabase
+          .from('events')
+          .select('image_url')
+          .eq('id', editingId)
+          .single();
+        
+        oldImageUrl = existingData?.image_url;
+      }
+
+      if (eventImage.files.length > 0) {
+        const file = eventImage.files[0];
+        const filePath = `events/${Date.now()}-${file.name.replace(/\s+/g, '')}`;
+
+        const { error: uploadError } = await supabase
+          .storage
+          .from('bharatyatra-images')
+          .upload(filePath, file);
+
+        if (uploadError) {
+          showMessage('Image upload failed: ' + uploadError.message, 'error');
+          submitBtn.disabled = false;
+          submitBtn.textContent = isEditing ? 'Update Event' : 'Save Event';
+          return;
+        }
+
+        imageUrl = supabase
+          .storage
+          .from('bharatyatra-images')
+          .getPublicUrl(filePath).data.publicUrl;
+
+        if (oldImageUrl && isEditing) {
+          const urlParts = oldImageUrl.split('/');
+          const oldFilePath = urlParts.slice(-2).join('/');
+          await supabase.storage.from('bharatyatra-images').remove([oldFilePath]);
+        }
+      }
+
+      const eventData = {
+        name,
+        category,
+        state,
+        location,
+        start_date: startDate,
+        end_date: endDate,
+        description,
+        entry_fee: entryFee || null,
+        contact_info: contacts || null,
+      };
+
+      if (imageUrl) {
+        eventData.image_url = imageUrl;
+      } else if (oldImageUrl && isEditing) {
+        eventData.image_url = oldImageUrl;
+      }
+
+      let result;
+      if (isEditing && editingId) {
+        result = await supabase
+          .from('events')
+          .update(eventData)
+          .eq('id', editingId);
+      } else {
+        result = await supabase
+          .from('events')
+          .insert([eventData]);
+      }
+
+      if (result.error) {
+        showMessage('Error: ' + result.error.message, 'error');
+      } else {
+        showMessage(isEditing ? 'Event updated!' : 'Event added!', 'success');
+        eventForm.reset();
+        imagePreview.classList.remove('active');
+        addSection.classList.remove('active');
+        loadEvents();
+        isEditing = false;
+        editingId = null;
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Save Event';
+    });
+
+    // Load events
+    async function loadEvents() {
+      loadingState.style.display = 'block';
+      eventsGrid.innerHTML = '';
+      noEventsState.style.display = 'none';
+
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .order('start_date', { ascending: true });
+
+      loadingState.style.display = 'none';
+
+      if (error) {
+        showMessage('Error loading: ' + error.message, 'error');
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        noEventsState.style.display = 'block';
+        updateStats(0, 0, 0, 0);
+        return;
+      }
+
+      // Calculate stats
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      let upcoming = 0, happening = 0, past = 0;
+      
+      data.forEach(event => {
+        const start = new Date(event.start_date);
+        const end = new Date(event.end_date);
+        
+        if (today >= start && today <= end) {
+          happening++;
+        } else if (today < start) {
+          upcoming++;
+        } else {
+          past++;
+        }
+      });
+
+      updateStats(data.length, upcoming, happening, past);
+
+      data.forEach(event => {
+        const card = createEventCard(event);
+        eventsGrid.appendChild(card);
+      });
+    }
+
+    // Update stats
+    function updateStats(total, upcoming, happening, past) {
+      totalCountEl.textContent = total;
+      upcomingCountEl.textContent = upcoming;
+      happeningCountEl.textContent = happening;
+      pastCountEl.textContent = past;
+    }
+
+    // Format date
+    function formatDate(date) {
+      return new Date(date).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      });
+    }
+
+    // Create event card
+    function createEventCard(event) {
+      const card = document.createElement('div');
+      card.className = 'event-item';
+
+      const imageUrl = event.image_url || 'https://via.placeholder.com/300x200?text=' + encodeURIComponent(event.name);
+
+      card.innerHTML = `
+        <img src="${imageUrl}" alt="${event.name}">
+        <div class="event-item-body">
+          <h3>${event.name}</h3>
+          <div class="event-item-meta">
+            <div><strong>📅</strong> ${formatDate(event.start_date)} - ${formatDate(event.end_date)}</div>
+            <div><strong>📍</strong> ${event.location}, ${event.state}</div>
+            <div><span class="meta-tag">${event.category}</span></div>
+          </div>
+          <div class="event-item-actions">
+            <button class="btn btn-warning btn-edit" data-id="${event.id}">Edit</button>
+            <button class="btn btn-danger btn-delete" data-id="${event.id}">Delete</button>
+          </div>
+        </div>
+      `;
+
+      card.querySelector('.btn-edit').addEventListener('click', () => {
+        editEvent(event);
+      });
+
+      card.querySelector('.btn-delete').addEventListener('click', () => {
+        deleteEvent(event);
+      });
+
+      return card;
+    }
+
+    // Edit event
+    function editEvent(event) {
+      isEditing = true;
+      editingId = event.id;
+      formTitle.textContent = 'Edit Event';
+
+      document.getElementById('eventName').value = event.name;
+      document.getElementById('eventCategory').value = event.category;
+      document.getElementById('eventState').value = event.state;
+      document.getElementById('eventLocation').value = event.location;
+      document.getElementById('eventStartDate').value = event.start_date;
+      document.getElementById('eventEndDate').value = event.end_date;
+      document.getElementById('eventDescription').value = event.description;
+      document.getElementById('eventFee').value = event.entry_fee || '';
+      document.getElementById('eventContacts').value = event.contact_info || '';
+
+      if (event.image_url) {
+        previewImg.src = event.image_url;
+        imagePreview.classList.add('active');
+      }
+
+      addSection.classList.add('active');
+      addSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Delete event
+    async function deleteEvent(event) {
+      if (!confirm(`Delete "${event.name}"? This cannot be undone.`)) {
+        return;
+      }
+
+      if (event.image_url) {
+        const urlParts = event.image_url.split('/');
+        const filePath = urlParts.slice(-2).join('/');
+        
+        await supabase
+          .storage
+          .from('bharatyatra-images')
+          .remove([filePath]);
+      }
+
+      const { error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', event.id);
+
+      if (error) {
+        showMessage('Delete failed: ' + error.message, 'error');
+        return;
+      }
+
+      showMessage('Event deleted successfully', 'success');
+      loadEvents();
+    }
+
+    // Logout
+    logoutBtn.addEventListener('click', async () => {
+      if (confirm('Are you sure you want to logout?')) {
+        await logout();
+      }
+    });
+
+    // Initialize
+    init();
+  </script>
 </body>
 </html>
