@@ -379,6 +379,26 @@
           </div>
           <span class="card-arrow">→</span>
         </a>
+
+        <!-- Manage Events Card -->
+        <a href="/admin-events.html" class="dashboard-card">
+          <span class="card-icon">🎉</span>
+          <h2 class="card-title">Manage Events</h2>
+          <p class="card-description">
+            Create and manage festivals, concerts, and cultural events. Add dates, locations, and event details.
+          </p>
+          <div class="stats-row">
+            <div class="stat">
+              <span class="stat-value" id="eventsCount">-</span>
+              <span class="stat-label">Total</span>
+            </div>
+            <div class="stat">
+              <span class="stat-value" id="upcomingEvents">-</span>
+              <span class="stat-label">Upcoming</span>
+            </div>
+          </div>
+          <span class="card-arrow">→</span>
+        </a>
       </div>
     </div>
   </div>
@@ -442,12 +462,29 @@
 
         attractionsCountEl.textContent = attractionsCount || 0;
 
+        // Get events count
+        const { count: eventsCount } = await supabase
+          .from('events')
+          .select('*', { count: 'exact', head: true });
+
+        document.getElementById('eventsCount').textContent = eventsCount || 0;
+
+        // Get upcoming events count
+        const { count: upcomingCount } = await supabase
+          .from('events')
+          .select('*', { count: 'exact', head: true })
+          .gte('start_date', today.toISOString().split('T')[0]);
+
+        document.getElementById('upcomingEvents').textContent = upcomingCount || 0;
+
       } catch (error) {
         console.error('Error loading stats:', error);
         // Set defaults on error
         submissionsCountEl.textContent = '0';
         submissionsTodayEl.textContent = '0';
         attractionsCountEl.textContent = '0';
+        document.getElementById('eventsCount').textContent = '0';
+        document.getElementById('upcomingEvents').textContent = '0';
       }
     }
 
