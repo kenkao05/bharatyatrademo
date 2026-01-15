@@ -1,464 +1,807 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Tracking - Bharat Yatra</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Georgia', 'Times New Roman', serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events - BharatYatra</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            background: linear-gradient(135deg, #F8F4EC 0%, #F5EFEB 100%);
-            color: #5A4F41;
-            min-height: 100vh;
-            padding: 20px;
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      overflow-x: hidden;
+    }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FDC830 100%);
+      padding: 80px 20px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
 
-        header {
-            background: rgba(232, 223, 208, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 199, 178, 0.4);
-            color: #5A4F41;
-            padding: 20px 0;
-            box-shadow: 0 8px 32px rgba(90, 79, 65, 0.15);
-            border-radius: 15px;
-            margin-bottom: 30px;
-            position: relative;
-        }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23ffffff"/></svg>') no-repeat bottom;
+      background-size: cover;
+      opacity: 0.3;
+    }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            text-align: center;
-        }
+    .hero h1 {
+      font-size: 56px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
 
-        .header-title {
-            font-size: 2.5rem;
-            color: #7A6A57;
-            font-weight: 600;
-        }
+    .hero p {
+      font-size: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
 
-        .back-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1.2rem;
-            background: rgba(184, 169, 146, 0.6);
-            color: #5A4F41;
-            font-weight: 600;
-            border-radius: 30px;
-            text-decoration: none;
-            box-shadow: 0 4px 12px rgba(90, 79, 65, 0.15);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(212, 199, 178, 0.4);
-            backdrop-filter: blur(8px);
-            cursor: pointer;
-        }
+    /* Filters Section */
+    .filters-section {
+      background: white;
+      padding: 30px 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        .back-btn:hover {
-            transform: translateX(-5px);
-            background: rgba(212, 199, 178, 0.8);
-            box-shadow: 0 6px 18px rgba(90, 79, 65, 0.2);
-        }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
 
-        .filter-section {
-            background: rgba(248, 244, 236, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 199, 178, 0.4);
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(90, 79, 65, 0.15);
-        }
+    .filters {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .filter-title {
-            font-size: 1.5rem;
-            color: #7A6A57;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .filter-group {
+      flex: 1;
+      min-width: 200px;
+      max-width: 300px;
+    }
 
-        .date-inputs {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
+    .filter-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 6px;
+    }
 
-        .date-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+      background: #f9f9f9;
+    }
 
-        .date-group label {
-            color: #8A7D6C;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #FF6B35;
+      background: white;
+    }
 
-        .date-group input {
-            padding: 12px 16px;
-            border: 1px solid rgba(212, 199, 178, 0.6);
-            border-radius: 10px;
-            background: rgba(232, 223, 208, 0.6);
-            color: #5A4F41;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-size: 0.95rem;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-        }
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      padding-right: 40px;
+    }
 
-        .date-group input:focus {
-            outline: none;
-            border-color: rgba(184, 169, 146, 0.8);
-            background: rgba(232, 223, 208, 0.8);
-            box-shadow: 0 0 10px rgba(184, 169, 146, 0.3);
-        }
+    /* Events Section */
+    .events-section {
+      padding: 60px 20px;
+      min-height: 60vh;
+    }
 
-        .clear-btn {
-            padding: 12px 24px;
-            background: rgba(184, 169, 146, 0.8);
-            color: #5A4F41;
-            border: none;
-            border-radius: 10px;
-            font-family: 'Georgia', 'Times New Roman', serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(4px);
-        }
+    .section-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-        .clear-btn:hover {
-            background: rgba(212, 199, 178, 0.9);
-            transform: translateY(-2px);
-        }
+    .section-header h2 {
+      font-size: 36px;
+      color: #333;
+      margin-bottom: 10px;
+    }
 
-        .events-section {
-            background: rgba(248, 244, 236, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 199, 178, 0.4);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(90, 79, 65, 0.15);
-        }
+    .results-count {
+      font-size: 16px;
+      color: #666;
+    }
 
-        .events-title {
-            font-size: 1.8rem;
-            color: #7A6A57;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+    /* Events Grid */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
 
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            padding: 10px;
-        }
+    /* Event Card */
+    .event-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
 
-        .event-card {
-            background: rgba(232, 223, 208, 0.6);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(212, 199, 178, 0.5);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(90, 79, 65, 0.1);
-        }
+    .event-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
 
-        .event-card:hover {
-            transform: translateY(-5px);
-            background: rgba(232, 223, 208, 0.8);
-            box-shadow: 0 8px 25px rgba(90, 79, 65, 0.15);
-        }
+    .event-image {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
 
-        .event-name {
-            font-size: 1.3rem;
-            color: #7A6A57;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
+    .event-status {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
+    }
 
-        .event-date {
-            color: #B8A992;
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
+    .status-happening {
+      background: rgba(40, 167, 69, 0.9);
+      color: white;
+    }
 
-        .event-state {
-            color: #8A7D6C;
-            font-style: italic;
-            margin-bottom: 12px;
-        }
+    .status-upcoming {
+      background: rgba(0, 123, 255, 0.9);
+      color: white;
+    }
 
-        .event-description {
-            color: #8A7D6C;
-            line-height: 1.5;
-            font-size: 0.95rem;
-        }
+    .status-past {
+      background: rgba(108, 117, 125, 0.9);
+      color: white;
+    }
 
-        .no-events {
-            text-align: center;
-            color: #8A7D6C;
-            font-style: italic;
-            padding: 40px;
-            font-size: 1.1rem;
-        }
+    .event-card.past {
+      opacity: 0.7;
+    }
 
-        @media (max-width: 768px) {
-            .date-inputs {
-                flex-direction: column;
-                gap: 15px;
-            }
+    .event-body {
+      padding: 20px;
+    }
 
-            .events-grid {
-                grid-template-columns: 1fr;
-                max-height: 500px;
-            }
+    .event-category {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #FFF3E0;
+      color: #FF6B35;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
 
-            .back-btn {
-                top: 15px;
-                right: 15px;
-                padding: 0.4rem 0.8rem;
-                font-size: 14px;
-            }
+    .event-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
 
-            .header-title {
-                font-size: 2rem;
-            }
-        }
+    .event-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      color: #666;
+    }
 
-        /* Custom scrollbar */
-        .events-grid::-webkit-scrollbar {
-            width: 8px;
-        }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-        .events-grid::-webkit-scrollbar-track {
-            background: rgba(212, 199, 178, 0.3);
-            border-radius: 4px;
-        }
+    .meta-icon {
+      font-size: 16px;
+    }
 
-        .events-grid::-webkit-scrollbar-thumb {
-            background: rgba(184, 169, 146, 0.7);
-            border-radius: 4px;
-        }
+    .event-footer {
+      padding-top: 15px;
+      border-top: 1px solid #f0f0f0;
+    }
 
-        .events-grid::-webkit-scrollbar-thumb:hover {
-            background: rgba(184, 169, 146, 0.9);
-        }
-    </style>
+    .btn-view {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-view:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.4);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+      overflow-y: auto;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: #FF6B35;
+      color: white;
+      transform: rotate(90deg);
+    }
+
+    .modal-image {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 20px 20px 0 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    .modal-body {
+      padding: 40px;
+    }
+
+    .modal-body h2 {
+      font-size: 32px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .modal-tags {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .modal-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: #f5f5f5;
+      border-radius: 25px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .modal-tag strong {
+      color: #FF6B35;
+    }
+
+    .modal-section {
+      margin-bottom: 30px;
+    }
+
+    .modal-section h3 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-section p {
+      font-size: 16px;
+      line-height: 1.8;
+      color: #555;
+    }
+
+    .contact-box {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #FF6B35;
+    }
+
+    .contact-item {
+      padding: 8px 0;
+      font-size: 15px;
+      color: #555;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .contact-item:last-child {
+      border-bottom: none;
+    }
+
+    /* Loading & Empty States */
+    .loading, .no-events {
+      text-align: center;
+      padding: 80px 20px;
+      color: #666;
+    }
+
+    .loading {
+      font-size: 18px;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #f3f3f3;
+      border-top-color: #FF6B35;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .no-events {
+      font-size: 18px;
+    }
+
+    .no-events-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .filters {
+        flex-direction: column;
+      }
+
+      .filter-group {
+        max-width: 100%;
+      }
+
+      .modal-body {
+        padding: 25px;
+      }
+
+      .modal-body h2 {
+        font-size: 24px;
+      }
+
+      .modal-image {
+        height: 250px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>🎉 Events in India</h1>
+    <p>Discover festivals, concerts, cultural events, and celebrations across incredible India</p>
+  </section>
+
+  <!-- Filters Section -->
+  <section class="filters-section">
     <div class="container">
-        <header>
-            <a href="index.html" class="back-btn">← Back</a>
-            <div class="header-content">
-                <h1 class="header-title">Event Tracking</h1>
-            </div>
-        </header>
-
-        <div class="filter-section">
-            <h2 class="filter-title">Filter Events by Date Range</h2>
-            <div class="date-inputs">
-                <div class="date-group">
-                    <label for="fromDate">From Date:</label>
-                    <input type="date" id="fromDate">
-                </div>
-                <div class="date-group">
-                    <label for="toDate">To Date:</label>
-                    <input type="date" id="toDate">
-                </div>
-                <button class="clear-btn" onclick="clearFilters()">Clear Filters</button>
-            </div>
+      <div class="filters">
+        <div class="filter-group">
+          <label for="stateFilter">Filter by State</label>
+          <select id="stateFilter">
+            <option value="">All States</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Assam">Assam</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Kerala">Kerala</option>
+          </select>
         </div>
 
-        <div class="events-section">
-            <h2 class="events-title">Upcoming Events</h2>
-            <div class="events-grid" id="eventsGrid">
-                <!-- Events will be populated by JavaScript -->
-            </div>
+        <div class="filter-group">
+          <label for="categoryFilter">Filter by Category</label>
+          <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Festival">Festival</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Concert">Concert</option>
+            <option value="Religious">Religious</option>
+            <option value="Sports">Sports</option>
+          </select>
         </div>
+
+        <div class="filter-group">
+          <label for="searchInput">Search Events</label>
+          <input type="text" id="searchInput" placeholder="Search by name...">
+        </div>
+      </div>
     </div>
+  </section>
 
-    <script>
-        // Sample event data - you can modify this
-        const events = [
-            {
-                name: "Holi Festival",
-                startDate: "2025-03-13",
-                endDate: "2025-03-14",
-                state: "Uttar Pradesh",
-                description: "The vibrant festival of colors celebrating the victory of good over evil and the arrival of spring."
-            },
-            {
-                name: "Diwali",
-                startDate: "2025-11-01",
-                endDate: "2025-11-01",
-                state: "Maharashtra",
-                description: "Festival of lights celebrating the return of Lord Rama and the triumph of light over darkness."
-            },
-            {
-                name: "Durga Puja",
-                startDate: "2025-10-10",
-                endDate: "2025-10-14",
-                state: "West Bengal",
-                description: "Major Hindu festival honoring goddess Durga, featuring elaborate pandals and cultural programs."
-            },
-            {
-                name: "Onam",
-                startDate: "2025-09-15",
-                endDate: "2025-09-25",
-                state: "Kerala",
-                description: "Harvest festival celebrating the homecoming of King Mahabali with traditional feasts and boat races."
-            },
-            {
-                name: "Pushkar Camel Fair",
-                startDate: "2025-11-20",
-                endDate: "2025-11-28",
-                state: "Rajasthan",
-                description: "World's largest camel fair featuring livestock trading, cultural performances, and competitions."
-            },
-            {
-                name: "Goa Carnival",
-                startDate: "2025-02-10",
-                endDate: "2025-02-13",
-                state: "Goa",
-                description: "Colorful street carnival with parades, music, dancing, and vibrant floats celebrating local culture."
-            },
-            {
-                name: "Kumbh Mela",
-                startDate: "2025-01-15",
-                endDate: "2025-03-15",
-                state: "Uttar Pradesh",
-                description: "Massive religious gathering and pilgrimage where millions of devotees bathe in sacred rivers."
-            },
-            {
-                name: "Hornbill Festival",
-                startDate: "2025-12-01",
-                endDate: "2025-12-10",
-                state: "Nagaland",
-                description: "Festival showcasing Naga tribal culture, traditions, music, and cuisine in the northeastern region."
-            },
-            {
-                name: "Hemis Festival",
-                startDate: "2025-07-20",
-                endDate: "2025-07-21",
-                state: "Ladakh",
-                description: "Buddhist festival celebrating Guru Padmasambhava with masked dances and traditional ceremonies."
-            },
-            {
-                name: "Thrissur Pooram",
-                startDate: "2025-04-25",
-                endDate: "2025-04-26",
-                state: "Kerala",
-                description: "Grand temple festival featuring decorated elephants, fireworks, and traditional percussion music."
-            },
-            {
-                name: "Desert Festival",
-                startDate: "2025-02-15",
-                endDate: "2025-02-17",
-                state: "Rajasthan",
-                description: "Cultural festival in Jaisalmer showcasing folk music, camel races, and desert traditions."
-            },
-            {
-                name: "Baisakhi",
-                startDate: "2025-04-13",
-                endDate: "2025-04-14",
-                state: "Punjab",
-                description: "Harvest festival marking the Punjabi New Year with bhangra dancing and community celebrations."
-            }
-        ];
+  <!-- Events Section -->
+  <section class="events-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Upcoming Events</h2>
+        <p class="results-count" id="resultsCount">Loading events...</p>
+      </div>
 
-        function formatEventDate(startDate, endDate) {
-            const start = new Date(startDate);
-            const end = new Date(endDate);
-            
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
-            
-            if (startDate === endDate) {
-                return start.toLocaleDateString('en-US', options);
-            } else {
-                return `${start.toLocaleDateString('en-US', options)} - ${end.toLocaleDateString('en-US', options)}`;
-            }
-        }
+      <div id="loadingState" class="loading">
+        <div class="spinner"></div>
+        <p>Loading events...</p>
+      </div>
 
-        function isEventInDateRange(event, fromDate, toDate) {
-            if (!fromDate || !toDate) return true;
-            
-            const eventStart = new Date(event.startDate);
-            const eventEnd = new Date(event.endDate);
-            const filterFrom = new Date(fromDate);
-            const filterTo = new Date(toDate);
-            
-            // Check if event overlaps with the selected date range
-            return (eventStart <= filterTo && eventEnd >= filterFrom);
-        }
+      <div id="noEventsState" class="no-events" style="display: none;">
+        <div class="no-events-icon">📅</div>
+        <p>No events found matching your filters</p>
+      </div>
 
-        function renderEvents(filteredEvents = events) {
-            const eventsGrid = document.getElementById('eventsGrid');
-            
-            if (filteredEvents.length === 0) {
-                eventsGrid.innerHTML = '<div class="no-events">No events found for the selected date range.</div>';
-                return;
-            }
-            
-            eventsGrid.innerHTML = filteredEvents.map(event => `
-                <div class="event-card">
-                    <div class="event-name">${event.name}</div>
-                    <div class="event-date">${formatEventDate(event.startDate, event.endDate)}</div>
-                    <div class="event-state">${event.state}</div>
-                    <div class="event-description">${event.description}</div>
-                </div>
-            `).join('');
-        }
+      <div class="events-grid" id="eventsGrid"></div>
+    </div>
+  </section>
 
-        function filterEvents() {
-            const fromDate = document.getElementById('fromDate').value;
-            const toDate = document.getElementById('toDate').value;
-            
-            if (fromDate && toDate && fromDate > toDate) {
-                alert('From date cannot be later than To date');
-                return;
-            }
-            
-            const filteredEvents = events.filter(event => 
-                isEventInDateRange(event, fromDate, toDate)
-            );
-            
-            renderEvents(filteredEvents);
-        }
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content">
+      <button class="modal-close" id="modalClose">×</button>
+      <img class="modal-image" id="modalImage" src="" alt="">
+      <div class="modal-body">
+        <h2 id="modalName"></h2>
+        
+        <div class="modal-tags">
+          <div class="modal-tag">
+            <span>📅</span>
+            <span id="modalDates"></span>
+          </div>
+          <div class="modal-tag">
+            <span>📍</span>
+            <span id="modalLocation"></span>
+          </div>
+          <div class="modal-tag">
+            <span>🏷️</span>
+            <span id="modalCategory"></span>
+          </div>
+          <div class="modal-tag">
+            <span>🎟️</span>
+            <span id="modalFee"></span>
+          </div>
+        </div>
 
-        function clearFilters() {
-            document.getElementById('fromDate').value = '';
-            document.getElementById('toDate').value = '';
-            renderEvents();
-        }
+        <div class="modal-section">
+          <h3>📝 About This Event</h3>
+          <p id="modalDescription"></p>
+        </div>
 
-        // Event listeners
-        document.getElementById('fromDate').addEventListener('change', filterEvents);
-        document.getElementById('toDate').addEventListener('change', filterEvents);
+        <div class="modal-section">
+          <h3>📞 Contact Information</h3>
+          <div class="contact-box" id="modalContacts"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        // Initial render
-        renderEvents();
-    </script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://hmobboiupblojankdaah.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Elements
+    const eventsGrid = document.getElementById('eventsGrid');
+    const loadingState = document.getElementById('loadingState');
+    const noEventsState = document.getElementById('noEventsState');
+    const resultsCount = document.getElementById('resultsCount');
+    const stateFilter = document.getElementById('stateFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const searchInput = document.getElementById('searchInput');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalClose = document.getElementById('modalClose');
+
+    let allEvents = [];
+    let filteredEvents = [];
+
+    // Load events
+    async function loadEvents() {
+      loadingState.style.display = 'block';
+      eventsGrid.innerHTML = '';
+      noEventsState.style.display = 'none';
+
+      const { data, error } = await supabase
+        .from('events')
+        .select('*')
+        .order('start_date', { ascending: true });
+
+      loadingState.style.display = 'none';
+
+      if (error) {
+        console.error('Error:', error);
+        resultsCount.textContent = 'Error loading events';
+        return;
+      }
+
+      allEvents = data || [];
+      applyFilters();
+    }
+
+    // Apply filters
+    function applyFilters() {
+      const stateValue = stateFilter.value.toLowerCase();
+      const categoryValue = categoryFilter.value.toLowerCase();
+      const searchValue = searchInput.value.toLowerCase();
+
+      filteredEvents = allEvents.filter(event => {
+        const matchState = !stateValue || event.state.toLowerCase() === stateValue;
+        const matchCategory = !categoryValue || event.category.toLowerCase() === categoryValue;
+        const matchSearch = !searchValue || event.name.toLowerCase().includes(searchValue);
+        
+        return matchState && matchCategory && matchSearch;
+      });
+
+      renderEvents();
+    }
+
+    // Render events
+    function renderEvents() {
+      eventsGrid.innerHTML = '';
+
+      if (filteredEvents.length === 0) {
+        noEventsState.style.display = 'block';
+        resultsCount.textContent = 'No events found';
+        return;
+      }
+
+      noEventsState.style.display = 'none';
+      resultsCount.textContent = `${filteredEvents.length} event${filteredEvents.length !== 1 ? 's' : ''} found`;
+
+      filteredEvents.forEach(event => {
+        const card = createEventCard(event);
+        eventsGrid.appendChild(card);
+      });
+    }
+
+    // Get event status
+    function getEventStatus(startDate, endDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      
+      if (today >= start && today <= end) {
+        return { status: 'happening', label: 'Happening Now', class: 'status-happening' };
+      } else if (today < start) {
+        return { status: 'upcoming', label: 'Upcoming', class: 'status-upcoming' };
+      } else {
+        return { status: 'past', label: 'Past Event', class: 'status-past' };
+      }
+    }
+
+    // Format date range
+    function formatDateRange(startDate, endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      
+      const options = { month: 'short', day: 'numeric', year: 'numeric' };
+      
+      if (start.toDateString() === end.toDateString()) {
+        return start.toLocaleDateString('en-US', options);
+      } else {
+        return `${start.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${end.toLocaleDateString('en-US', options)}`;
+      }
+    }
+
+    // Create event card
+    function createEventCard(event) {
+      const card = document.createElement('div');
+      card.className = 'event-card';
+      
+      const eventStatus = getEventStatus(event.start_date, event.end_date);
+      if (eventStatus.status === 'past') {
+        card.classList.add('past');
+      }
+
+      const imageUrl = event.image_url || 'https://via.placeholder.com/400x220?text=' + encodeURIComponent(event.name);
+
+      card.innerHTML = `
+        <img class="event-image" src="${imageUrl}" alt="${event.name}">
+        <div class="event-status ${eventStatus.class}">${eventStatus.label}</div>
+        <div class="event-body">
+          <span class="event-category">${event.category}</span>
+          <h3 class="event-name">${event.name}</h3>
+          <div class="event-meta">
+            <div class="meta-item">
+              <span class="meta-icon">📅</span>
+              <span>${formatDateRange(event.start_date, event.end_date)}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-icon">📍</span>
+              <span>${event.location}, ${event.state}</span>
+            </div>
+          </div>
+          <div class="event-footer">
+            <button class="btn-view">View Details</button>
+          </div>
+        </div>
+      `;
+
+      card.querySelector('.btn-view').addEventListener('click', () => openModal(event));
+
+      return card;
+    }
+
+    // Open modal
+    function openModal(event) {
+      const imageUrl = event.image_url || 'https://via.placeholder.com/900x400?text=' + encodeURIComponent(event.name);
+      
+      document.getElementById('modalImage').src = imageUrl;
+      document.getElementById('modalName').textContent = event.name;
+      document.getElementById('modalDates').textContent = formatDateRange(event.start_date, event.end_date);
+      document.getElementById('modalLocation').textContent = `${event.location}, ${event.state}`;
+      document.getElementById('modalCategory').textContent = event.category;
+      document.getElementById('modalFee').textContent = event.entry_fee || 'Not specified';
+      document.getElementById('modalDescription').textContent = event.description;
+
+      // Contacts
+      const contactsBox = document.getElementById('modalContacts');
+      contactsBox.innerHTML = '';
+      
+      if (event.contact_info) {
+        const contactLines = event.contact_info.split('\n').filter(line => line.trim());
+        contactLines.forEach(line => {
+          const div = document.createElement('div');
+          div.className = 'contact-item';
+          div.textContent = line;
+          contactsBox.appendChild(div);
+        });
+      } else {
+        contactsBox.innerHTML = '<div class="contact-item">No contact information available</div>';
+      }
+
+      modalOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Close modal
+    function closeModal() {
+      modalOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Filter listeners
+    stateFilter.addEventListener('change', applyFilters);
+    categoryFilter.addEventListener('change', applyFilters);
+    searchInput.addEventListener('input', applyFilters);
+
+    // Initialize
+    loadEvents();
+  </script>
 </body>
 </html>
