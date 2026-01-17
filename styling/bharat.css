@@ -41,15 +41,12 @@ header {
     z-index: 100; /* Ensures the header stays on top of other content */
 }
 
+/* --- Map Section --- */
 .map-section {
     max-width: 900px;
-    
     margin: 0 auto 40px;
     text-align: center;
 }
-
-
-
 
 .map-container {
     background: #f8f4ec;
@@ -59,6 +56,15 @@ header {
     box-shadow: 0 15px 35px rgba(130, 115, 95, 0.15);
     border: 2px solid #e8dfd0;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 450px;
+    border: none;
+    border-radius: 10px;
 }
 
 .map-instructions {
@@ -70,15 +76,8 @@ header {
     font-family: 'Georgia', 'Times New Roman', serif;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .map-container {
-        padding: 20px;
-    }
-}
-
 .container {
-     /* Maximum width for the content inside the header */
+    /* Maximum width for the content inside the header */
     margin: 0 auto; /* Centers the container horizontally */
     padding: 0 20px; /* Padding on the sides for smaller screens */
     display: flex; /* Uses flexbox for alignment of header elements */
@@ -278,58 +277,6 @@ header h1 a {
     transform: scale(1.1); /* Slightly enlarges icon on hover */
 }
 
-
-/* --- Responsive Adjustments --- */
-/* These styles apply based on screen width to ensure responsiveness. */
-
-/* Styles for screens up to 768px wide (e.g., tablets and larger phones) */
-@media (max-width: 768px) {
-    .container {
-        flex-direction: row; /* Keeps items in a row even on smaller screens */
-        justify-content: space-between; /* Distributes items */
-        align-items: center; /* Vertically aligns */
-        padding: 0 15px; /* Adjusts padding for smaller screens */
-    }
-
-    /* Main navigation is hidden on smaller screens, as sidebar takes over */
-    .main-nav {
-        display: none;
-    }
-
-    .left-header-group {
-        flex-grow: 1; /* Allows it to take available space */
-        justify-content: flex-start; /* Aligns its content to the start */
-    }
-
-    header h1 {
-        font-size: 1.6rem; /* Adjusts title size for smaller screens */
-    }
-
-    .header-logo {
-        height: 50px; /* Adjusts logo size for mobile */
-    }
-
-    /* Adjust sidebar width for very small screens if needed */
-    #sidebar {
-        width: 250px;
-    }
-    header {
-        padding: 0.4rem 0; /* Slightly reduce mobile padding too */
-    }
-}
-
-/* Styles for screens up to 480px wide (e.g., typical mobile phones) */
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.5rem; /* Further adjusts title size for very small screens */
-    }
-
-    .header-logo {
-        height: 50px; /* Smaller logo for very small screens */
-    }
-}
-
-
 /* Apple-Style Feature Sections */
 .feature-section {
     padding: 80px 0;
@@ -427,7 +374,10 @@ header h1 a {
     transition: none;
 }
 
-/* Responsive Design */
+/* --- Responsive Adjustments --- */
+/* These styles apply based on screen width to ensure responsiveness. */
+
+/* Styles for screens up to 1024px wide (tablets and smaller laptops) */
 @media (max-width: 1024px) {
     .feature-content {
         gap: 40px;
@@ -446,9 +396,81 @@ header h1 a {
     }
 }
 
+/* Styles for screens up to 768px wide (e.g., tablets and larger phones) */
 @media (max-width: 768px) {
+    /* Header Container */
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+    /* Hide main navigation on mobile */
+    .main-nav {
+        display: none;
+    }
+
+    /* Left header group (toggle + logo + title) */
+    .left-header-group {
+        flex-grow: 1;
+        justify-content: flex-start;
+        gap: 10px;
+    }
+
+    /* Title sizing */
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    /* Logo sizing */
+    .header-logo {
+        height: 50px;
+    }
+
+    /* Sidebar toggle button */
+    .sidebar-toggle {
+        font-size: 1.8rem;
+        padding: 8px;
+        margin-right: 8px;
+        margin-left: 0;
+    }
+
+    /* Sidebar width */
+    #sidebar {
+        width: 250px;
+    }
+
+    /* Header padding */
+    header {
+        padding: 0.4rem 0;
+    }
+
+    /* MAP MOBILE FIXES */
+    .map-section {
+        padding: 0 15px;
+        margin: 0 auto 30px;
+    }
+
+    .map-container {
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    .map-container iframe {
+        height: 300px; /* Shorter on mobile */
+    }
+
+    .map-instructions {
+        font-size: 0.9rem;
+        margin-right: 0;
+        text-align: center;
+    }
+
+    /* FEATURE SECTIONS MOBILE */
     .feature-section {
-        padding: 60px 0;
+        padding: 60px 20px; /* Add horizontal padding */
     }
     
     .feature-content,
@@ -456,16 +478,18 @@ header h1 a {
         flex-direction: column;
         gap: 30px;
         text-align: center;
+        padding: 0 15px;
     }
     
     .feature-image {
         flex: 0 0 auto;
-        max-width: 400px;
+        max-width: 100%;
         width: 100%;
     }
     
     .feature-image img {
-        height: 350px;
+        height: 300px;
+        width: 100%;
     }
     
     .feature-title {
@@ -482,9 +506,43 @@ header h1 a {
     }
 }
 
+/* Styles for screens up to 480px wide (e.g., typical mobile phones) */
 @media (max-width: 480px) {
+    /* Even smaller screens */
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    .header-logo {
+        height: 45px;
+    }
+
+    .sidebar-toggle {
+        font-size: 1.6rem;
+        padding: 6px;
+    }
+
+    #sidebar {
+        width: 220px;
+    }
+
+    /* MAP - Extra small screens */
+    .map-container {
+        margin-top: 30px;
+        padding: 15px;
+    }
+
+    .map-container iframe {
+        height: 250px;
+    }
+
+    .map-instructions {
+        font-size: 0.85rem;
+    }
+
+    /* FEATURE SECTIONS - Extra small */
     .feature-section {
-        padding: 40px 0;
+        padding: 40px 15px;
     }
     
     .feature-title {
@@ -497,11 +555,7 @@ header h1 a {
         line-height: 1.6;
     }
     
-    .feature-image {
-        max-width: 100%;
-    }
-    
     .feature-image img {
-        height: 300px;
+        height: 250px;
     }
 }
