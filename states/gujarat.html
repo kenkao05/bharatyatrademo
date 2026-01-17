@@ -11,26 +11,6 @@
       box-sizing: border-box;
     }
 
-    .back-btn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      background: rgba(184, 169, 146, 0.6);
-      color: #5A4F41;
-      font-weight: 600;
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: 0 4px 12px rgba(90, 79, 65, 0.15);
-      transition: all 0.3s ease;
-      border: 1px solid rgba(212, 199, 178, 0.4);
-      backdrop-filter: blur(8px);
-    }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f5f5f5;
@@ -132,6 +112,9 @@
       cursor: pointer;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
     }
 
     .attraction-card:hover {
@@ -143,6 +126,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
     .attraction-overlay {
@@ -433,7 +419,6 @@
   <section class="hero">
     <h1>Discover Gujarat</h1>
     <p>Experience the vibrant culture, majestic monuments, and breathtaking landscapes of Gujarat. From the white desert of Kutch to the Asiatic lions of Gir, Gujarat offers unforgettable adventures.</p>
-    <a href="../index.html" class="back-btn">← Back</a>
   </section>
 
   <!-- Attractions Section -->
