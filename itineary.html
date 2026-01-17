@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Itinerary Generator - BharatYatra</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: linear-gradient(135deg, #F5EFEB 0%, #E8DFD0 100%);
+      color: #5a4f41;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      color: #7a6a57;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #8a7d6c;
+      margin-bottom: 40px;
+    }
+
+    /* Generator Form */
+    .generator-form {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(90, 79, 65, 0.15);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+    }
+
+    label {
+      display: block;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #7a6a57;
+      margin-bottom: 10px;
+    }
+
+    select {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      font-family: inherit;
+      border: 2px solid #d4c7b2;
+      border-radius: 10px;
+      background: #f8f4ec;
+      color: #5a4f41;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    select:focus {
+      outline: none;
+      border-color: #b8a992;
+      box-shadow: 0 0 0 3px rgba(184, 169, 146, 0.2);
+    }
+
+    /* Budget Toggle */
+    .budget-toggle {
+      display: flex;
+      gap: 10px;
+      background: #f8f4ec;
+      padding: 5px;
+      border-radius: 10px;
+    }
+
+    .budget-btn {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      background: transparent;
+      color: #8a7d6c;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .budget-btn.active {
+      background: #b8a992;
+      color: white;
+      box-shadow: 0 2px 8px rgba(122, 106, 87, 0.3);
+    }
+
+    .budget-btn:hover:not(.active) {
+      background: #e8dfd0;
+    }
+
+    /* Days Slider */
+    .slider-container {
+      position: relative;
+    }
+
+    .slider-value {
+      display: inline-block;
+      background: #b8a992;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #d4c7b2;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #7a6a57;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background: #5a4f41;
+      transform: scale(1.2);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #7a6a57;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* Generate Button */
+    .btn-generate {
+      width: 100%;
+      padding: 18px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: linear-gradient(135deg, #b8a992 0%, #8a7d6c 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(122, 106, 87, 0.3);
+    }
+
+    .btn-generate:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(122, 106, 87, 0.4);
+    }
+
+    .btn-generate:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Results Section */
+    .results-section {
+      max-width: 900px;
+      margin: 0 auto;
+      display: none;
+    }
+
+    .results-section.active {
+      display: block;
+    }
+
+    /* Summary Card */
+    .summary-card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(90, 79, 65, 0.15);
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .summary-card h2 {
+      font-size: 2rem;
+      color: #7a6a57;
+      margin-bottom: 20px;
+    }
+
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      padding: 15px;
+      background: #f8f4ec;
+      border-radius: 10px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #b8a992;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: #8a7d6c;
+      margin-top: 5px;
+    }
+
+    /* Seasonal Tips */
+    .seasonal-tips {
+      background: linear-gradient(135deg, #fff9f0 0%, #f8f4ec 100%);
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      border-left: 5px solid #b8a992;
+    }
+
+    .seasonal-tips h3 {
+      font-size: 1.3rem;
+      color: #7a6a57;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .seasonal-tips ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .seasonal-tips li {
+      padding: 10px 0;
+      color: #6b6b6b;
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .seasonal-tips li::before {
+      content: "🌟";
+      flex-shrink: 0;
+    }
+
+    /* Day Cards */
+    .day-card {
+      background: white;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(90, 79, 65, 0.1);
+      overflow: hidden;
+      transition: all 0.3s;
+    }
+
+    .day-header {
+      padding: 20px 25px;
+      background: linear-gradient(135deg, #e8dfd0 0%, #d4c7b2 100%);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s;
+    }
+
+    .day-header:hover {
+      background: linear-gradient(135deg, #d4c7b2 0%, #b8a992 100%);
+    }
+
+    .day-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #5a4f41;
+    }
+
+    .day-subtitle {
+      font-size: 0.9rem;
+      color: #8a7d6c;
+      margin-top: 5px;
+    }
+
+    .day-cost {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #7a6a57;
+    }
+
+    .day-toggle {
+      font-size: 1.5rem;
+      color: #7a6a57;
+      transition: transform 0.3s;
+    }
+
+    .day-card.expanded .day-toggle {
+      transform: rotate(180deg);
+    }
+
+    .day-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .day-card.expanded .day-content {
+      max-height: 3000px;
+    }
+
+    .day-body {
+      padding: 25px;
+    }
+
+    /* Travel Notice */
+    .travel-notice {
+      background: #fff3e0;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      border-left: 4px solid #ff9800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.95rem;
+      color: #6b6b6b;
+    }
+
+    .travel-notice strong {
+      color: #5a4f41;
+    }
+
+    /* Activity Item */
+    .activity {
+      padding: 20px;
+      background: #f8f4ec;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border-left: 4px solid #b8a992;
+    }
+
+    .activity-time {
+      font-size: 0.9rem;
+      color: #8a7d6c;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .activity-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #5a4f41;
+      margin-bottom: 8px;
+    }
+
+    .activity-description {
+      font-size: 0.95rem;
+      color: #6b6b6b;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .activity-details {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #8a7d6c;
+    }
+
+    .activity-details span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .best-time-note {
+      margin-top: 10px;
+      padding: 10px;
+      background: #fff9f0;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      color: #8a7d6c;
+    }
+
+    /* Hotel Section */
+    .hotel-section {
+      background: #fff9f0;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 4px solid #d4c7b2;
+    }
+
+    .hotel-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #7a6a57;
+      margin-bottom: 10px;
+    }
+
+    .hotel-name {
+      font-size: 1rem;
+      color: #5a4f41;
+      margin-bottom: 8px;
+    }
+
+    .hotel-details {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #8a7d6c;
+    }
+
+    /* Cost Breakdown */
+    .cost-breakdown {
+      background: #f8f4ec;
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .cost-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #e8dfd0;
+    }
+
+    .cost-item:last-child {
+      border-bottom: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-top: 5px;
+      padding-top: 15px;
+      border-top: 2px solid #d4c7b2;
+    }
+
+    /* Export Buttons */
+    .export-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      justify-content: center;
+    }
+
+    .btn-export {
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: white;
+      color: #7a6a57;
+      border: 2px solid #b8a992;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-export:hover {
+      background: #b8a992;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(122, 106, 87, 0.3);
+    }
+
+    /* Loading State */
+    .loading {
+      text-align: center;
+      padding: 60px 20px;
+      font-size: 1.2rem;
+      color: #8a7d6c;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #e8dfd0;
+      border-top-color: #b8a992;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .hero, .generator-form, .export-buttons, .btn-generate, .loading {
+        display: none !important;
+      }
+
+      .results-section {
+        display: block !important;
+        max-width: 100%;
+      }
+
+      .day-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #d4c7b2;
+      }
+
+      .day-content {
+        max-height: none !important;
+        overflow: visible !important;
+      }
+
+      .day-toggle {
+        display: none;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .generator-form {
+        padding: 25px;
+      }
+
+      .summary-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .day-title {
+        font-size: 1.1rem;
+      }
+
+      .day-cost {
+        font-size: 1rem;
+      }
+
+      .activity-details {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .hotel-details {
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .export-buttons {
+        flex-direction: column;
+      }
+
+      .budget-toggle {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>🗺️ Plan Your Perfect Journey</h1>
+    <p>Generate custom itineraries for Gujarat & Kerala with smart recommendations</p>
+  </section>
+
+  <!-- Generator Form -->
+  <div class="generator-form">
+    <div class="form-group">
+      <label for="stateSelect">Select State</label>
+      <select id="stateSelect">
+        <option value="">Choose a state...</option>
+        <option value="Gujarat">Gujarat</option>
+        <option value="Kerala">Kerala</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="daysSlider">Number of Days</label>
+      <div class="slider-container">
+        <span class="slider-value"><span id="daysValue">7</span> days</span>
+        <input type="range" id="daysSlider" min="1" max="30" value="7">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Budget Preference</label>
+      <div class="budget-toggle">
+        <button class="budget-btn" data-budget="budget">Budget</button>
+        <button class="budget-btn active" data-budget="mid-range">Mid-Range</button>
+        <button class="budget-btn" data-budget="premium">Premium</button>
+      </div>
+    </div>
+
+    <button class="btn-generate" id="generateBtn">Generate Itinerary</button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading" id="loadingState" style="display: none;">
+    <div class="spinner"></div>
+    <p>Creating your perfect itinerary...</p>
+  </div>
+
+  <!-- Results Section -->
+  <div class="results-section" id="resultsSection">
+    <!-- Export Buttons -->
+    <div class="export-buttons">
+      <button class="btn-export" id="printBtn">
+        🖨️ Print Itinerary
+      </button>
+      <button class="btn-export" id="shareBtn">
+        📤 Share Link
+      </button>
+    </div>
+
+    <!-- Summary Card -->
+    <div class="summary-card">
+      <h2 id="tripTitle">Your Gujarat Adventure</h2>
+      <div class="summary-stats">
+        <div class="stat">
+          <span class="stat-value" id="totalDays">7</span>
+          <span class="stat-label">Days</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="totalAttractions">12</span>
+          <span class="stat-label">Attractions</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="totalCost">₹45,000</span>
+          <span class="stat-label">Estimated Cost</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Seasonal Tips -->
+    <div class="seasonal-tips" id="seasonalTips">
+      <h3>🌤️ Best Time to Visit</h3>
+      <ul id="seasonalTipsList"></ul>
+    </div>
+
+    <!-- Day Cards Container -->
+    <div id="itineraryContainer"></div>
+  </div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL = 'https://hmobboiupblojankdaah.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Elements
+    const stateSelect = document.getElementById('stateSelect');
+    const daysSlider = document.getElementById('daysSlider');
+    const daysValue = document.getElementById('daysValue');
+    const generateBtn = document.getElementById('generateBtn');
+    const loadingState = document.getElementById('loadingState');
+    const resultsSection = document.getElementById('resultsSection');
+    const itineraryContainer = document.getElementById('itineraryContainer');
+    const budgetBtns = document.querySelectorAll('.budget-btn');
+    const printBtn = document.getElementById('printBtn');
+    const shareBtn = document.getElementById('shareBtn');
+
+    let selectedBudget = 'mid-range';
+
+    // Budget selection
+    budgetBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        budgetBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedBudget = btn.dataset.budget;
+      });
+    });
+
+    // Update days value display
+    daysSlider.addEventListener('input', () => {
+      daysValue.textContent = daysSlider.value;
+    });
+
+    // Print functionality
+    printBtn.addEventListener('click', () => {
+      // Expand all days before printing
+      document.querySelectorAll('.day-card').forEach(card => {
+        card.classList.add('expanded');
+      });
+      setTimeout(() => window.print(), 100);
+    });
+
+    // Share functionality
+    shareBtn.addEventListener('click', () => {
+      const state = stateSelect.value;
+      const days = daysSlider.value;
+      const shareText = `Check out my ${days}-day ${state} itinerary on BharatYatra!`;
+      
+      if (navigator.share) {
+        navigator.share({
+          title: 'BharatYatra Itinerary',
+          text: shareText,
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        // Fallback: copy to clipboard
+        navigator.clipboard.writeText(`${shareText}\n${window.location.href}`).then(() => {
+          alert('Link copied to clipboard!');
+        });
+      }
+    });
+
+    // Generate itinerary
+    generateBtn.addEventListener('click', async () => {
+      const state = stateSelect.value;
+      const days = parseInt(daysSlider.value);
+
+      if (!state) {
+        alert('Please select a state');
+        return;
+      }
+
+      generateBtn.disabled = true;
+      generateBtn.textContent = 'Generating...';
+      loadingState.style.display = 'block';
+      resultsSection.classList.remove('active');
+
+      try {
+        const itinerary = await generateItinerary(state, days, selectedBudget);
+        displayItinerary(itinerary, state, days);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to generate itinerary. Please try again.');
+      } finally {
+        generateBtn.disabled = false;
+        generateBtn.textContent = 'Generate Itinerary';
+        loadingState.style.display = 'none';
+      }
+    });
+
+    // City distances (approximate km between major cities)
+    const cityDistances = {
+      Gujarat: {
+        'Ahmedabad-Vadodara': 110,
+        'Vadodara-Surat': 150,
+        'Ahmedabad-Bhuj': 330,
+        'Ahmedabad-Patan': 130,
+        'Vadodara-Kevadia': 90,
+        'Bhuj-Dwarka': 450,
+        'Dwarka-Somnath': 230,
+        'Somnath-Sasan Gir': 60
+      },
+      Kerala: {
+        'Kochi-Alleppey': 55,
+        'Alleppey-Kumarakom': 15,
+        'Kochi-Munnar': 130,
+        'Munnar-Thekkady': 90,
+        'Thekkady-Alleppey': 140,
+        'Kochi-Thrissur': 75,
+        'Kochi-Wayanad': 270,
+        'Kochi-Varkala': 160
+      }
+    };
+
+    // Calculate travel time and distance
+    function getTravelInfo(state, fromCity, toCity) {
+      const key1 = `${fromCity}-${toCity}`;
+      const key2 = `${toCity}-${fromCity}`;
+      
+      const distances = cityDistances[state] || {};
+      const distance = distances[key1] || distances[key2] || 200; // default 200km
+      const hours = Math.ceil(distance / 50); // ~50 km/hr average
+      
+      return { distance, hours };
+    }
+
+    // Generate itinerary logic
+    async function generateItinerary(state, totalDays, budgetType) {
+      // Fetch spots with accommodations in one query
+      const { data: spots, error: spotsError } = await supabase
+        .from('itinerary_spots')
+        .select(`
+          *,
+          accommodations (*)
+        `)
+        .eq('state', state)
+        .order('priority_score', { ascending: false });
+
+      if (spotsError) throw spotsError;
+
+      // Group spots by city, maintaining priority order
+      const cityClusters = [];
+      const cityMap = {};
+      
+      spots.forEach(spot => {
+        if (!cityMap[spot.city]) {
+          cityMap[spot.city] = {
+            city: spot.city,
+            spots: []
+          };
+          cityClusters.push(cityMap[spot.city]);
+        }
+        cityMap[spot.city].spots.push(spot);
+      });
+
+      // Calculate spots per day (1-2 based on available time)
+      const avgSpotsPerDay = totalDays <= 3 ? 2 : totalDays <= 7 ? 1.5 : 1.2;
+      
+      // Build itinerary by visiting cities in sequence
+      const itinerary = [];
+      let totalCost = 0;
+      let visitedSpots = new Set();
+      
+      let currentCityIndex = 0;
+      let previousCity = null;
+      
+      for (let day = 1; day <= totalDays; day++) {
+        // Select current city (try to stay in same city for multiple days)
+        let currentCity = null;
+        let citySpots = [];
+        
+        // Try to continue in previous city if it has more spots
+        if (previousCity) {
+          const prevCityCluster = cityClusters.find(c => c.city === previousCity);
+          const availableInPrevCity = prevCityCluster.spots.filter(s => !visitedSpots.has(s.id));
+          
+          if (availableInPrevCity.length > 0) {
+            currentCity = previousCity;
+            citySpots = availableInPrevCity;
+          }
+        }
+        
+        // Otherwise move to next city with available spots
+        if (!currentCity) {
+          for (let i = 0; i < cityClusters.length; i++) {
+            const cluster = cityClusters[(currentCityIndex + i) % cityClusters.length];
+            const available = cluster.spots.filter(s => !visitedSpots.has(s.id));
+            
+            if (available.length > 0) {
+              currentCity = cluster.city;
+              citySpots = available;
+              currentCityIndex = (currentCityIndex + i + 1) % cityClusters.length;
+              break;
+            }
+          }
+        }
+        
+        // If we've visited all spots, recycle from the beginning
+        if (!currentCity) {
+          visitedSpots.clear();
+          currentCity = cityClusters[0].city;
+          citySpots = cityClusters[0].spots;
+          currentCityIndex = 1;
+        }
+
+        const dayData = {
+          day,
+          city: currentCity,
+          activities: [],
+          hotel: null,
+          travelInfo: null,
+          costs: {
+            entries: 0,
+            accommodation: 0,
+            transport: 500, // Local transport
+            intercity: 0
+          }
+        };
+
+        // Add intercity travel info if city changed
+        if (previousCity && previousCity !== currentCity) {
+          const travel = getTravelInfo(state, previousCity, currentCity);
+          dayData.travelInfo = travel;
+          dayData.costs.intercity = Math.min(travel.distance * 3, 3000); // ₹3/km, max ₹3000
+        }
+
+        // Add activities for the day (1-2 spots depending on duration)
+        let dailyHours = 0;
+        const maxDailyHours = 8; // 8 hours of sightseeing per day
+        
+        for (let i = 0; i < citySpots.length && dayData.activities.length < 3; i++) {
+          const spot = citySpots[i];
+          
+          if (visitedSpots.has(spot.id)) continue;
+          if (dailyHours + spot.estimated_time_hours > maxDailyHours) continue;
+          
+          // Calculate activity time
+          let startHour = 9;
+          if (dayData.activities.length === 1) startHour = 14; // 2 PM for second activity
+          if (dayData.activities.length === 2) startHour = 17; // 5 PM for third activity
+          
+          const endHour = startHour + spot.estimated_time_hours;
+          const startTime = formatTime(startHour);
+          const endTime = formatTime(endHour);
+          
+          dayData.activities.push({
+            time: startTime,
+            endTime: endTime,
+            spot,
+            duration: spot.estimated_time_hours
+          });
+          
+          dayData.costs.entries += spot.entry_fee;
+          dailyHours += spot.estimated_time_hours;
+          visitedSpots.add(spot.id);
+        }
+
+        // Add accommodation (based on budget preference)
+        if (dayData.activities.length > 0) {
+          const firstSpot = dayData.activities[0].spot;
+          const spotAccommodations = firstSpot.accommodations || [];
+          
+          let hotel = spotAccommodations.find(a => a.type === budgetType);
+          if (!hotel && spotAccommodations.length > 0) {
+            hotel = spotAccommodations[0];
+          }
+          
+          if (hotel) {
+            dayData.hotel = hotel;
+            dayData.costs.accommodation = hotel.price_per_night;
+          }
+        }
+
+        // Calculate day total
+        dayData.totalCost = Object.values(dayData.costs).reduce((a, b) => a + b, 0);
+        totalCost += dayData.totalCost;
+
+        itinerary.push(dayData);
+        previousCity = currentCity;
+      }
+
+      // Collect seasonal tips
+      const seasonalTips = new Set();
+      spots.forEach(spot => {
+        if (spot.best_time_note) {
+          seasonalTips.add(spot.best_time_note);
+        }
+      });
+
+      return { 
+        itinerary, 
+        totalCost, 
+        totalAttractions: visitedSpots.size,
+        uniqueCities: new Set(itinerary.map(d => d.city)).size,
+        seasonalTips: Array.from(seasonalTips)
+      };
+    }
+
+    // Format time helper
+    function formatTime(hour) {
+      const h = hour > 12 ? hour - 12 : hour;
+      const period = hour >= 12 ? 'PM' : 'AM';
+      return `${h}:00 ${period}`;
+    }
+
+    // Display itinerary
+    function displayItinerary(data, state, days) {
+      const { itinerary, totalCost, totalAttractions, uniqueCities, seasonalTips } = data;
+
+      // Update summary
+      document.getElementById('tripTitle').textContent = `Your ${state} Adventure`;
+      document.getElementById('totalDays').textContent = days;
+      document.getElementById('totalAttractions').textContent = `${totalAttractions} spots in ${uniqueCities} cities`;
+      document.getElementById('totalCost').textContent = `₹${totalCost.toLocaleString()}`;
+
+      // Display seasonal tips
+      const seasonalTipsList = document.getElementById('seasonalTipsList');
+      seasonalTipsList.innerHTML = '';
+      seasonalTips.slice(0, 5).forEach(tip => {
+        const li = document.createElement('li');
+        li.textContent = tip;
+        seasonalTipsList.appendChild(li);
+      });
+
+      // Clear previous itinerary
+      itineraryContainer.innerHTML = '';
+
+      // Create day cards
+      itinerary.forEach(day => {
+        const dayCard = createDayCard(day);
+        itineraryContainer.appendChild(dayCard);
+      });
+
+      // Show results
+      resultsSection.classList.add('active');
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Create day card
+    function createDayCard(day) {
+      const card = document.createElement('div');
+      card.className = 'day-card';
+
+      // Travel notice if changing cities
+      const travelNoticeHTML = day.travelInfo ? `
+        <div class="travel-notice">
+          🚗 <strong>Travel Day:</strong> ${day.travelInfo.distance} km journey (approx ${day.travelInfo.hours} hours) to ${day.city}
+        </div>
+      ` : '';
+
+      const activitiesHTML = day.activities.map(activity => `
+        <div class="activity">
+          <div class="activity-time">🕐 ${activity.time} - ${activity.endTime} (${activity.duration} hours)</div>
+          <div class="activity-name">${activity.spot.name}</div>
+          <div class="activity-description">${activity.spot.description}</div>
+          <div class="activity-details">
+            <span>📍 ${activity.spot.city}</span>
+            <span>🏷️ ${activity.spot.category}</span>
+            <span>🎫 ${activity.spot.entry_fee > 0 ? '₹' + activity.spot.entry_fee : 'Free Entry'}</span>
+          </div>
+          ${activity.spot.best_time_note ? `
+          <div class="best-time-note">
+            💡 <strong>Best Time:</strong> ${activity.spot.best_time_note}
+          </div>
+          ` : ''}
+        </div>
+      `).join('');
+
+      const hotelHTML = day.hotel ? `
+        <div class="hotel-section">
+          <div class="hotel-title">🏨 Accommodation</div>
+          <div class="hotel-name">${day.hotel.name}</div>
+          <div class="hotel-details">
+            <span>💰 ₹${day.hotel.price_per_night}/night</span>
+            <span>⭐ ${day.hotel.rating}</span>
+            <span>🏷️ ${day.hotel.type}</span>
+            <span>📍 ${day.hotel.distance_from_spot_km} km from attraction</span>
+          </div>
+        </div>
+      ` : '';
+
+      const subtitle = day.travelInfo ? 
+        `Travel to ${day.city} + ${day.activities.length} attraction${day.activities.length > 1 ? 's' : ''}` :
+        `${day.activities.length} attraction${day.activities.length > 1 ? 's' : ''}`;
+
+      card.innerHTML = `
+        <div class="day-header">
+          <div>
+            <div class="day-title">Day ${day.day} - ${day.city}</div>
+            <div class="day-subtitle">${subtitle}</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="day-cost">₹${day.totalCost.toLocaleString()}</div>
+            <div class="day-toggle">▼</div>
+          </div>
+        </div>
+        <div class="day-content">
+          <div class="day-body">
+            ${travelNoticeHTML}
+            ${activitiesHTML}
+            ${hotelHTML}
+            <div class="cost-breakdown">
+              <div class="cost-item">
+                <span>Entry Fees</span>
+                <span>₹${day.costs.entries}</span>
+              </div>
+              <div class="cost-item">
+                <span>Accommodation</span>
+                <span>₹${day.costs.accommodation}</span>
+              </div>
+              <div class="cost-item">
+                <span>Local Transport</span>
+                <span>₹${day.costs.transport}</span>
+              </div>
+              ${day.costs.intercity > 0 ? `
+              <div class="cost-item">
+                <span>Intercity Travel</span>
+                <span>₹${day.costs.intercity}</span>
+              </div>
+              ` : ''}
+              <div class="cost-item">
+                <span>Day Total</span>
+                <span>₹${day.totalCost.toLocaleString()}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Toggle expand/collapse
+      card.querySelector('.day-header').addEventListener('click', () => {
+        card.classList.toggle('expanded');
+      });
+
+      return card;
+    }
+  </script>
+</body>
+</html>
