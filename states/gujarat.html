@@ -158,7 +158,7 @@
     <!-- ================= PANEL 1: VIDEO ================= -->
     <section class="panel video">
       <video autoplay muted loop playsinline>
-        <source src="gujarat-intro.mp4" type="video/mp4">
+        <source src="./styling/stateimages/gujarat-intro.mp4" type="video/mp4">
       </video>
       <div class="overlay">
         <h1>Gujarat</h1>
@@ -194,10 +194,10 @@
 </section>
 
 <script>
-  const supabase = supabase.createClient(
-    "https://hmobboiupblojankdaah.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE"
-  );
+  const supabaseClient = supabase.createClient(
+  "https://hmobboiupblojankdaah.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE"
+);
 
   /* ================= TOP 3 ATTRACTIONS ================= */
   async function loadAttractions() {
