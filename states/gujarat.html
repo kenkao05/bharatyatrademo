@@ -1,693 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gujarat - Explore Attractions</title>
+  <meta charset="UTF-8" />
+  <title>Explore Gujarat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Supabase -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <!-- GSAP (smooth horizontal scroll) -->
+  <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
+  <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
+
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; overflow-x: hidden; }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f5f5f5;
-      overflow-x: hidden;
-    }
-
-    /* Hero Section */
-    .hero {
-      background: linear-gradient(135deg, #FF6B35 0%, #F7931E 50%, #FDC830 100%);
-      padding: 80px 20px;
-      text-align: center;
-      color: white;
+    .horizontal {
       position: relative;
-      overflow: hidden;
+      height: 100vh;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%23ffffff"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%23ffffff"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%23ffffff"/></svg>') no-repeat bottom;
-      background-size: cover;
-      opacity: 0.3;
-    }
-
-    .hero h1 {
-      font-size: 56px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero p {
-      font-size: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      line-height: 1.6;
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Attractions Section */
-    .attractions-section {
-      padding: 80px 20px;
-      background: white;
-    }
-
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-header h2 {
-      font-size: 42px;
-      color: #333;
-      margin-bottom: 15px;
-    }
-
-    .section-header p {
-      font-size: 18px;
-      color: #666;
-    }
-
-    /* Carousel Container */
-    .carousel-wrapper {
-      position: relative;
-      padding: 0 60px;
-    }
-
-    .carousel-container {
-      overflow: hidden;
-      position: relative;
-    }
-
-    .carousel-track {
+    .track {
       display: flex;
-      gap: 30px;
-      transition: transform 0.5s ease;
+      height: 100vh;
+      width: 400vw;
     }
 
-    /* Attraction Card */
-    .attraction-card {
-      min-width: calc(33.333% - 20px);
-      height: 400px;
-      border-radius: 20px;
-      overflow: hidden;
-      position: relative;
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    .panel {
+      width: 100vw;
+      height: 100vh;
       flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
+      padding: 60px;
     }
 
-    .attraction-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    /* ================= VIDEO ================= */
+    .video {
+      position: relative;
+      padding: 0;
     }
 
-    .attraction-card img {
+    .video video {
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .video .overlay {
       position: absolute;
-      top: 0;
-      left: 0;
-    }
-
-    .attraction-overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-      padding: 30px;
-      color: white;
-    }
-
-    .attraction-card h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-    }
-
-    .attraction-card .category {
-      display: inline-block;
-      padding: 5px 15px;
-      background: rgba(255, 107, 53, 0.9);
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      margin-bottom: 15px;
-    }
-
-    .know-more-btn {
-      background: white;
-      color: #FF6B35;
-      padding: 12px 30px;
-      border: none;
-      border-radius: 25px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .know-more-btn:hover {
-      background: #FF6B35;
-      color: white;
-      transform: scale(1.05);
-    }
-
-    /* Carousel Arrows */
-    .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      z-index: 10;
-      transition: all 0.3s ease;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
-      font-size: 20px;
-      color: #333;
-    }
-
-    .carousel-arrow:hover {
-      background: #FF6B35;
+      padding-left: 80px;
       color: white;
-      transform: translateY(-50%) scale(1.1);
     }
 
-    .carousel-arrow.prev {
-      left: 0;
+    .video h1 { font-size: 64px; }
+    .video p { font-size: 24px; margin-top: 10px; }
+
+    /* ================= ATTRACTIONS ================= */
+    .attractions {
+      background: #f6f6f6;
     }
 
-    .carousel-arrow.next {
-      right: 0;
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
     }
 
-    .carousel-arrow:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    .back-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 1000;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 20px;
-      background: rgba(255, 255, 255, 0.95);
-      color: #333;
-      font-weight: 600;
-      font-size: 14px;
-      border-radius: 30px;
-      text-decoration: none;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
-      transition: all 0.3s ease;
-      border: 2px solid rgba(0, 0, 0, 0.1);
-      backdrop-filter: blur(10px);
-    }
-
-    .back-btn:hover {
-      transform: translateX(-5px);
-      background: rgba(255, 107, 53, 0.95);
-      color: white;
-      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
-      border-color: rgba(255, 107, 53, 0.5);
-    }
-
-    /* Modal */
-    .modal-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.8);
-      z-index: 1000;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .modal-content {
+    .card {
       background: white;
-      border-radius: 20px;
-      max-width: 900px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .card img {
       width: 100%;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      animation: slideUp 0.3s ease;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: white;
-      border: none;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    .modal-close:hover {
-      background: #FF6B35;
-      color: white;
-      transform: rotate(90deg);
-    }
-
-    .modal-image {
-      width: 100%;
-      height: 400px;
+      height: 220px;
       object-fit: cover;
-      border-radius: 20px 20px 0 0;
     }
 
-    .modal-body {
-      padding: 40px;
-    }
-
-    .modal-body h2 {
-      font-size: 36px;
-      color: #333;
-      margin-bottom: 15px;
-    }
-
-    .modal-info {
-      display: flex;
-      gap: 20px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-
-    .info-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: #f5f5f5;
-      border-radius: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-
-    .info-tag strong {
-      color: #FF6B35;
-    }
-
-    .modal-body h3 {
-      font-size: 20px;
-      color: #333;
-      margin: 25px 0 15px 0;
-    }
-
-    .modal-body p {
-      font-size: 16px;
-      line-height: 1.8;
-      color: #555;
-      margin-bottom: 20px;
-    }
-
-    .contacts-list {
-      background: #f9f9f9;
+    .card-content {
       padding: 20px;
-      border-radius: 10px;
-      border-left: 4px solid #FF6B35;
     }
 
-    .contact-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #e0e0e0;
-      font-size: 15px;
-      color: #555;
+    /* ================= DISTRICTS ================= */
+    .districts {
+      background: #111;
+      color: white;
     }
 
-    .contact-item:last-child {
-      border-bottom: none;
+    .district-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      margin-top: 40px;
     }
 
-    .contact-item strong {
-      color: #333;
+    .district {
+      background: #222;
+      border-radius: 16px;
+      overflow: hidden;
     }
 
-    /* Loading State */
-    .loading {
+    .district img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .district h3 {
+      padding: 15px;
+    }
+
+    .visit-all {
+      display: inline-block;
+      margin-top: 40px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      border-bottom: 2px solid white;
+    }
+
+    /* ================= ARTS ================= */
+    .arts {
+      background: linear-gradient(135deg, #7b2d26, #c84b31);
+      color: white;
+    }
+
+    .crafts {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin-top: 60px;
+    }
+
+    .craft {
+      background: rgba(255,255,255,0.15);
+      padding: 40px;
+      border-radius: 20px;
       text-align: center;
-      padding: 60px;
-      font-size: 18px;
-      color: #666;
-    }
-
-    .no-attractions {
-      text-align: center;
-      padding: 60px;
-      font-size: 18px;
-      color: #999;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .attraction-card {
-        min-width: calc(50% - 15px);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 36px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .section-header h2 {
-        font-size: 32px;
-      }
-
-      .attraction-card {
-        min-width: 100%;
-      }
-
-      .carousel-wrapper {
-        padding: 0 20px;
-      }
-
-      .carousel-arrow {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-      }
-
-      .modal-body {
-        padding: 25px;
-      }
-
-      .modal-body h2 {
-        font-size: 28px;
-      }
+      font-size: 22px;
     }
   </style>
 </head>
+
 <body>
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Discover Gujarat</h1>
-    <p>Experience the vibrant culture, majestic monuments, and breathtaking landscapes of Gujarat. From the white desert of Kutch to the Asiatic lions of Gir, Gujarat offers unforgettable adventures.</p>
-    <a href="javascript:history.back()" class="back-btn">
-    ← Back
-  </a>
-  </section>
 
-  <!-- Attractions Section -->
-  <section class="attractions-section">
-    <div class="container">
-      <div class="section-header">
-        <h2>Explore Attractions</h2>
-        <p>Discover the best places to visit in Gujarat</p>
+<section class="horizontal">
+  <div class="track">
+
+    <!-- ================= PANEL 1: VIDEO ================= -->
+    <section class="panel video">
+      <video autoplay muted loop playsinline>
+        <source src="gujarat-intro.mp4" type="video/mp4">
+      </video>
+      <div class="overlay">
+        <h1>Gujarat</h1>
+        <p>Jewel of Western India</p>
       </div>
+    </section>
 
-      <div id="loadingState" class="loading">Loading attractions...</div>
-      <div id="noAttractionsState" class="no-attractions" style="display: none;">No attractions found</div>
+    <!-- ================= PANEL 2: ATTRACTIONS ================= -->
+    <section class="panel attractions">
+      <h2>Famous Attractions</h2>
+      <div class="cards" id="attractionCards"></div>
+    </section>
 
-      <div class="carousel-wrapper" id="carouselWrapper" style="display: none;">
-        <button class="carousel-arrow prev" id="prevBtn">←</button>
-        <div class="carousel-container">
-          <div class="carousel-track" id="carouselTrack">
-            <!-- Attraction cards will be inserted here -->
-          </div>
-        </div>
-        <button class="carousel-arrow next" id="nextBtn">→</button>
+    <!-- ================= PANEL 3: DISTRICTS ================= -->
+    <section class="panel districts">
+      <h2>Popular Districts</h2>
+      <div class="district-grid" id="districtGrid"></div>
+      <a class="visit-all" href="gujaratdistricts.html">Visit All Districts →</a>
+    </section>
+
+    <!-- ================= PANEL 4: ARTS ================= -->
+    <section class="panel arts">
+      <h2>Arts & Crafts of Gujarat</h2>
+      <div class="crafts">
+        <div class="craft">Bandhani</div>
+        <div class="craft">Patola Silk</div>
+        <div class="craft">Kutch Embroidery</div>
+        <div class="craft">Rogan Art</div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Modal -->
-  <div class="modal-overlay" id="modalOverlay">
-    <div class="modal-content">
-      <button class="modal-close" id="modalClose">×</button>
-      <img class="modal-image" id="modalImage" src="" alt="">
-      <div class="modal-body">
-        <h2 id="modalName"></h2>
-        <div class="modal-info">
-          <div class="info-tag">
-            <span>📍</span>
-            <span><strong>Location:</strong> <span id="modalLocation"></span></span>
-          </div>
-          <div class="info-tag">
-            <span>🏷️</span>
-            <span><strong>Category:</strong> <span id="modalCategory"></span></span>
-          </div>
-        </div>
-        <h3>About</h3>
-        <p id="modalDescription"></p>
-        <h3>Contact Information</h3>
-        <div class="contacts-list" id="modalContacts">
-          <!-- Contacts will be inserted here -->
-        </div>
-      </div>
-    </div>
   </div>
+</section>
 
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+<script>
+  const supabase = supabase.createClient(
+    "https://hmobboiupblojankdaah.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE"
+  );
 
-    // ⚠️ REPLACE WITH YOUR SUPABASE CREDENTIALS
-    const SUPABASE_URL = 'https://hmobboiupblojankdaah.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhtb2Jib2l1cGJsb2phbmtkYWFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc3NjQ1MjUsImV4cCI6MjA4MzM0MDUyNX0.LUJiZUbu-BZQRg8LWhcgnjILBFqZimaGbYBrv6BDVYE';
+  /* ================= TOP 3 ATTRACTIONS ================= */
+  async function loadAttractions() {
+    const { data } = await supabase
+      .from("attractions")
+      .select("name, short_description, image_url")
+      .eq("state_id", 1)
+      .order("priority_score", { ascending: false })
+      .limit(3);
 
-    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const container = document.getElementById("attractionCards");
 
-    // Elements
-    const carouselTrack = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const modalClose = document.getElementById('modalClose');
-    const carouselWrapper = document.getElementById('carouselWrapper');
-    const loadingState = document.getElementById('loadingState');
-    const noAttractionsState = document.getElementById('noAttractionsState');
-
-    // Modal elements
-    const modalImage = document.getElementById('modalImage');
-    const modalName = document.getElementById('modalName');
-    const modalLocation = document.getElementById('modalLocation');
-    const modalCategory = document.getElementById('modalCategory');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalContacts = document.getElementById('modalContacts');
-
-    let attractions = [];
-    let currentIndex = 0;
-    const cardsVisible = 3;
-
-    // Load attractions
-    async function loadAttractions() {
-      loadingState.style.display = 'block';
-      carouselWrapper.style.display = 'none';
-      noAttractionsState.style.display = 'none';
-
-      const { data, error } = await supabase
-        .from('attractions')
-        .select('*')
-        .eq('state', 'Gujarat')
-        .order('created_at', { ascending: false });
-
-      loadingState.style.display = 'none';
-
-      if (error) {
-        console.error('Error loading attractions:', error);
-        noAttractionsState.textContent = 'Error loading attractions';
-        noAttractionsState.style.display = 'block';
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        noAttractionsState.style.display = 'block';
-        return;
-      }
-
-      attractions = data;
-      renderAttractions();
-      carouselWrapper.style.display = 'block';
-      updateArrows();
-    }
-
-    // Render attractions
-    function renderAttractions() {
-      carouselTrack.innerHTML = '';
-
-      attractions.forEach((attraction, index) => {
-        const card = document.createElement('div');
-        card.className = 'attraction-card';
-        
-        // Use placeholder if no image
-        const imageUrl = attraction.image_url || 'https://via.placeholder.com/400x400?text=' + encodeURIComponent(attraction.name);
-
-        card.innerHTML = `
-          <img src="${imageUrl}" alt="${attraction.name}">
-          <div class="attraction-overlay">
-            <span class="category">${attraction.category}</span>
-            <h3>${attraction.name}</h3>
-            <button class="know-more-btn" data-index="${index}">Know More</button>
+    data.forEach(a => {
+      container.innerHTML += `
+        <div class="card">
+          <img src="${a.image_url}">
+          <div class="card-content">
+            <h3>${a.name}</h3>
+            <p>${a.short_description}</p>
           </div>
-        `;
+        </div>
+      `;
+    });
+  }
 
-        carouselTrack.appendChild(card);
-      });
+  /* ================= TOP 4 DISTRICTS ================= */
+  async function loadDistricts() {
+    const { data: attractions } = await supabase
+      .from("attractions")
+      .select("district_id, districts(name, image_url)")
+      .eq("state_id", 1);
 
-      // Add click handlers to all "Know More" buttons
-      document.querySelectorAll('.know-more-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const index = parseInt(btn.getAttribute('data-index'));
-          openModal(attractions[index]);
-        });
-      });
-    }
-
-    // Carousel navigation
-    prevBtn.addEventListener('click', () => {
-      if (currentIndex > 0) {
-        currentIndex--;
-        updateCarousel();
+    const counts = {};
+    attractions.forEach(a => {
+      const d = a.districts;
+      if (!counts[a.district_id]) {
+        counts[a.district_id] = { ...d, count: 0 };
       }
+      counts[a.district_id].count++;
     });
 
-    nextBtn.addEventListener('click', () => {
-      if (currentIndex < attractions.length - cardsVisible) {
-        currentIndex++;
-        updateCarousel();
-      }
+    const topDistricts = Object.values(counts)
+      .sort((a,b) => b.count - a.count)
+      .slice(0,4);
+
+    const grid = document.getElementById("districtGrid");
+
+    topDistricts.forEach(d => {
+      grid.innerHTML += `
+        <div class="district">
+          <img src="${d.image_url}">
+          <h3>${d.name}</h3>
+        </div>
+      `;
     });
+  }
 
-    function updateCarousel() {
-      const cardWidth = carouselTrack.children[0]?.offsetWidth || 0;
-      const gap = 30;
-      const offset = -(currentIndex * (cardWidth + gap));
-      carouselTrack.style.transform = `translateX(${offset}px)`;
-      updateArrows();
+  /* ================= HORIZONTAL SCROLL ================= */
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to(".track", {
+    xPercent: -300,
+    ease: "none",
+    scrollTrigger: {
+      trigger: ".horizontal",
+      pin: true,
+      scrub: 1,
+      end: "+=4000"
     }
+  });
 
-    function updateArrows() {
-      prevBtn.disabled = currentIndex === 0;
-      nextBtn.disabled = currentIndex >= attractions.length - cardsVisible;
-    }
+  loadAttractions();
+  loadDistricts();
+</script>
 
-    // Modal functions
-    function openModal(attraction) {
-      modalImage.src = attraction.image_url || 'https://via.placeholder.com/900x400?text=' + encodeURIComponent(attraction.name);
-      modalName.textContent = attraction.name;
-      modalLocation.textContent = attraction.location;
-      modalCategory.textContent = attraction.category;
-      modalDescription.textContent = attraction.description;
-
-      // Parse and display contacts
-      modalContacts.innerHTML = '';
-      if (attraction.contacts) {
-        const contactLines = attraction.contacts.split('\n').filter(line => line.trim());
-        contactLines.forEach(line => {
-          const contactItem = document.createElement('div');
-          contactItem.className = 'contact-item';
-          
-          // Bold the part before the colon
-          const parts = line.split(':');
-          if (parts.length > 1) {
-            contactItem.innerHTML = `<strong>${parts[0]}:</strong>${parts.slice(1).join(':')}`;
-          } else {
-            contactItem.textContent = line;
-          }
-          
-          modalContacts.appendChild(contactItem);
-        });
-      } else {
-        modalContacts.innerHTML = '<div class="contact-item">No contact information available</div>';
-      }
-
-      modalOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-      modalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    // Modal close handlers
-    modalClose.addEventListener('click', closeModal);
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) {
-        closeModal();
-      }
-    });
-
-    // ESC key to close modal
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-        closeModal();
-      }
-    });
-
-    // Initialize
-    loadAttractions();
-
-    // Responsive: Update carousel on window resize
-    window.addEventListener('resize', () => {
-      updateCarousel();
-    });
-  </script>
 </body>
 </html>
