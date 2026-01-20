@@ -201,59 +201,79 @@
 
   /* ================= TOP 3 ATTRACTIONS ================= */
   async function loadAttractions() {
-    const { data } = await supabase
-      .from("attractions")
-      .select("name, short_description, image_url")
-      .eq("state_id", 1)
-      .order("priority_score", { ascending: false })
-      .limit(3);
-
-    const container = document.getElementById("attractionCards");
-
-    data.forEach(a => {
-      container.innerHTML += `
-        <div class="card">
-          <img src="${a.image_url}">
-          <div class="card-content">
-            <h3>${a.name}</h3>
-            <p>${a.short_description}</p>
-          </div>
-        </div>
-      `;
-    });
+  const { data, error } = await supabaseClient
+    .from("attractions")
+    .select("name, short_description, image_url")
+    .eq("state_id", 1)
+    .order("priority_score", { ascending: false })
+    .limit(3);
+  
+  console.log("Supabase client ready:", supabaseClient);
+  
+  if (error) {
+    console.error(error);
+    return;
   }
+
+  const container = document.getElementById("attractionCards");
+
+  data.forEach(a => {
+    container.innerHTML += `
+      <div class="card">
+        <img src="${a.image_url}">
+        <div class="card-content">
+          <h3>${a.name}</h3>
+          <p>${a.short_description}</p>
+        </div>
+      </div>
+    `;
+  });
+}
+
 
   /* ================= TOP 4 DISTRICTS ================= */
   async function loadDistricts() {
-    const { data: attractions } = await supabase
-      .from("attractions")
-      .select("district_id, districts(name, image_url)")
-      .eq("state_id", 1);
+  const { data, error } = await supabaseClient
+    .from("attractions")
+    .select("district_id, districts(name, image_url)")
+    .eq("state_id", 1);
 
-    const counts = {};
-    attractions.forEach(a => {
-      const d = a.districts;
-      if (!counts[a.district_id]) {
-        counts[a.district_id] = { ...d, count: 0 };
-      }
-      counts[a.district_id].count++;
-    });
-
-    const topDistricts = Object.values(counts)
-      .sort((a,b) => b.count - a.count)
-      .slice(0,4);
-
-    const grid = document.getElementById("districtGrid");
-
-    topDistricts.forEach(d => {
-      grid.innerHTML += `
-        <div class="district">
-          <img src="${d.image_url}">
-          <h3>${d.name}</h3>
-        </div>
-      `;
-    });
+  if (error) {
+    console.error(error);
+    return;
   }
+
+  console.log("Supabase client ready:", supabaseClient);
+
+
+  const counts = {};
+
+  data.forEach(item => {
+    const d = item.districts;
+    if (!d) return;
+
+    if (!counts[item.district_id]) {
+      counts[item.district_id] = { ...d, count: 0 };
+    }
+    counts[item.district_id].count++;
+  });
+
+  const topDistricts = Object.values(counts)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 4);
+
+  const grid = document.getElementById("districtGrid");
+
+  topDistricts.forEach(d => {
+    grid.innerHTML += `
+      <div class="district">
+        <img src="${d.image_url}">
+        <h3>${d.name}</h3>
+      </div>
+    `;
+  });
+}
+
 
   /* ================= HORIZONTAL SCROLL ================= */
   gsap.registerPlugin(ScrollTrigger);
