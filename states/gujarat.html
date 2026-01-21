@@ -2,44 +2,211 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Explore Gujarat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <title>Gujarat - Jewel of Western India | Bharat Yatra</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
   <!-- Supabase -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
-  <!-- GSAP (smooth horizontal scroll) -->
+  
+  <!-- GSAP -->
   <script src="https://unpkg.com/gsap@3/dist/gsap.min.js"></script>
   <script src="https://unpkg.com/gsap@3/dist/ScrollTrigger.min.js"></script>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
 
     :root {
-      --bg-light: #f7f5f2;
-      --bg-dark: #0f0f0f;
-      --accent: #c84b31;
-      --accent-soft: #e6b8a2;
+      --state-primary: #000000;
+      --state-secondary: #ffffff;
+      --state-accent: #ff6b35;
+      --state-accent-dark: #e55a2b;
       --text-muted: #666;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Georgia', 'Times New Roman', serif;
     }
 
     body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg-light);
-      color: #111;
-      line-height: 1.6;
+      background: #f4f4f4;
+      overflow-x: hidden;
     }
 
-    h1, h2, h3 {
-      letter-spacing: -0.02em;
+    /* ==================== NAVBAR ==================== */
+    #navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 0;
+      z-index: 1000;
+      background: transparent;
+      transition: var(--transition);
     }
 
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: system-ui, sans-serif; overflow-x: hidden; }
+    .logo {
+      color: var(--state-secondary);
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-decoration: none;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      align-items: center;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--state-secondary);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: var(--transition);
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--state-accent);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .menu-btn {
+      color: var(--state-secondary);
+      font-size: 1.5rem;
+      cursor: pointer;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* ==================== SIDEBAR ==================== */
+    .sidebar {
+      position: fixed;
+      right: -320px;
+      top: 0;
+      width: 300px;
+      height: 100%;
+      background: var(--state-primary);
+      z-index: 2000;
+      transition: var(--transition);
+      padding: 30px;
+      overflow-y: auto;
+    }
+
+    .sidebar.active {
+      right: 0;
+    }
+
+    .close-btn {
+      color: var(--state-secondary);
+      font-size: 2rem;
+      cursor: pointer;
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-links {
+      list-style: none;
+    }
+
+    .sidebar-links li {
+      padding: 12px 0;
+      border-bottom: 1px solid #333;
+    }
+
+    .sidebar-links a {
+      color: var(--state-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: 0.3s;
+    }
+
+    .sidebar-links a:hover {
+      color: var(--state-accent);
+      padding-left: 10px;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      visibility: hidden;
+      opacity: 0;
+      z-index: 1500;
+      transition: var(--transition);
+    }
+
+    .overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* ==================== SCROLL PROGRESS ==================== */
+    .scroll-progress {
+      position: fixed;
+      bottom: 40px;
+      right: 40px;
+      z-index: 100;
+      display: flex;
+      gap: 12px;
+    }
+
+    .progress-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .progress-dot.active {
+      background: var(--state-accent);
+      transform: scale(1.3);
+    }
+
+    /* ==================== HORIZONTAL SCROLL ==================== */
+    .horizontal-wrapper {
+      position: relative;
+    }
 
     .horizontal {
       position: relative;
       height: 100vh;
+      overflow: hidden;
     }
 
     .track {
@@ -52,315 +219,1075 @@
       width: 100vw;
       height: 100vh;
       flex-shrink: 0;
-      padding: 60px;
+      position: relative;
     }
 
-    .panel h2 {
-      font-size: 42px;
-      margin-bottom: 10px;
+    /* ==================== PANEL 1: VIDEO ==================== */
+    .video-panel {
+      position: relative;
+      overflow: hidden;
     }
 
-    .panel h2::after {
-      content: "";
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: var(--accent);
-      margin-top: 12px;
-      border-radius: 4px;
+    .video-panel video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      transform: translate(-50%, -50%);
+      object-fit: cover;
+      opacity: 0;
+      animation: fadeInVideo 2s ease forwards;
     }
 
+    @keyframes fadeInVideo {
+      to { opacity: 1; }
+    }
 
-    /* ================= VIDEO ================= */
-    .video::after {
+    .video-panel::after {
       content: "";
       position: absolute;
       inset: 0;
       background: linear-gradient(
         to right,
-        rgba(0,0,0,0.65),
+        rgba(0,0,0,0.5),
         rgba(0,0,0,0.2),
         rgba(0,0,0,0)
       );
+      z-index: 1;
     }
 
-    .video .overlay {
+    .video-overlay {
       position: absolute;
       inset: 0;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      padding-left: 8vw;
-      color: white;
       z-index: 2;
     }
 
-    .video h1 {
-      font-size: clamp(56px, 7vw, 96px);
+    .video-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(80px, 12vw, 160px);
       font-weight: 700;
+      color: var(--state-secondary);
+      text-shadow: 4px 4px 20px rgba(0,0,0,0.7);
+      letter-spacing: 8px;
+      opacity: 0;
+      animation: fadeInTitle 1.5s ease 0.5s forwards;
     }
 
-    .video p {
-      font-size: 22px;
-      max-width: 480px;
-      opacity: 0.9;
+    @keyframes fadeInTitle {
+      to { opacity: 1; }
     }
 
+    .mute-btn {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.6);
+      border: 2px solid var(--state-secondary);
+      color: var(--state-secondary);
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 3;
+      backdrop-filter: blur(10px);
+    }
 
-    /* ================= ATTRACTIONS ================= */
-    .cards {
+    .mute-btn:hover {
+      background: var(--state-accent);
+      border-color: var(--state-accent);
+      transform: scale(1.1);
+    }
+
+    /* ==================== PANEL 2: ATTRACTIONS ==================== */
+    .attractions-panel {
+      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+      padding: 80px 60px;
+      overflow-y: auto;
+    }
+
+    .panel-title {
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--state-primary);
+      margin-bottom: 50px;
+      letter-spacing: -1px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .panel-title::after {
+      content: "";
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 80px;
+      height: 4px;
+      background: var(--state-accent);
+      border-radius: 4px;
+    }
+
+    .attractions-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 32px;
-      margin-top: 50px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-bottom: 40px;
     }
 
-    .card {
+    .attraction-card {
       background: white;
       border-radius: 20px;
       overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
       transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
     }
 
-    .card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 25px 40px rgba(0,0,0,0.15);
+    .attraction-card:nth-child(1) {
+      transform: translateY(-20px);
     }
 
-    .card img {
-      height: 240px;
+    .attraction-card:nth-child(2) {
+      transform: translateY(20px);
     }
 
-    .card-content h3 {
+    .attraction-card:nth-child(3) {
+      transform: translateY(-10px);
+    }
+
+    .attraction-card:hover {
+      transform: translateY(-15px) !important;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    }
+
+    .attraction-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .attraction-content {
+      padding: 25px;
+    }
+
+    .attraction-content h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: var(--state-primary);
+    }
+
+    .attraction-content p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .view-details-btn {
+      background: var(--state-accent);
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .view-details-btn:hover {
+      background: var(--state-accent-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ==================== PANEL 3: DISTRICTS ==================== */
+    .districts-panel {
+      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
+      color: white;
+      padding: 80px 60px;
+      overflow-y: auto;
+    }
+
+    .districts-panel .panel-title {
+      color: var(--state-secondary);
+    }
+
+    .districts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    .district-card {
+      background: #181818;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .district-card:hover {
+      transform: scale(1.05);
+    }
+
+    .district-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .district-info {
+      padding: 20px;
+    }
+
+    .district-info h3 {
+      font-size: 24px;
       margin-bottom: 8px;
     }
 
-    .card-content p {
+    .district-info span {
+      color: #aaa;
+      font-size: 15px;
+    }
+
+    .visit-all-btn {
+      display: inline-block;
+      background: var(--state-accent);
+      color: white;
+      padding: 15px 40px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: var(--transition);
+    }
+
+    .visit-all-btn:hover {
+      background: var(--state-accent-dark);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255,107,53,0.3);
+    }
+
+    /* ==================== PANEL 4: ARTS & CRAFTS ==================== */
+    .arts-panel {
+      background: linear-gradient(135deg, #2c1810, #4a2c1f);
+      color: white;
+      padding: 80px 60px;
+      overflow-y: auto;
+    }
+
+    .arts-panel .panel-title {
+      color: var(--state-secondary);
+    }
+
+    .crafts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 25px;
+      grid-auto-rows: 200px;
+    }
+
+    .craft-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      position: relative;
+    }
+
+    .craft-card:nth-child(1) { grid-row: span 2; }
+    .craft-card:nth-child(3) { grid-row: span 2; }
+    .craft-card:nth-child(5) { grid-row: span 2; }
+
+    .craft-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .craft-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .craft-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+      padding: 30px 20px 20px;
+    }
+
+    .craft-card h3 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+
+    .craft-card p {
+      font-size: 14px;
+      color: #ddd;
+    }
+
+    /* ==================== MODALS ==================== */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 3000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalSlideIn 0.3s ease;
+    }
+
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--state-primary);
+      color: white;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10;
+      transition: var(--transition);
+    }
+
+    .modal-close:hover {
+      background: var(--state-accent);
+      transform: rotate(90deg);
+    }
+
+    .modal-image {
+      width: 100%;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 20px 20px 0 0;
+    }
+
+    .modal-body {
+      padding: 40px;
+    }
+
+    .modal-body h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: var(--state-primary);
+    }
+
+    .modal-body p {
+      color: var(--text-muted);
+      line-height: 1.8;
+      margin-bottom: 15px;
+    }
+
+    .modal-info {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 2px solid #eee;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .info-item i {
+      color: var(--state-accent);
+      font-size: 20px;
+    }
+
+    .info-item div strong {
+      display: block;
+      color: var(--state-primary);
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .info-item div span {
       color: var(--text-muted);
       font-size: 15px;
     }
 
-
-    /* ================= DISTRICTS ================= */
-    .districts {
-      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
-      color: white;
+    /* ==================== FOOTER ==================== */
+    footer {
+      background: var(--state-primary);
+      color: var(--state-secondary);
+      padding: 60px 20px 20px;
+      border-top: 4px solid var(--state-accent);
     }
 
-    .district-grid {
+    .footer-grid {
+      max-width: 1200px;
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 25px;
-      margin-top: 40px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 30px;
     }
 
-    .district {
-      background: #181818;
-      border-radius: 18px;
-      overflow: hidden;
-      transition: transform 0.3s ease;
+    .footer-section h3 {
+      color: var(--state-accent);
+      margin-bottom: 20px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      border-left: 3px solid var(--state-accent);
+      padding-left: 10px;
     }
 
-    .district:hover {
-      transform: scale(1.03);
+    .footer-section ul {
+      list-style: none;
     }
 
-    .district img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-
-    .district h3 {
-      font-size: 18px;
-    }
-
-    .district span {
-      display: block;
-      padding: 0 15px 15px;
-      color: #aaa;
-      font-size: 14px;
-    }
-
-    .visit-all {
-      display: inline-block;
-      margin-top: 40px;
-      color: white;
+    .footer-section a {
+      color: #bbb;
       text-decoration: none;
-      font-weight: bold;
-      border-bottom: 2px solid white;
+      font-size: 0.95rem;
+      line-height: 2.2;
+      transition: var(--transition);
     }
 
-    /* ================= ARTS ================= */
-    .arts {
-      background: linear-gradient(135deg, #7b2d26, #c84b31);
+    .footer-section a:hover {
+      color: var(--state-accent);
+      padding-left: 5px;
     }
 
-    .crafts {
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    .footer-social {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
     }
 
-    .craft {
-      background: rgba(255,255,255,0.18);
-      backdrop-filter: blur(6px);
-      padding: 50px 30px;
-      border-radius: 24px;
-      font-size: 20px;
-      transition: transform 0.3s ease;
+    .footer-social a {
+      width: 35px;
+      height: 35px;
+      background: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: white;
+      transition: 0.3s;
     }
 
-    .craft:hover {
-      transform: translateY(-6px);
+    .footer-social a:hover {
+      background: var(--state-accent);
     }
 
+    .app-links {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .app-link {
+      background: #000;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      border: 1px solid #333;
+      font-size: 0.8rem;
+    }
+
+    .app-link:hover {
+      border-color: var(--state-accent);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid #333;
+      color: #777;
+      font-size: 0.85rem;
+    }
+
+    /* ==================== RESPONSIVE ==================== */
+    @media (max-width: 1024px) {
+      .nav-links {
+        display: none;
+      }
+
+      .horizontal {
+        height: auto;
+      }
+
+      .track {
+        flex-direction: column;
+        width: 100vw;
+        height: auto;
+      }
+
+      .panel {
+        width: 100vw;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .attractions-grid,
+      .districts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .crafts-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .scroll-progress {
+        display: none;
+      }
+    }
   </style>
 </head>
-
 <body>
 
-<section class="horizontal">
-  <div class="track">
-
-    <!-- ================= PANEL 1: VIDEO ================= -->
-    <section class="panel video">
-      <video autoplay muted loop playsinline>
-        <source src="../styling/stateimages/gujarat-intro.mp4" type="video/mp4">
-      </video>
-      <div class="overlay">
-        <h1>Gujarat</h1>
-        <p>Jewel of Western India</p>
+  <!-- ==================== NAVBAR ==================== -->
+  <nav id="navbar">
+    <div class="nav-container">
+      <a href="#" class="logo">BHARAT YATRA</a>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="gujaratdistricts.html">Districts</a></li>
+        <li><a href="#">About Us</a></li>
+      </ul>
+      <div class="menu-btn" id="open-sidebar">
+        <i class="fas fa-bars"></i>
       </div>
-    </section>
+    </div>
+  </nav>
 
-    <!-- ================= PANEL 2: ATTRACTIONS ================= -->
-    <section class="panel attractions">
-      <h2>Famous Attractions</h2>
-      <div class="cards" id="attractionCards"></div>
-    </section>
-
-    <!-- ================= PANEL 3: DISTRICTS ================= -->
-    <section class="panel districts">
-      <h2>Popular Districts</h2>
-      <div class="district-grid" id="districtGrid"></div>
-      <a class="visit-all" href="gujaratdistricts.html">Visit All Districts →</a>
-    </section>
-
-    <!-- ================= PANEL 4: ARTS ================= -->
-    <section class="panel arts">
-      <h2>Arts & Crafts of Gujarat</h2>
-      <div class="crafts">
-        <div class="craft">Bandhani</div>
-        <div class="craft">Patola Silk</div>
-        <div class="craft">Kutch Embroidery</div>
-        <div class="craft">Rogan Art</div>
-      </div>
-    </section>
-
+  <!-- ==================== SIDEBAR ==================== -->
+  <div class="sidebar" id="sidebar">
+    <div class="close-btn" id="close-sidebar">×</div>
+    <ul class="sidebar-links">
+      <li><a href="#"><i class="fas fa-map-marker-alt"></i> Destination</a></li>
+      <li><a href="#"><i class="fas fa-star"></i> Experiences</a></li>
+      <li><a href="#"><i class="fas fa-calendar-check"></i> Plan Your Trip</a></li>
+      <li><a href="#"><i class="fas fa-globe"></i> Content Hub</a></li>
+      <li><a href="#"><i class="fas fa-heart"></i> Travel for Life</a></li>
+      <li><a href="#"><i class="fas fa-palette"></i> Colours of India</a></li>
+      <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+      <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+    </ul>
   </div>
-</section>
+  <div class="overlay" id="overlay"></div>
 
-<script>
-  const supabaseClient = supabase.createClient(
-  "https://gtpnojbbamoaznlutxap.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0cG5vamJiYW1vYXpubHV0eGFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Mjk3NjMsImV4cCI6MjA4NDQwNTc2M30.t6fwQJR9ljGGfOajPlXzWGSQbKCtpaTb4dWfb33BHxE"
-);
+  <!-- ==================== SCROLL PROGRESS ==================== -->
+  <div class="scroll-progress">
+    <div class="progress-dot active" data-panel="0"></div>
+    <div class="progress-dot" data-panel="1"></div>
+    <div class="progress-dot" data-panel="2"></div>
+    <div class="progress-dot" data-panel="3"></div>
+  </div>
 
-  /* ================= TOP 3 ATTRACTIONS ================= */
-  async function loadAttractions() {
-  const { data, error } = await supabaseClient
-    .from("attractions")
-    .select(`
-      id,
-      name,
-      short_description,
-      image_url
-    `)
-    .eq("state_id", 1)
-    .order("priority_score", { ascending: false })
-    .limit(3);
+  <!-- ==================== HORIZONTAL SCROLL ==================== -->
+  <div class="horizontal-wrapper">
+    <section class="horizontal">
+      <div class="track">
 
-  if (error) {
-    console.error("Attractions error:", error);
-    return;
-  }
+        <!-- PANEL 1: VIDEO -->
+        <div class="panel video-panel">
+          <video id="heroVideo" autoplay muted loop playsinline>
+            <source src="../styling/stateimages/gujarat-intro.mp4" type="video/mp4">
+          </video>
+          <div class="video-overlay">
+            <h1 class="video-title">GUJARAT</h1>
+          </div>
+          <button class="mute-btn" id="muteBtn">
+            <i class="fas fa-volume-mute"></i>
+          </button>
+        </div>
 
-  const container = document.getElementById("attractionCards");
-  container.innerHTML = "";
+        <!-- PANEL 2: ATTRACTIONS -->
+        <div class="panel attractions-panel">
+          <h2 class="panel-title">Famous Attractions</h2>
+          <div class="attractions-grid" id="attractionsGrid"></div>
+        </div>
 
-  data.forEach(a => {
-    container.innerHTML += `
-      <div class="card">
-        <img src="${a.image_url}" alt="${a.name}">
-        <h3>${a.name}</h3>
-        <p>${a.short_description ?? ""}</p>
+        <!-- PANEL 3: DISTRICTS -->
+        <div class="panel districts-panel">
+          <h2 class="panel-title">Popular Districts</h2>
+          <div class="districts-grid" id="districtsGrid"></div>
+          <a href="gujaratdistricts.html" class="visit-all-btn">
+            Visit All Districts <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <!-- PANEL 4: ARTS & CRAFTS -->
+        <div class="panel arts-panel">
+          <h2 class="panel-title">Arts & Crafts of Gujarat</h2>
+          <div class="crafts-grid" id="craftsGrid"></div>
+        </div>
+
       </div>
-    `;
-  });
-}
+    </section>
+  </div>
 
-
-
-  /* ================= TOP 4 DISTRICTS ================= */
-  async function loadDistricts() {
-  const { data, error } = await supabaseClient
-    .from("districts")
-    .select(`
-      id,
-      name,
-      image_url,
-      attractions ( id )
-    `)
-    .eq("state_id", 1);
-
-  if (error) {
-    console.error("Districts error:", error);
-    return;
-  }
-
-  const districtsWithCount = data
-    .map(d => ({
-      id: d.id,
-      name: d.name,
-      image_url: d.image_url,
-      count: d.attractions.length
-    }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 4);
-
-  const grid = document.getElementById("districtGrid");
-  grid.innerHTML = "";
-
-  districtsWithCount.forEach(d => {
-    grid.innerHTML += `
-      <div class="district">
-        <img src="${d.image_url}" alt="${d.name}">
-        <h3>${d.name}</h3>
-        <span>${d.count} attractions</span>
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Destinations</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
       </div>
-    `;
-  });
-}
 
+      <div class="footer-section">
+        <h3>Medical Tourism</h3>
+        <ul>
+          <li><a href="#">Medical Tourism</a></li>
+          <li><a href="#">SEPC Medical Tourism</a></li>
+          <li><a href="#">Wellness Centers</a></li>
+          <li><a href="#">Yoga Retreats</a></li>
+        </ul>
+      </div>
 
+      <div class="footer-section">
+        <h3>Special Hospitals</h3>
+        <ul>
+          <li><a href="#">AIIMS Delhi</a></li>
+          <li><a href="#">Apollo Hospitals</a></li>
+          <li><a href="#">Fortis Healthcare</a></li>
+          <li><a href="#">Medanta Hospital</a></li>
+        </ul>
+      </div>
 
-  /* ================= HORIZONTAL SCROLL ================= */
-  const panels = gsap.utils.toArray(".panel");
+      <div class="footer-section">
+        <h3>Experiences</h3>
+        <ul>
+          <li><a href="#">Cultural Tours</a></li>
+          <li><a href="#">Luxury Travel</a></li>
+          <li><a href="#">Eco Tourism</a></li>
+          <li><a href="#">Wildlife Safari</a></li>
+        </ul>
+      </div>
 
-  gsap.to(panels, {
-    xPercent: -100 * (panels.length - 1),
-    ease: "none",
-    scrollTrigger: {
-      trigger: ".horizontal",
-      pin: true,
-      scrub: 1,
-      end: () => "+=" + window.innerWidth * panels.length
+      <div class="footer-section">
+        <h3>Follow & App</h3>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="app-links">
+          <a href="#" class="app-link">
+            <i class="fab fa-google-play"></i>
+            <div><small>Get it on</small><br>Google Play</div>
+          </a>
+          <a href="#" class="app-link">
+            <i class="fab fa-apple"></i>
+            <div><small>Download on</small><br>App Store</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 Bharat Yatra - Incredible India. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODALS ==================== -->
+  <div class="modal" id="attractionModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('attractionModal')">×</button>
+      <img id="modalImage" class="modal-image" src="" alt="">
+      <div class="modal-body">
+        <h2 id="modalName"></h2>
+        <p id="modalDescription"></p>
+        <div class="modal-info" id="modalInfo"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="craftModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal('craftModal')">×</button>
+      <img id="craftModalImage" class="modal-image" src="" alt="">
+      <div class="modal-body">
+        <h2 id="craftModalName"></h2>
+        <p id="craftModalDescription"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==================== SUPABASE SETUP ====================
+    const supabaseClient = supabase.createClient(
+      "https://gtpnojbbamoaznlutxap.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0cG5vamJiYW1vYXpubHV0eGFwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg4Mjk3NjMsImV4cCI6MjA4NDQwNTc2M30.t6fwQJR9ljGGfOajPlXzWGSQbKCtpaTb4dWfb33BHxE"
+    );
+
+    // ==================== SIDEBAR FUNCTIONALITY ====================
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const openBtn = document.getElementById('open-sidebar');
+    const closeBtn = document.getElementById('close-sidebar');
+
+    openBtn.addEventListener('click', () => {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    const closeSidebar = () => {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    };
+
+    closeBtn.addEventListener('click', closeSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    // ==================== MUTE/UNMUTE VIDEO ====================
+    const video = document.getElementById('heroVideo');
+    const muteBtn = document.getElementById('muteBtn');
+    let isMuted = true;
+
+    muteBtn.addEventListener('click', () => {
+      isMuted = !isMuted;
+      video.muted = isMuted;
+      muteBtn.innerHTML = isMuted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+    });
+
+    // ==================== LOAD ATTRACTIONS ====================
+    async function loadAttractions() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("attractions")
+          .select("id, name, short_description, description, image_url, entry_fee, estimated_time_hours, best_time_note")
+          .eq("state_id", 1)
+          .order("priority_score", { ascending: false })
+          .limit(3);
+
+        if (error) throw error;
+
+        const container = document.getElementById("attractionsGrid");
+        container.innerHTML = "";
+
+        data.forEach(attraction => {
+          const card = document.createElement('div');
+          card.className = 'attraction-card';
+          card.innerHTML = `
+            <img src="${attraction.image_url}" alt="${attraction.name}">
+            <div class="attraction-content">
+              <h3>${attraction.name}</h3>
+              <p>${attraction.short_description || ''}</p>
+              <button class="view-details-btn" onclick="openAttractionModal(${attraction.id})">
+                View Details
+              </button>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+
+        // Store data for modal access
+        window.attractionsData = data;
+      } catch (error) {
+        console.error("Error loading attractions:", error);
+      }
     }
-  });
 
+    // ==================== LOAD DISTRICTS ====================
+    async function loadDistricts() {
+      try {
+        const { data, error } = await supabaseClient
+          .from("districts")
+          .select(`
+            id,
+            name,
+            image_url,
+            attractions ( id )
+          `)
+          .eq("state_id", 1);
 
-  loadAttractions();
-  loadDistricts();
-</script>
+        if (error) throw error;
 
+        const districtsWithCount = data
+          .map(d => ({
+            id: d.id,
+            name: d.name,
+            image_url: d.image_url,
+            count: d.attractions.length
+          }))
+          .sort((a, b) => b.count - a.count)
+          .slice(0, 3);
+
+        const container = document.getElementById("districtsGrid");
+        container.innerHTML = "";
+
+        districtsWithCount.forEach(district => {
+          container.innerHTML += `
+            <div class="district-card" onclick="openDistrictModal(${district.id})">
+              <img src="${district.image_url}" alt="${district.name}">
+              <div class="district-info">
+                <h3>${district.name}</h3>
+                <span><i class="fas fa-map-marked-alt"></i> ${district.count} attractions</span>
+              </div>
+            </div>
+          `;
+        });
+      } catch (error) {
+        console.error("Error loading districts:", error);
+      }
+    }
+
+    // ==================== ARTS & CRAFTS DATA ====================
+    const craftsData = [
+      {
+        name: "Bandhani",
+        description: "Bandhani is a traditional tie-dye textile art form from Gujarat, known for its vibrant colors and intricate patterns. This ancient craft involves tying thousands of tiny knots on fabric before dyeing, creating stunning dotted designs. Artisans in Kutch and Saurashtra regions have perfected this technique over generations.",
+        image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&q=80",
+        where: "Best experienced in Bhuj, Jamnagar, and Rajkot markets"
+      },
+      {
+        name: "Patola Silk",
+        description: "Patola is one of the finest hand-woven silk fabrics in the world, exclusive to Patan, Gujarat. The double ikat weaving technique makes each saree a masterpiece, taking 6-12 months to create. These geometric patterns have been treasured for over 900 years and were once worn only by royalty.",
+        image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80",
+        where: "Visit Patan's weaving workshops and Patola Heritage Museum"
+      },
+      {
+        name: "Kutch Embroidery",
+        description: "Kutch embroidery is a vibrant mirror-work craft featuring colorful thread work and tiny mirrors stitched into fabric. Each tribal community has its unique style - from Rabari's dense geometric patterns to Ahir's floral designs. This craft tells stories of desert life through needle and thread.",
+        image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=800&q=80",
+        where: "Explore craft villages in Bhuj, Nirona, and Dhamadka"
+      },
+      {
+        name: "Rogan Art",
+        description: "Rogan painting is a rare 400-year-old art where artists use castor oil mixed with pigments to create intricate designs on fabric. The paint is applied with a metal rod, never touching the fabric directly. Today, only one family in Nirona village keeps this UNESCO-recognized craft alive.",
+        image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&q=80",
+        where: "Visit the Khatri family workshop in Nirona village"
+      },
+      {
+        name: "Ajrakh Block Printing",
+        description: "Ajrakh is a centuries-old block-printing technique using natural dyes and hand-carved wooden blocks. The fabric undergoes a 16-step process involving washing, printing, and dyeing to achieve its signature indigo, red, and black geometric patterns. Each piece reflects the artisan's mastery and patience.",
+        image: "https://images.unsplash.com/photo-1563396983906-b3795482a59a?w=800&q=80",
+        where: "Discover in Ajrakhpur and Dhamadka villages near Bhuj"
+      }
+    ];
+
+    // ==================== LOAD CRAFTS ====================
+    function loadCrafts() {
+      const container = document.getElementById("craftsGrid");
+      container.innerHTML = "";
+
+      craftsData.forEach((craft, index) => {
+        container.innerHTML += `
+          <div class="craft-card" onclick="openCraftModal(${index})">
+            <img src="${craft.image}" alt="${craft.name}">
+            <div class="craft-overlay">
+              <h3>${craft.name}</h3>
+              <p>Tap to explore</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    // ==================== MODAL FUNCTIONS ====================
+    function openAttractionModal(attractionId) {
+      const attraction = window.attractionsData.find(a => a.id === attractionId);
+      if (!attraction) return;
+
+      document.getElementById('modalImage').src = attraction.image_url;
+      document.getElementById('modalName').textContent = attraction.name;
+      document.getElementById('modalDescription').textContent = attraction.description || attraction.short_description;
+
+      const infoHtml = `
+        ${attraction.entry_fee !== undefined ? `
+          <div class="info-item">
+            <i class="fas fa-ticket-alt"></i>
+            <div>
+              <strong>Entry Fee</strong>
+              <span>₹${attraction.entry_fee === 0 ? 'Free' : attraction.entry_fee}</span>
+            </div>
+          </div>
+        ` : ''}
+        ${attraction.estimated_time_hours ? `
+          <div class="info-item">
+            <i class="fas fa-clock"></i>
+            <div>
+              <strong>Time Needed</strong>
+              <span>${attraction.estimated_time_hours} hours</span>
+            </div>
+          </div>
+        ` : ''}
+        ${attraction.best_time_note ? `
+          <div class="info-item">
+            <i class="fas fa-calendar-alt"></i>
+            <div>
+              <strong>Best Time</strong>
+              <span>${attraction.best_time_note}</span>
+            </div>
+          </div>
+        ` : ''}
+      `;
+
+      document.getElementById('modalInfo').innerHTML = infoHtml;
+      document.getElementById('attractionModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openCraftModal(index) {
+      const craft = craftsData[index];
+      document.getElementById('craftModalImage').src = craft.image;
+      document.getElementById('craftModalName').textContent = craft.name;
+      document.getElementById('craftModalDescription').innerHTML = `
+        <p>${craft.description}</p>
+        <div class="modal-info">
+          <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Where to Experience</strong>
+              <span>${craft.where}</span>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById('craftModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openDistrictModal(districtId) {
+      // Redirect to districts page for now
+      window.location.href = 'gujaratdistricts.html';
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal(modal.id);
+        }
+      });
+    });
+
+    // ==================== HORIZONTAL SCROLL (GSAP) ====================
+    function initHorizontalScroll() {
+      // Only on desktop
+      if (window.innerWidth > 1024) {
+        const panels = gsap.utils.toArray(".panel");
+        
+        gsap.to(panels, {
+          xPercent: -100 * (panels.length - 1),
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".horizontal",
+            pin: true,
+            scrub: 1,
+            end: () => "+=" + (window.innerWidth * panels.length),
+            onUpdate: (self) => {
+              // Update progress dots
+              const progress = self.progress;
+              const currentPanel = Math.floor(progress * panels.length);
+              
+              document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+                if (index === currentPanel) {
+                  dot.classList.add('active');
+                } else {
+                  dot.classList.remove('active');
+                }
+              });
+            }
+          }
+        });
+
+        // Progress dot click navigation
+        document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+          dot.addEventListener('click', () => {
+            const scrollDistance = (index / panels.length) * (window.innerWidth * panels.length);
+            gsap.to(window, {
+              scrollTo: scrollDistance,
+              duration: 1,
+              ease: "power2.inOut"
+            });
+          });
+        });
+      }
+    }
+
+    // ==================== INITIALIZE ====================
+    window.addEventListener('load', () => {
+      loadAttractions();
+      loadDistricts();
+      loadCrafts();
+      
+      // Initialize GSAP after short delay
+      setTimeout(() => {
+        initHorizontalScroll();
+      }, 100);
+    });
+
+    // Reinitialize on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 250);
+    });
+  </script>
 </body>
 </html>
