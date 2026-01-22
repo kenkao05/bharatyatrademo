@@ -44,10 +44,11 @@
       position: fixed;
       top: 0;
       width: 100%;
-      padding: 20px 0;
+      padding: 12px 0; /* Adjust height here */
       z-index: 1000;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+      background: #ffffff;
       transition: var(--transition);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
     .nav-container {
@@ -60,12 +61,11 @@
     }
 
     .logo {
-      color: var(--state-secondary);
+      color: var(--state-accent);
       font-size: 1.8rem;
       font-weight: bold;
       letter-spacing: 3px;
       text-decoration: none;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
     }
 
     .nav-links {
@@ -76,12 +76,11 @@
     }
 
     .nav-links a {
-      color: var(--state-secondary);
+      color: #000000;
       text-decoration: none;
       font-size: 1rem;
       font-weight: 500;
       transition: var(--transition);
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
       position: relative;
     }
 
@@ -101,10 +100,9 @@
     }
 
     .menu-btn {
-      color: var(--state-secondary);
+      color: #000000;
       font-size: 1.5rem;
       cursor: pointer;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
     }
 
     /* ==================== SIDEBAR ==================== */
@@ -263,9 +261,11 @@
       position: absolute;
       inset: 0;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 2;
+      gap: 20px;
     }
 
     .video-title {
@@ -277,6 +277,31 @@
       letter-spacing: 8px;
       opacity: 0;
       animation: fadeInTitle 1.5s ease 0.5s forwards;
+    }
+
+    .video-tagline {
+      font-family: 'Georgia', serif;
+      font-size: clamp(18px, 2vw, 28px);
+      color: var(--state-secondary);
+      text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      opacity: 0;
+      animation: fadeInTitle 1.5s ease 1s forwards;
+    }
+
+    .video-tagline::before,
+    .video-tagline::after {
+      content: "";
+      width: 60px;
+      height: 2px;
+      background: var(--state-accent);
+      /* Alternative ornamental dividers (replace above with one of these):
+         content: "❖"; font-size: 20px; width: auto; height: auto; background: none; color: var(--state-accent);
+         content: "◆"; font-size: 16px; width: auto; height: auto; background: none; color: var(--state-accent);
+         content: "✦"; font-size: 18px; width: auto; height: auto; background: none; color: var(--state-accent);
+      */
     }
 
     @keyframes fadeInTitle {
@@ -340,11 +365,16 @@
       border-radius: 4px;
     }
 
+    .districts-panel .panel-title::after,
+    .arts-panel .panel-title::after {
+      background: #E8DDD3;
+    }
+
     .attractions-grid {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 40px;
+      gap: 30px;
       margin-bottom: 40px;
     }
 
@@ -356,6 +386,7 @@
       transition: box-shadow 0.3s ease;
       cursor: pointer;
       text-align: center;
+      width: 320px;
     }
 
     .attraction-card:hover {
@@ -366,32 +397,9 @@
       filter: brightness(0.85);
     }
 
-    .attraction-card:nth-child(1) {
-      width: 380px;
-    }
-
-    .attraction-card:nth-child(1) img {
-      height: 320px;
-    }
-
-    .attraction-card:nth-child(2) {
-      width: 340px;
-    }
-
-    .attraction-card:nth-child(2) img {
-      height: 280px;
-    }
-
-    .attraction-card:nth-child(3) {
-      width: 300px;
-    }
-
-    .attraction-card:nth-child(3) img {
-      height: 240px;
-    }
-
     .attraction-card img {
       width: 100%;
+      height: 280px;
       object-fit: cover;
       transition: filter 0.3s ease;
     }
@@ -408,8 +416,8 @@
 
     /* ==================== PANEL 3: DISTRICTS ==================== */
     .districts-panel {
-      background: radial-gradient(circle at top, #1a1a1a, #0a0a0a);
-      color: white;
+      background: #BFB1A8;
+      color: #000000;
       padding: 80px 60px;
       overflow-y: auto;
       display: flex;
@@ -418,23 +426,24 @@
     }
 
     .districts-panel .panel-title {
-      color: var(--state-secondary);
+      color: #000000;
     }
 
     .districts-grid {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 40px;
+      gap: 30px;
       margin-bottom: 50px;
     }
 
     .district-card {
-      background: #181818;
+      background: #ffffff;
       border-radius: 20px;
       overflow: hidden;
       transition: transform 0.3s ease;
       cursor: pointer;
+      width: 280px;
     }
 
     .district-card:hover {
@@ -454,10 +463,11 @@
     .district-info h3 {
       font-size: 24px;
       margin-bottom: 8px;
+      color: #000000;
     }
 
     .district-info span {
-      color: #aaa;
+      color: #666;
       font-size: 15px;
     }
 
@@ -465,12 +475,14 @@
       display: inline-block;
       background: var(--state-accent);
       color: white;
-      padding: 15px 40px;
+      padding: 12px 30px;
       border-radius: 10px;
       text-decoration: none;
       font-weight: 600;
       font-size: 16px;
       transition: var(--transition);
+      margin: 0 auto;
+      width: auto;
     }
 
     .visit-all-btn:hover {
@@ -483,7 +495,7 @@
     .arts-panel {
       background: #aa8d70;
       color: white;
-      padding: 80px 60px;
+      padding: 80px 60px 200px;
       overflow-y: auto;
     }
 
@@ -848,6 +860,7 @@
           </video>
           <div class="video-overlay">
             <h1 class="video-title">GUJARAT</h1>
+            <div class="video-tagline">Jewel of Western India</div>
           </div>
           <button class="mute-btn" id="muteBtn">
             <i class="fas fa-volume-mute"></i>
@@ -864,9 +877,11 @@
         <div class="panel districts-panel">
           <h2 class="panel-title">Popular Districts</h2>
           <div class="districts-grid" id="districtsGrid"></div>
-          <a href="gujaratdistricts.html" class="visit-all-btn">
-            Visit All Districts <i class="fas fa-arrow-right"></i>
-          </a>
+          <div style="text-align: center;">
+            <a href="gujaratdistricts.html" class="visit-all-btn">
+              Visit All Districts <i class="fas fa-arrow-right"></i>
+            </a>
+          </div>
         </div>
 
         <!-- PANEL 4: ARTS & CRAFTS -->
@@ -1018,7 +1033,7 @@
           .select("id, name, short_description, description, image_url, entry_fee, estimated_time_hours, best_time_note")
           .eq("state_id", 1)
           .order("priority_score", { ascending: false })
-          .limit(3);
+          .limit(4);
 
         if (error) throw error;
 
@@ -1068,7 +1083,7 @@
             count: d.attractions.length
           }))
           .sort((a, b) => b.count - a.count)
-          .slice(0, 3);
+          .slice(0, 4);
 
         const container = document.getElementById("districtsGrid");
         container.innerHTML = "";
