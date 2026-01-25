@@ -21,8 +21,8 @@
     :root {
       --state-primary: #000000;
       --state-secondary: #ffffff;
-      --state-accent: #ff6b35;
-      --state-accent-dark: #e55a2b;
+      --state-accent: #8B0000;
+      --state-accent-dark: #660000;
       --text-muted: #666;
       --transition: all 0.3s ease;
     }
@@ -44,7 +44,7 @@
       position: fixed;
       top: 0;
       width: 100%;
-      padding: 12px 0; /* Adjust height here */
+      padding: 12px 0;
       z-index: 1000;
       background: #ffffff;
       background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(252, 176, 69, 0) 0%);
@@ -61,7 +61,7 @@
     }
 
     .logo {
-      color: var(--state-accent);
+      color: #ff6b35;
       font-size: 1.8rem;
       font-weight: bold;
       letter-spacing: 3px;
@@ -91,7 +91,7 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: var(--state-accent);
+      background: #ff6b35;
       transition: width 0.3s ease;
     }
 
@@ -226,7 +226,7 @@
       width: 100vw;
       height: 100vh;
       overflow: hidden;
-      background: #F5EFE7;
+      background: #000000;
     }
 
     .video-panel video {
@@ -299,11 +299,6 @@
       width: 60px;
       height: 2px;
       background: var(--state-accent);
-      /* Alternative ornamental dividers (replace above with one of these):
-         content: "❖"; font-size: 20px; width: auto; height: auto; background: none; color: var(--state-accent);
-         content: "◆"; font-size: 16px; width: auto; height: auto; background: none; color: var(--state-accent);
-         content: "✦"; font-size: 18px; width: auto; height: auto; background: none; color: var(--state-accent);
-      */
     }
 
     @keyframes fadeInTitle {
@@ -344,7 +339,7 @@
 
     /* ==================== PANEL 2: ATTRACTIONS ==================== */
     .attractions-panel {
-      background: #F5EFE7;
+      background: #ffffff;
       padding: 80px 60px;
       overflow-y: auto;
       display: flex;
@@ -373,59 +368,87 @@
       border-radius: 4px;
     }
 
-    .districts-panel .panel-title::after,
-    .arts-panel .panel-title::after {
-      background: #E8DDD3;
-    }
-
     .attractions-grid {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-end;
       gap: 30px;
       margin-bottom: 40px;
     }
 
     .attraction-card {
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      transition: box-shadow 0.3s ease;
       cursor: pointer;
       text-align: center;
-      width: 320px;
+      border: 3px solid transparent;
+      transition: var(--transition);
     }
 
     .attraction-card:hover {
-      box-shadow: 0 10px 35px rgba(0,0,0,0.25);
+      border-color: var(--state-accent);
     }
 
-    .attraction-card:hover img {
-      filter: brightness(0.85);
+    .attraction-card:nth-child(1) {
+      width: 200px;
+      align-self: flex-end;
     }
 
-    .attraction-card img {
+    .attraction-card:nth-child(1) .attraction-image {
+      width: 200px;
+      height: 200px;
+    }
+
+    .attraction-card:nth-child(2) {
+      width: 400px;
+      align-self: flex-end;
+    }
+
+    .attraction-card:nth-child(2) .attraction-image {
+      width: 400px;
+      height: 400px;
+    }
+
+    .attraction-card:nth-child(3) {
+      width: 240px;
+      align-self: flex-start;
+    }
+
+    .attraction-card:nth-child(3) .attraction-image {
+      width: 240px;
+      height: 240px;
+    }
+
+    .attraction-image {
       width: 100%;
-      height: 280px;
       object-fit: cover;
-      transition: filter 0.3s ease;
+      display: block;
+      filter: grayscale(0.2);
+      transition: var(--transition);
+    }
+
+    .attraction-card:hover .attraction-image {
+      filter: grayscale(0);
     }
 
     .attraction-content {
-      padding: 20px;
+      padding: 15px 0 0 0;
     }
 
     .attraction-content h3 {
-      font-size: 20px;
+      font-size: 18px;
       color: var(--state-primary);
       font-weight: 600;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .attraction-content h3:hover {
+      color: var(--state-accent);
     }
 
     /* ==================== PANEL 3: DISTRICTS ==================== */
     .districts-panel {
-      background: #BFB1A8;
-      color: #000000;
+      background: #000000;
+      color: #ffffff;
       padding: 80px 60px;
       overflow-y: auto;
       display: flex;
@@ -434,7 +457,7 @@
     }
 
     .districts-panel .panel-title {
-      color: #000000;
+      color: #ffffff;
     }
 
     .districts-grid {
@@ -447,25 +470,34 @@
 
     .district-card {
       background: #ffffff;
-      border-radius: 20px;
+      border-radius: 0;
       overflow: hidden;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
       width: 280px;
+      border: 3px solid var(--state-accent);
     }
 
     .district-card:hover {
       transform: scale(1.05);
+      box-shadow: 0 10px 30px rgba(139, 0, 0, 0.5);
     }
 
     .district-card img {
       width: 100%;
       height: 250px;
       object-fit: cover;
+      filter: grayscale(0.3);
+      transition: var(--transition);
+    }
+
+    .district-card:hover img {
+      filter: grayscale(0);
     }
 
     .district-info {
       padding: 20px;
+      background: #ffffff;
     }
 
     .district-info h3 {
@@ -479,31 +511,37 @@
       font-size: 15px;
     }
 
+    .district-info span i {
+      color: var(--state-accent);
+    }
+
     .visit-all-btn {
       display: inline-block;
       background: var(--state-accent);
       color: white;
       padding: 12px 30px;
-      border-radius: 10px;
+      border-radius: 0;
       text-decoration: none;
       font-weight: 600;
       font-size: 16px;
       transition: var(--transition);
       margin: 0 auto;
       width: auto;
+      border: 2px solid var(--state-accent);
     }
 
     .visit-all-btn:hover {
       background: var(--state-accent-dark);
+      border-color: var(--state-accent-dark);
       transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(255,107,53,0.3);
+      box-shadow: 0 10px 25px rgba(139, 0, 0, 0.4);
     }
 
     /* ==================== PANEL 4: ARTS & CRAFTS ==================== */
     .arts-panel {
-      background: #aa8d70;
+      background: #1a1a1a;
       color: white;
-      padding: 80px 60px 200px;
+      padding: 90px 40px;
       overflow-y: auto;
     }
 
@@ -519,14 +557,13 @@
     }
 
     .craft-card {
-      background: rgba(139, 109, 85, 0.4);
-      backdrop-filter: blur(10px);
-      border-radius: 20px;
+      background: #000000;
+      border-radius: 0;
       overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 2px solid var(--state-accent);
     }
 
     .craft-card:nth-child(1) { grid-row: span 2; }
@@ -535,13 +572,19 @@
 
     .craft-card:hover {
       transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(139, 0, 0, 0.6);
     }
 
     .craft-card img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: sepia(0.3) brightness(0.9);
+      filter: grayscale(0.4) contrast(1.1);
+      transition: var(--transition);
+    }
+
+    .craft-card:hover img {
+      filter: grayscale(0) contrast(1);
     }
 
     .craft-overlay {
@@ -549,19 +592,20 @@
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(to top, rgba(92, 64, 51, 0.95), transparent);
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.95), transparent);
       padding: 30px 20px 20px;
     }
 
     .craft-card h3 {
       font-size: 22px;
       margin-bottom: 5px;
-      color: #f5e6d3;
+      color: #ffffff;
     }
 
     .craft-card p {
       font-size: 14px;
-      color: #e8d4c0;
+      color: var(--state-accent);
+      font-weight: 600;
     }
 
     /* ==================== MODALS ==================== */
@@ -572,7 +616,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0,0,0,0.9);
       z-index: 3000;
       align-items: center;
       justify-content: center;
@@ -585,13 +629,14 @@
 
     .modal-content {
       background: white;
-      border-radius: 20px;
+      border-radius: 0;
       max-width: 700px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
       animation: modalSlideIn 0.3s ease;
+      border: 4px solid var(--state-accent);
     }
 
     @keyframes modalSlideIn {
@@ -612,7 +657,7 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: var(--state-primary);
+      background: var(--state-accent);
       color: white;
       border: none;
       font-size: 20px;
@@ -622,7 +667,7 @@
     }
 
     .modal-close:hover {
-      background: var(--state-accent);
+      background: var(--state-accent-dark);
       transform: rotate(90deg);
     }
 
@@ -630,7 +675,8 @@
       width: 100%;
       height: 350px;
       object-fit: cover;
-      border-radius: 20px 20px 0 0;
+      border-radius: 0;
+      filter: grayscale(0.2);
     }
 
     .modal-body {
@@ -655,7 +701,7 @@
       gap: 20px;
       margin-top: 30px;
       padding-top: 30px;
-      border-top: 2px solid #eee;
+      border-top: 2px solid var(--state-accent);
     }
 
     .info-item {
@@ -685,8 +731,8 @@
     footer {
       background: var(--state-primary);
       color: var(--state-secondary);
-      padding: 60px 20px 20px;
-      border-top: 4px solid var(--state-accent);
+      padding: 60px 20px;
+      border-top: 4px solid #ff6b35;
     }
 
     .footer-grid {
@@ -698,11 +744,11 @@
     }
 
     .footer-section h3 {
-      color: var(--state-accent);
+      color: #ff6b35;
       margin-bottom: 20px;
       font-size: 1rem;
       text-transform: uppercase;
-      border-left: 3px solid var(--state-accent);
+      border-left: 3px solid #ff6b35;
       padding-left: 10px;
     }
 
@@ -719,7 +765,7 @@
     }
 
     .footer-section a:hover {
-      color: var(--state-accent);
+      color: #ff6b35;
       padding-left: 5px;
     }
 
@@ -742,7 +788,7 @@
     }
 
     .footer-social a:hover {
-      background: var(--state-accent);
+      background: #ff6b35;
     }
 
     .app-links {
@@ -766,7 +812,7 @@
     }
 
     .app-link:hover {
-      border-color: var(--state-accent);
+      border-color: #ff6b35;
     }
 
     .footer-bottom {
@@ -800,9 +846,34 @@
         min-height: 100vh;
       }
 
-      .attractions-grid,
+      .attractions-grid {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .attraction-card:nth-child(1),
+      .attraction-card:nth-child(2),
+      .attraction-card:nth-child(3) {
+        width: 100%;
+        max-width: 400px;
+        align-self: center;
+      }
+
+      .attraction-card:nth-child(1) .attraction-image,
+      .attraction-card:nth-child(2) .attraction-image,
+      .attraction-card:nth-child(3) .attraction-image {
+        width: 100%;
+        height: 300px;
+      }
+
       .districts-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .district-card {
+        width: 100%;
+        max-width: 400px;
       }
 
       .crafts-grid {
@@ -811,6 +882,24 @@
 
       .scroll-progress {
         display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .crafts-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-title {
+        font-size: 36px;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-info {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -1038,10 +1127,10 @@
       try {
         const { data, error } = await supabaseClient
           .from("attractions")
-          .select("id, name, short_description, description, image_url, entry_fee, estimated_time_hours, best_time_note")
+          .select("*")
           .eq("state_id", 1)
           .order("priority_score", { ascending: false })
-          .limit(4);
+          .limit(3);
 
         if (error) throw error;
 
@@ -1052,16 +1141,14 @@
           const card = document.createElement('div');
           card.className = 'attraction-card';
           card.innerHTML = `
-            <img src="${attraction.image_url}" alt="${attraction.name}">
+            <img src="${attraction.image_url}" alt="${attraction.name}" class="attraction-image">
             <div class="attraction-content">
-              <h3>${attraction.name}</h3>
+              <h3 onclick="openAttractionModal(${attraction.id})">${attraction.name}</h3>
             </div>
           `;
-          card.onclick = () => openAttractionModal(attraction.id);
           container.appendChild(card);
         });
 
-        // Store data for modal access
         window.attractionsData = data;
       } catch (error) {
         console.error("Error loading attractions:", error);
@@ -1117,31 +1204,31 @@
       {
         name: "Bandhani",
         description: "Bandhani is a traditional tie-dye textile art form from Gujarat, known for its vibrant colors and intricate patterns. This ancient craft involves tying thousands of tiny knots on fabric before dyeing, creating stunning dotted designs. Artisans in Kutch and Saurashtra regions have perfected this technique over generations.",
-        image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=800&q=80",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmediaindia.eu%2Fwp-content%2Fuploads%2F2016%2F12%2F3F5A8449.jpg&f=1&nofb=1&ipt=b24a2d632b2a9a136b65f604b1af92e7f10a95f04b25f87d7201e0f1da15bf4f",
         where: "Best experienced in Bhuj, Jamnagar, and Rajkot markets"
       },
       {
         name: "Patola Silk",
         description: "Patola is one of the finest hand-woven silk fabrics in the world, exclusive to Patan, Gujarat. The double ikat weaving technique makes each saree a masterpiece, taking 6-12 months to create. These geometric patterns have been treasured for over 900 years and were once worn only by royalty.",
-        image: "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&q=80",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftiimg.tistatic.com%2Ffp%2F1%2F002%2F079%2Ftraditional-patola-sarees-735.jpg&f=1&nofb=1&ipt=bfbaccf561f86214711b0b2d08e946ef3bb17b53b4e918dee30da0fb670ac049",
         where: "Visit Patan's weaving workshops and Patola Heritage Museum"
       },
       {
         name: "Kutch Embroidery",
         description: "Kutch embroidery is a vibrant mirror-work craft featuring colorful thread work and tiny mirrors stitched into fabric. Each tribal community has its unique style - from Rabari's dense geometric patterns to Ahir's floral designs. This craft tells stories of desert life through needle and thread.",
-        image: "https://images.unsplash.com/photo-1591561954557-26941169b49e?w=800&q=80",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fstatic.sadhguru.org%2Fd%2F46272%2F1633188568-1633188567868.jpg&f=1&nofb=1&ipt=e369d11c45ca4aba59f181c971c7d1963be20f244509610d21f0c856b687cac8",
         where: "Explore craft villages in Bhuj, Nirona, and Dhamadka"
       },
       {
         name: "Rogan Art",
         description: "Rogan painting is a rare 400-year-old art where artists use castor oil mixed with pigments to create intricate designs on fabric. The paint is applied with a metal rod, never touching the fabric directly. Today, only one family in Nirona village keeps this UNESCO-recognized craft alive.",
-        image: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?w=800&q=80",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-cdn.tripadvisor.com%2Fmedia%2Fphoto-s%2F07%2F8a%2F42%2Fff%2Ftraditional-rogan-art.jpg&f=1&nofb=1&ipt=36d583b9cdfd9cc67222906d606d951aded7e764a5d86e9ea622f10296ff22c7",
         where: "Visit the Khatri family workshop in Nirona village"
       },
       {
         name: "Ajrakh Block Printing",
         description: "Ajrakh is a centuries-old block-printing technique using natural dyes and hand-carved wooden blocks. The fabric undergoes a 16-step process involving washing, printing, and dyeing to achieve its signature indigo, red, and black geometric patterns. Each piece reflects the artisan's mastery and patience.",
-        image: "https://images.unsplash.com/photo-1563396983906-b3795482a59a?w=800&q=80",
+        image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2F474x%2F36%2Fd5%2Fe0%2F36d5e0b12c4155a69fb0dbfba6c9915e--printing.jpg&f=1&nofb=1&ipt=ca0e47d7b61809fe9b088306ee019254768cfeb837990753bb501cee4d94a991",
         where: "Discover in Ajrakhpur and Dhamadka villages near Bhuj"
       }
     ];
@@ -1171,10 +1258,12 @@
 
       document.getElementById('modalImage').src = attraction.image_url;
       document.getElementById('modalName').textContent = attraction.name;
-      document.getElementById('modalDescription').textContent = attraction.description || attraction.short_description;
+      document.getElementById('modalDescription').textContent = attraction.description || attraction.short_description || '';
 
-      const infoHtml = `
-        ${attraction.entry_fee !== undefined ? `
+      let infoHtml = '';
+      
+      if (attraction.entry_fee !== undefined && attraction.entry_fee !== null) {
+        infoHtml += `
           <div class="info-item">
             <i class="fas fa-ticket-alt"></i>
             <div>
@@ -1182,8 +1271,11 @@
               <span>₹${attraction.entry_fee === 0 ? 'Free' : attraction.entry_fee}</span>
             </div>
           </div>
-        ` : ''}
-        ${attraction.estimated_time_hours ? `
+        `;
+      }
+      
+      if (attraction.estimated_time_hours) {
+        infoHtml += `
           <div class="info-item">
             <i class="fas fa-clock"></i>
             <div>
@@ -1191,8 +1283,11 @@
               <span>${attraction.estimated_time_hours} hours</span>
             </div>
           </div>
-        ` : ''}
-        ${attraction.best_time_note ? `
+        `;
+      }
+      
+      if (attraction.best_time_note) {
+        infoHtml += `
           <div class="info-item">
             <i class="fas fa-calendar-alt"></i>
             <div>
@@ -1200,8 +1295,44 @@
               <span>${attraction.best_time_note}</span>
             </div>
           </div>
-        ` : ''}
-      `;
+        `;
+      }
+      
+      if (attraction.address || attraction.city) {
+        infoHtml += `
+          <div class="info-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <strong>Location</strong>
+              <span>${attraction.address || attraction.city || ''}</span>
+            </div>
+          </div>
+        `;
+      }
+      
+      if (attraction.contact_phone) {
+        infoHtml += `
+          <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <div>
+              <strong>Contact</strong>
+              <span>${attraction.contact_phone}</span>
+            </div>
+          </div>
+        `;
+      }
+      
+      if (attraction.guide_available) {
+        infoHtml += `
+          <div class="info-item">
+            <i class="fas fa-user-tie"></i>
+            <div>
+              <strong>Guide Available</strong>
+              <span>${attraction.guide_price_range || 'Yes'}</span>
+            </div>
+          </div>
+        `;
+      }
 
       document.getElementById('modalInfo').innerHTML = infoHtml;
       document.getElementById('attractionModal').classList.add('active');
@@ -1229,7 +1360,6 @@
     }
 
     function openDistrictModal(districtId) {
-      // Redirect to districts page for now
       window.location.href = 'gujaratdistricts.html';
     }
 
@@ -1238,7 +1368,6 @@
       document.body.style.overflow = 'auto';
     }
 
-    // Close modals on overlay click
     document.querySelectorAll('.modal').forEach(modal => {
       modal.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -1249,7 +1378,6 @@
 
     // ==================== HORIZONTAL SCROLL (GSAP) ====================
     function initHorizontalScroll() {
-      // Only on desktop
       if (window.innerWidth > 1024) {
         const panels = gsap.utils.toArray(".panel");
         
@@ -1262,7 +1390,6 @@
             scrub: 1,
             end: () => "+=" + (window.innerWidth * panels.length),
             onUpdate: (self) => {
-              // Update progress dots
               const progress = self.progress;
               const currentPanel = Math.floor(progress * panels.length);
               
@@ -1277,7 +1404,6 @@
           }
         });
 
-        // Progress dot click navigation
         document.querySelectorAll('.progress-dot').forEach((dot, index) => {
           dot.addEventListener('click', () => {
             const scrollDistance = (index / panels.length) * (window.innerWidth * panels.length);
@@ -1297,13 +1423,11 @@
       loadDistricts();
       loadCrafts();
       
-      // Initialize GSAP after short delay
       setTimeout(() => {
         initHorizontalScroll();
       }, 100);
     });
 
-    // Reinitialize on resize
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
